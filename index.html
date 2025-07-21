@@ -3,44 +3,128 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LinkTree Style Page</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Social Links</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #4894bb;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+    .link-card {
+      width: 90%;
+      max-width: 500px;
+      background: #fff;
+      margin: 1rem 0;
+      border-radius: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+    .link-card:hover {
+      transform: translateY(-5px);
+    }
+    .title {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .info {
+      margin-top: 1rem;
+      display: none;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+    .link-card.active .info {
+      display: block;
+      opacity: 1;
+    }
+    .done-btn {
+      display: inline-block;
+      margin-top: 0.5rem;
+      padding: 0.4rem 0.8rem;
+      background: #4894bb;
+      color: #fff;
+      border-radius: 0.8rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .done-btn:hover {
+      background: #357aa0;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <div class="link" onclick="toggleInfo('session')">Session</div>
-    <div class="info" id="session">0502c95513e6c515caf68f1c95b5c4eb58148056ae0a532d126de9503a226c5f13</div>
 
-    <div class="link" onclick="toggleInfo('telegram')">Telegram</div>
-    <div class="info" id="telegram">@iroponcopin</div>
+  <div class="link-card" onclick="toggleCard(this)">
+    <div class="title">Session</div>
+    <div class="info">0502c95513e6c515caf68f1c95b5c4eb58148056ae0a532d126de9503a226c5f13</div>
+  </div>
 
-    <div class="link" onclick="toggleInfo('signal')">Signal</div>
-    <div class="info" id="signal">@iroponcopin.01</div>
+  <div class="link-card" onclick="toggleCard(this)">
+    <div class="title">Telegram</div>
+    <div class="info">@iroponcopin</div>
+  </div>
 
-    <div class="link" onclick="showMessengerInfo()">Messenger</div>
-    <div class="info" id="messenger-warning" style="display: none;">
-      Messenger will no longer be available after August 31, 2025.<br/>
-      <button onclick="doneMessengerInfo()">Done</button>
+  <div class="link-card" onclick="toggleMessenger(this)">
+    <div class="title">Messenger</div>
+    <div class="info" id="messenger-info">
+      <div id="messenger-note">Messenger will be discontinued on August 31, 2025.</div>
+      <div class="done-btn" onclick="showMessengerDetails(event)">Done</div>
     </div>
-    <div class="info" id="messenger" style="display: none;">@iroponcopin</div>
+  </div>
 
-    <div class="link" onclick="toggleInfo('toktok')">톡톡（Toktok）</div>
-    <div class="info" id="toktok">@i-a</div>
+  <div class="link-card" onclick="toggleCard(this)">
+    <div class="title">Signal</div>
+    <div class="info">@iroponcopin.01</div>
+  </div>
 
-    <div class="link" onclick="toggleInfo('wechat')">微信（WeChat）</div>
-    <div class="info" id="wechat">@wxid_9qdzsdfsmir812</div>
+  <div class="link-card" onclick="toggleCard(this)">
+    <div class="title">톡톡 (Toktok)</div>
+    <div class="info">@i-a</div>
+  </div>
 
-    <div class="link" onclick="toggleInfo('contact')">Contact</div>
-    <div class="info" id="contact">
-      m4a1scar@aespa.me<br />
-      +1 (347) 703-1242<br />
-      +1 (919) 337-2791<br />
-      +852 1591-7284<br />
+  <div class="link-card" onclick="toggleCard(this)">
+    <div class="title">微信 (WeChat)</div>
+    <div class="info">@wxid_9qdzsdfsmir812</div>
+  </div>
+
+  <div class="link-card" onclick="toggleCard(this)">
+    <div class="title">Contact</div>
+    <div class="info">
+      m4a1scar@aespa.me<br>
+      +1 (347) 703-1242<br>
+      +1 (919) 337-2791<br>
+      +852 1591-7284<br>
       +82 1658-8095
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    function toggleCard(card) {
+      card.classList.toggle('active');
+    }
+
+    function toggleMessenger(card) {
+      if (!card.classList.contains('active')) {
+        card.classList.add('active');
+      }
+    }
+
+    function showMessengerDetails(e) {
+      e.stopPropagation();
+      const info = document.getElementById('messenger-info');
+      info.innerHTML = '@iroponcopin';
+    }
+  </script>
+
 </body>
 </html>
+
 
