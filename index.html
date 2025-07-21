@@ -1,205 +1,58 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Social Links</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --background-start: #6a82fb;
-            --background-end: #fc5c7d;
-            --card-background: rgba(255, 255, 255, 0.9);
-            --text-primary: #333;
-            --text-secondary: #555;
-            --accent-color: #4894bb;
-            --accent-color-hover: #357aa0;
-            --border-radius: 1.5rem;
-            --transition-speed: 0.35s;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            /* iOS/HyperOS風の滑らかなグラデーション */
-            background: linear-gradient(135deg, var(--background-start), var(--background-end));
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem 1rem;
-            min-height: 100vh;
-            box-sizing: border-box;
-        }
-
-        .link-card {
-            width: 100%;
-            max-width: 500px;
-            background: var(--card-background);
-            margin: 0.8rem 0;
-            border-radius: var(--border-radius);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px); /* ガラスのようなすりガラス効果 */
-            -webkit-backdrop-filter: blur(10px);
-            padding: 1.5rem;
-            cursor: pointer;
-            overflow: hidden; /* アニメーションのため */
-            transition: transform var(--transition-speed) cubic-bezier(0.25, 0.8, 0.25, 1),
-                        box-shadow var(--transition-speed) cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .link-card:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            pointer-events: none; /* タイトルクリックでもカード全体が反応するように */
-        }
-
-        .info {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            /* スムーズな開閉アニメーションのための設定 */
-            display: grid;
-            grid-template-rows: 0fr;
-            opacity: 0;
-            transition: grid-template-rows var(--transition-speed) ease-in-out,
-                        opacity var(--transition-speed) ease-in-out,
-                        padding-top var(--transition-speed) ease-in-out;
-        }
-
-        .info-content {
-            overflow: hidden;
-        }
-
-        .link-card.active .info {
-            grid-template-rows: 1fr;
-            opacity: 1;
-            padding-top: 1rem; /* 開いた時のスペース */
-        }
-
-        .done-btn {
-            display: inline-block;
-            margin-top: 1rem;
-            padding: 0.5rem 1rem;
-            background: var(--accent-color);
-            color: #fff;
-            border-radius: 1rem;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: background-color var(--transition-speed) ease, transform 0.2s ease;
-            border: none;
-        }
-
-        .done-btn:hover {
-            background: var(--accent-color-hover);
-            transform: scale(1.05);
-        }
-
-        #messenger-note {
-            color: #e74c3c;
-            margin-bottom: 0.5rem;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accordion List</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="link-card">
-        <div class="title">Session</div>
-        <div class="info">
-            <div class="info-content">0502c95513e6c515caf68f1c95b5c4eb58148056ae0a532d126de9503a226c5f13</div>
-        </div>
+  <div class="container">
+    <h1>Details List</h1>
+
+    <div class="card">
+      <h2>セッション情報</h2>
+      <div class="details">
+        これはセッション情報の詳細です。ここに内容が入ります。
+        <br>
+        0502c95513e6c515caf68f1c95b5c4eb58148056ae0a532d126de9503a226c5f13
+      </div>
     </div>
 
-    <div class="link-card">
-        <div class="title">Telegram</div>
-        <div class="info">
-            <div class="info-content">@iroponcopin</div>
-        </div>
+    <div class="card">
+      <h2>連絡先</h2>
+      <div class="details">
+        ここに連絡先の詳細が入ります。
+        <br>
+        m4a1scar@aespa.me
+        <br>
+        +1 (347) 703-1242
+      </div>
     </div>
 
-    <div class="link-card" id="messenger-card">
-        <div class="title">Messenger</div>
-        <div class="info">
-            <div class="info-content" id="messenger-info-content">
-                <div id="messenger-initial-view">
-                    <div id="messenger-note">Messenger will be discontinued on August 31, 2025.</div>
-                    <button class="done-btn" id="messenger-done-btn">Done</button>
-                </div>
-                <div id="messenger-details" style="display: none;">@iroponcopin</div>
-            </div>
-        </div>
+    <div class="card">
+      <h2>設定</h2>
+      <div class="details">
+        ここに設定に関する詳細が入ります。改行しても内容は隠れます。
+        <br>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      </div>
     </div>
 
-    <div class="link-card">
-        <div class="title">Signal</div>
-        <div class="info">
-            <div class="info-content">@iroponcopin.01</div>
-        </div>
-    </div>
+  </div>
 
-    <div class="link-card">
-        <div class="title">톡톡 (Toktok)</div>
-        <div class="info">
-            <div class="info-content">@i-a</div>
-        </div>
-    </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards = document.querySelectorAll('.card');
 
-    <div class="link-card">
-        <div class="title">微信 (WeChat)</div>
-        <div class="info">
-            <div class="info-content">@wxid_9qdzsdfsmir812</div>
-        </div>
-    </div>
-
-    <div class="link-card">
-        <div class="title">Contact</div>
-        <div class="info">
-            <div class="info-content">
-                m4a1scar@aespa.me<br>
-                +1 (347) 703-1242<br>
-                +1 (919) 337-2791<br>
-                +852 1591-7284<br>
-                +82 1658-8095
-            </div>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.link-card');
-
-            cards.forEach(card => {
-                card.addEventListener('click', (event) => {
-                    // Doneボタンやその中の要素がクリックされた場合は、カードの開閉を行わない
-                    if (event.target.closest('#messenger-info-content')) {
-                        return;
-                    }
-                    card.classList.toggle('active');
-                });
-            });
-
-            const messengerCard = document.getElementById('messenger-card');
-            const messengerDoneBtn = document.getElementById('messenger-done-btn');
-            const messengerInitialView = document.getElementById('messenger-initial-view');
-            const messengerDetails = document.getElementById('messenger-details');
-
-            // Messengerカードは最初から開いておく
-            messengerCard.classList.add('active');
-
-            // Doneボタンがクリックされた時の処理
-            messengerDoneBtn.addEventListener('click', (event) => {
-                event.stopPropagation(); // 親要素へのクリックイベントの伝播を防ぐ
-                messengerInitialView.style.display = 'none';
-                messengerDetails.style.display = 'block';
-            });
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          card.classList.toggle('active');
         });
-    </script>
+      });
+    });
+  </script>
 
 </body>
 </html>
