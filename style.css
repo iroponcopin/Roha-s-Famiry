@@ -1,58 +1,53 @@
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: linear-gradient(to right, #f4f6f9, #e3f2fd);
   margin: 0;
-  padding: 20px;
-  color: #333;
+  font-family: "Helvetica Neue", sans-serif;
+  background: linear-gradient(to bottom right, #4894bb, #d4e7f5);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 40px 20px;
 }
 
 .container {
-  max-width: 600px;
-  margin: auto;
-  text-align: center;
+  width: 100%;
+  max-width: 500px;
 }
 
 h1 {
-  font-size: 28px;
+  text-align: center;
   margin-bottom: 30px;
+  font-size: 2rem;
 }
 
-.link-item {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-  margin-bottom: 20px;
-  transition: transform 0.2s ease;
-  overflow: hidden;
-}
-
-.link-item:hover {
-  transform: scale(1.02);
-}
-
-.link-header {
-  padding: 16px 20px;
-  font-size: 18px;
-  font-weight: 600;
+.card {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  margin: 10px 0;
+  padding: 20px;
   cursor: pointer;
-  background-color: #ffffff;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.link-content {
+.card h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.details {
+  margin-top: 10px;
+  font-size: 0.95rem;
+  line-height: 1.5;
   max-height: 0;
   overflow: hidden;
-  padding: 0 20px;
-  font-size: 14px;
-  color: #555;
-  transition: max-height 0.5s ease, padding 0.3s ease;
+  transition: max-height 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
 }
 
-.link-item.active .link-content {
-  max-height: 150px;
-  padding: 12px 20px 20px;
-}
-
-a {
-  color: #007aff;
-  text-decoration: none;
+.card.active .details {
+  max-height: 500px;
+  opacity: 1;
 }
