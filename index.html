@@ -3,40 +3,80 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Accordion List</title>
+  <title>Social Links</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div class="container">
-    <h1>Details List</h1>
+    <h1>Social Links</h1>
 
     <div class="card">
-      <h2>セッション情報</h2>
+      <div class="card-header">
+        <h2>Session</h2>
+        <img src="https://unpkg.com/simple-icons@v13/icons/session.svg" alt="Session Icon" class="app-icon">
+      </div>
       <div class="details">
-        これはセッション情報の詳細です。ここに内容が入ります。
-        <br>
-        0502c95513e6c515caf68f1c95b5c4eb58148056ae0a532d126de9503a226c5f13
+        <p>ID: 0502c95513e6c515caf68f1c95b5c4eb58148056ae0a532d126de9503a226c5f13</p>
+        <a href="https://getsession.org/" target="_blank" rel="noopener noreferrer">公式サイトへ</a>
       </div>
     </div>
 
     <div class="card">
-      <h2>連絡先</h2>
+      <div class="card-header">
+        <h2>Telegram</h2>
+        <img src="https://unpkg.com/simple-icons@v13/icons/telegram.svg" alt="Telegram Icon" class="app-icon">
+      </div>
       <div class="details">
-        ここに連絡先の詳細が入ります。
-        <br>
-        m4a1scar@aespa.me
-        <br>
-        +1 (347) 703-1242
+        <p>ID: @iroponcopin</p>
+        <a href="https://telegram.org/" target="_blank" rel="noopener noreferrer">公式サイトへ</a>
       </div>
     </div>
 
     <div class="card">
-      <h2>設定</h2>
+      <div class="card-header">
+        <h2>Messenger</h2>
+        <img src="https://unpkg.com/simple-icons@v13/icons/messenger.svg" alt="Messenger Icon" class="app-icon">
+      </div>
       <div class="details">
-        ここに設定に関する詳細が入ります。改行しても内容は隠れます。
-        <br>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        <p>ID: @iroponcopin</p>
+        <a href="https://www.messenger.com/" target="_blank" rel="noopener noreferrer">公式サイトへ</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Signal</h2>
+        <img src="https://unpkg.com/simple-icons@v13/icons/signal.svg" alt="Signal Icon" class="app-icon">
+      </div>
+      <div class="details">
+        <p>ID: @iroponcopin.01</p>
+        <a href="https://signal.org/" target="_blank" rel="noopener noreferrer">公式サイトへ</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>微信 (WeChat)</h2>
+        <img src="https://unpkg.com/simple-icons@v13/icons/wechat.svg" alt="WeChat Icon" class="app-icon">
+      </div>
+      <div class="details">
+        <p>ID: @wxid_9qdzsdfsmir812</p>
+        <a href="https://www.wechat.com/" target="_blank" rel="noopener noreferrer">公式サイトへ</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Contact</h2>
+        <svg class="app-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20,22H4a2,2,0,0,1-2-2V4A2,2,0,0,1,4,2H20a2,2,0,0,1,2,2V20A2,2,0,0,1,20,22ZM12,11a3,3,0,1,0-3-3A3,3,0,0,0,12,11Zm-6,6a6.08,6.08,0,0,0,12,0Z"/></svg>
+      </div>
+      <div class="details">
+        m4a1scar@aespa.me<br>
+        +1 (347) 703-1242<br>
+        +1 (919) 337-2791<br>
+        +852 1591-7284<br>
+        +82 1658-8095
       </div>
     </div>
 
@@ -45,9 +85,12 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const cards = document.querySelectorAll('.card');
-
       cards.forEach(card => {
-        card.addEventListener('click', () => {
+        card.addEventListener('click', (event) => {
+          // Check if the click was on the link itself
+          if (event.target.tagName.toLowerCase() === 'a') {
+            return;
+          }
           card.classList.toggle('active');
         });
       });
