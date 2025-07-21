@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My LinkTree</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+      background: linear-gradient(to bottom, #f9fafb, #e2e8f0);
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      color: #2d3748;
+    }
+    .link-item {
+      border: 1px solid #cbd5e0;
+      border-radius: 1rem;
+      margin-bottom: 1rem;
+      transition: 0.3s ease;
+      overflow: hidden;
+    }
+    .title {
+      padding: 1rem;
+      background-color: #edf2f7;
+      cursor: pointer;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .title:hover {
+      background-color: #e2e8f0;
+    }
+    .content {
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 1rem;
+      background-color: #f7fafc;
+      transition: all 0.4s ease;
+    }
+    .link-item.open .content {
+      padding: 1rem;
+      max-height: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>My LinkTree</h1>
+
+    <div class="link-item">
+      <div class="title">Session</div>
+      <div class="content">
+        0502c95513e6c515caf68f1c95b5c4eb58148056ae0a532d126de9503a226c5f13
+      </div>
+    </div>
+
+    <div class="link-item">
+      <div class="title">WeChat</div>
+      <div class="content">
+        @wxid_9qdzsdfsmir812
+      </div>
+    </div>
+
+    <div class="link-item">
+      <div class="title">Contact</div>
+      <div class="content">
+        +1 (347) 703-1242<br>
+        +1 (919) 337-2791<br>
+        +852 1591-7284<br>
+        +82 1658-8095<br>
+        m4a1scar@aespa.me
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    document.querySelectorAll(".title").forEach(el => {
+      el.addEventListener("click", () => {
+        el.parentElement.classList.toggle("open");
+      });
+    });
+  </script>
+</body>
+</html>
