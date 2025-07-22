@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
         linksSection.classList.remove('active'); // LinkTree項目全体は最初は隠す
         closeAllOverlays();
         
-        // ドックは常に表示
+        // ドックは常に表示（PC版とモバイル版でそれぞれ制御）
         if (bottomButtonsContainerPC) bottomButtonsContainerPC.classList.remove('hidden');
         if (bottomButtonsContainerMobile) bottomButtonsContainerMobile.classList.remove('hidden');
 
@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
     allLinkButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             // 特殊な処理を持つボタンはここでフィルタリング
-            // ここにIDを持つボタンは直接リンク遷移しないか、オーバーレイを開くため
+            // IDを持つボタンやback-button、passwordSubmitは直接リンク遷移しないか、オーバーレイを開くため
             if (button.id === 'fileButton' || 
                 button.id === 'mobileSecretButton' || 
                 button.id === 'homeButtonPC' || 
@@ -341,18 +341,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // === モバイル版のドックボタンの機能 ===
+    // LinksSectionの表示/非表示に影響されず独立して動作
     if (homeButtonMobile) {
         homeButtonMobile.addEventListener('click', () => {
             closeAllOverlays();
-            linksSection.classList.add('active');
-            showLinksGroup(mobileLinks);
+            linksSection.classList.add('active'); // LinksSectionを展開
+            showLinksGroup(mobileLinks); // メイン項目を表示
         });
     }
 
     if (secretButtonMobile) {
         secretButtonMobile.addEventListener('click', () => {
             closeAllOverlays();
-            linksSection.classList.add('active');
+            linksSection.classList.add('active'); // LinksSectionを展開
             if (isPasswordEnteredOncePC) { // モバイル版でもPC版のパスワード状態を流用
                 showLinksGroup(secretLinksMobile);
             } else {
@@ -367,7 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (musicButtonMobile) {
         musicButtonMobile.addEventListener('click', () => {
             closeAllOverlays();
-            linksSection.classList.add('active'); // Music Playerは独立したオーバーレイなのでLinksSectionは展開しても良い
+            linksSection.classList.add('active'); // LinksSectionを展開
             toggleOverlay(musicPlayerOverlay, true);
             // YouTubeプレイヤー初期化ロジックはPC版と同じ（modal-cardが共通のため）
         });
@@ -408,7 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
         backToMobileMainLinksButton.addEventListener('click', () => {
             closeAllOverlays();
             showLinksGroup(mobileLinks); // メイン項目に戻る
-            isPasswordEnteredOncePC = false; // Secretから戻ったらパスワード状態をリセット
+            isPasswordEnteredOncePC = false; // モバイル版ではSecretから戻ったらパスワード状態をリセット
         });
     }
 
