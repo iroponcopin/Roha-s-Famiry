@@ -3,105 +3,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const linksSection = document.getElementById('linksSection');
     const linkButtons = document.querySelectorAll('.link-button');
 
-    // Messenger Information初回表示フラグは削除されました
-
     // 初期状態ではリンク項目を非表示
     linksSection.classList.remove('active');
 
-    // プロフィールアバターのクリックでリンク項目を表示/非表示
+    // プロフィールアバターのクリックでリンク項目を表示/非表示 (下伸びモーションを保持)
     profileAvatar.addEventListener('click', () => {
         linksSection.classList.toggle('active');
-        // 他の展開されている項目があれば閉じる
+        // 表示/非表示が切り替わる際に、もし横に伸びているボタンがあれば元に戻す
         linkButtons.forEach(button => {
-            if (button.classList.contains('expanded')) {
-                button.classList.remove('expanded');
-                // 情報を削除
-                const infoContent = button.querySelector('.info-content');
-                if (infoContent) {
-                    infoContent.remove();
-                }
+            if (button.classList.contains('expanded-sideways')) {
+                button.classList.remove('expanded-sideways');
             }
         });
-        // Messenger情報オーバーレイ関連のロジックは削除されました
     });
 
-    // 各リンクボタンのクリックイベント
+    // 各リンクボタンのクリックイベント (横に伸びるモーションを追加)
     linkButtons.forEach(button => {
         button.addEventListener('click', (e) => {
-            e.preventDefault(); // デフォルトのリンク動作を防止
+            // デフォルトのリンク動作はそのまま維持 (target="_blank" で別タブで開く)
+            // e.preventDefault(); // これをコメントアウトして、リンクの動作を有効にする
 
-            // Messenger初回表示ロジックは削除されました
-
-            // 通常のボタン展開/折りたたみロジック
-            const isExpanded = button.classList.contains('expanded');
-
-            // クリックされたボタン以外の、展開されているボタンを全て閉じる
+            // クリックされたボタン以外の、横に伸びているボタンを全て元に戻す
             linkButtons.forEach(btn => {
-                if (btn !== button && btn.classList.contains('expanded')) {
-                    btn.classList.remove('expanded');
-                    // 情報を削除
-                    const infoContent = btn.querySelector('.info-content');
-                    if (infoContent) {
-                        infoContent.remove();
-                    }
+                if (btn !== button && btn.classList.contains('expanded-sideways')) {
+                    btn.classList.remove('expanded-sideways');
                 }
             });
 
-            if (!isExpanded) {
-                // ボタンを展開し、情報を追加
-                button.classList.add('expanded');
-                appendInfoContent(button);
-            } else {
-                // ボタンを折りたたみ、情報を削除
-                button.classList.remove('expanded');
-                const infoContent = button.querySelector('.info-content');
-                if (infoContent) {
-                    infoContent.remove();
-                }
-            }
+            // クリックされたボタンの横伸び/元に戻すをトグル
+            button.classList.toggle('expanded-sideways');
+
+            // もしボタンが伸びている間は、リンクを開くのを少し遅らせる、またはクリックを無効にするなどの考慮が必要
+            // 今回はシンプルに、アニメーションと同時にリンクが開かれる動作になります。
+            // アニメーション完了後にリンクを開きたい場合は、e.preventDefault() を有効にして
+            // setTimeout で window.open(button.href, '_blank') を実行するなどの工夫が必要です。
         });
     });
-
-    // Messenger情報画面の閉じるボタン関連ロジックは削除されました
-
-    // 情報を動的に追加する関数
-    function appendInfoContent(button) {
-        const infoUrl = button.dataset.infoUrl;
-        const qrImage = button.dataset.qrImage;
-        const linkId = button.dataset.linkId;
-
-        const infoContent = document.createElement('div');
-        infoContent.classList.add('info-content');
-
-        let contentHTML = `<p>Official Site: <a href="${infoUrl}" target="_blank">${infoUrl.replace(/(^\w+:|^)\/\//, '')}</a></p>`;
-
-        if (linkId === 'telegram') { // TelegramのみQR画像を表示
-            if (qrImage) {
-                contentHTML += `<img src="${qrImage}" alt="${linkId} QR Code" class="qr-code-image">`;
-            }
-        }
-        
-        // Messengerには@iroponcopinを表示する
-        if (linkId === 'messenger') {
-            contentHTML = `<p>@iroponcopin</p>` + contentHTML;
-            if (qrImage) {
-                 contentHTML += `<img src="${qrImage}" alt="Messenger QR Code" class="qr-code-image">`;
-            }
-        }
-
-        infoContent.innerHTML = contentHTML;
-
-        // ボタンの最後に情報を追加
-        button.appendChild(infoContent);
-
-        // 少し遅延させてopacityとmax-heightのアニメーションを開始
-        setTimeout(() => {
-            infoContent.style.opacity = '1';
-            infoContent.offsetWidth; // 強制的にリフロー
-            infoContent.style.maxHeight = infoContent.scrollHeight + 'px';
-        }, 10);
-    }
-
 
     // プロフィールアバターの初期アニメーション
     const profilePictureWrapper = document.querySelector('.profile-image-wrapper');
