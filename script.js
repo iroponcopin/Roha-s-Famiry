@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const linksSection = document.getElementById('linksSection');
     const defaultLinks = document.getElementById('defaultLinks');
     const secretLinks = document.getElementById('secretLinks');
-    const allLinkButtons = document.querySelectorAll('.link-button'); // すべてのリンクボタン
+    const allLinkButtons = document.querySelectorAll('.link-button');
 
     const infoOverlay = document.getElementById('infoOverlay');
     const closeInfoOverlayButton = document.getElementById('closeInfoOverlay');
@@ -16,71 +16,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordSubmit = document.getElementById('passwordSubmit');
     const passwordError = document.getElementById('passwordError');
 
+    const addressOverlay = document.getElementById('addressOverlay');
+    const closeAddressOverlayButton = document.getElementById('closeAddressOverlay'); // ここで要素を取得
+
+    const bottomButtonsContainer = document.getElementById('bottomButtonsContainer');
+    const secretButton = document.getElementById('secretButton');
+    const addressButton = document.getElementById('addressButton');
+
     const CORRECT_PASSWORD = "0204"; // 設定するパスワード
 
     let isSecretLinksShown = false; // シークレットリンクが表示されているかどうかのフラグ
 
-    // 初期状態ではリンク項目を非表示
-    linksSection.classList.remove('active');
-    secretLinks.classList.add('hidden'); // シークレットリンクは初期状態で隠す
+    // 初期状態の表示設定
+    linksSection.classList.remove('active'); // アバタークリックで展開される
+    defaultLinks.classList.add('visible'); // 通常リンクは最初からvisible
+    secretLinks.classList.add('hidden'); // シークレットリンクは最初からhidden
 
-    // プロフィールアバターのダブルクリックでパスワード入力表示/リンク切り替え
-    profileAvatar.addEventListener('dblclick', () => {
-        // 現在表示されているリンクを非表示にする
-        linksSection.classList.remove('active');
-        // もし情報オーバーレイが表示中なら閉じる
+    // プロフィールアバターのクリックでリンク項目を表示/非表示
+    profileAvatar.addEventListener('click', () => {
+        linksSection.classList.toggle('active');
+        bottomButtonsContainer.classList.toggle('hidden'); // ボタンの表示/非表示を切り替え
+
+        // 他のオーバーレイを閉じる
         if (infoOverlay.classList.contains('active')) {
             infoOverlay.classList.remove('active');
         }
+        if (passwordOverlay.classList.contains('active')) {
+            passwordOverlay.classList.remove('active');
+        }
+        if (addressOverlay.classList.contains('active')) { // Address Overlayも閉じる
+            addressOverlay.classList.remove('active');
+        }
 
-        if (isSecretLinksShown) {
-            // シークレットリンクが表示中の場合、通常リンクに戻す
+        // リンクが閉じられた場合、シークレットリンクが表示中であれば通常リンクに戻す
+        if (!linksSection.classList.contains('active') && isSecretLinksShown) {
             defaultLinks.classList.remove('hidden');
             defaultLinks.classList.add('visible');
             secretLinks.classList.add('hidden');
             secretLinks.classList.remove('visible');
             isSecretLinksShown = false;
-        } else {
-            // 通常リンクが表示中の場合、パスワード入力を求める
-            passwordOverlay.classList.add('active');
-            passwordInput.value = ''; // 入力欄をクリア
-            passwordError.classList.remove('show'); // エラーメッセージを隠す
-            passwordInput.focus(); // 入力欄にフォーカス
         }
     });
-
-    // パスワード入力オーバーレイの閉じるボタン
-    closePasswordOverlayButton.addEventListener('click', () => {
-        passwordOverlay.classList.remove('active');
-    });
-
-    // パスワード入力時の処理
-    passwordInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            passwordSubmit.click(); // EnterキーでSubmitボタンをクリック
-        }
-    });
-
-    passwordSubmit.addEventListener('click', () => {
-        if (passwordInput.value === CORRECT_PASSWORD) {
-            passwordOverlay.classList.remove('active'); // パスワードオーバーレイを閉じる
-            defaultLinks.classList.remove('visible');
-            defaultLinks.classList.add('hidden'); // 通常リンクを隠す
-            secretLinks.classList.remove('hidden');
-            secretLinks.classList.add('visible'); // シークレットリンクを表示
-
-            linksSection.classList.add('active'); // リンクセクション全体を表示
-            isSecretLinksShown = true;
-        } else {
-            passwordError.textContent = "Incorrect password. Please try again.";
-            passwordError.classList.add('show');
-            passwordInput.value = ''; // 入力クリア
-        }
-    });
-
 
     // 各リンクボタンのクリックイベント (新たな枠組みを表示)
-    // defaultLinks と secretLinks の両方にあるリンクボタンに適用
     allLinkButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault(); // デフォルトのリンク動作を防止
@@ -106,13 +84,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (phone3) infoDetails.innerHTML += `<p><a href="tel:${phone3.replace(/\s|-|\(|\)/g, '')}">${phone3}</a></p>`;
                 if (phone4) infoDetails.innerHTML += `<p><a href="tel:${phone4.replace(/\s|-|\(|\)/g, '')}">${phone4}</a></p>`;
             } else {
-                // 通常のSNSリンクの場合
                 const handle = button.dataset.infoHandle;
                 const url = button.href; // href属性から直接URLを取得
                 
                 if (handle) infoDetails.innerHTML += `<p>${handle}</p>`;
-                // Official Site URLはContact以外の全ての項目に表示
-                if (url && url !== '#') { // #の場合は表示しない
+                
+                if (url && url !== '#' && url !== window.location.href) { // #や現在のページURLの場合は表示しない
                     infoDetails.innerHTML += `<p>Official Site: <a href="${url}" target="_blank">${url.replace(/(^\w+:|^)\/\//, '')}</a></p>`;
                 }
                 
@@ -136,6 +113,66 @@ document.addEventListener('DOMContentLoaded', () => {
     closeInfoOverlayButton.addEventListener('click', () => {
         infoOverlay.classList.remove('active');
     });
+
+    // === 画面下部ボタンの機能 ===
+
+    // 左のボタン (シークレットリンク表示)
+    secretButton.addEventListener('click', () => {
+        passwordOverlay.classList.add('active'); // パスワードオーバーレイを表示
+        passwordInput.value = ''; // 入力欄をクリア
+        passwordError.classList.remove('show'); // エラーメッセージを隠す
+        passwordInput.focus(); // 入力欄にフォーカス
+
+        // 他のオーバーレイを閉じる
+        if (infoOverlay.classList.contains('active')) infoOverlay.classList.remove('active');
+        if (addressOverlay.classList.contains('active')) addressOverlay.classList.remove('active');
+    });
+
+    // 中央のボタン (住所表示)
+    addressButton.addEventListener('click', () => {
+        addressOverlay.classList.add('active'); // 住所オーバーレイを表示
+
+        // 他のオーバーレイを閉じる
+        if (infoOverlay.classList.contains('active')) infoOverlay.classList.remove('active');
+        if (passwordOverlay.classList.contains('active')) passwordOverlay.classList.remove('active');
+    });
+
+    // 住所オーバーレイの閉じるボタン
+    closeAddressOverlayButton.addEventListener('click', () => { // ここでイベントリスナーを設定
+        addressOverlay.classList.remove('active');
+    });
+
+    // パスワード入力オーバーレイの閉じるボタン
+    closePasswordOverlayButton.addEventListener('click', () => {
+        passwordOverlay.classList.remove('active');
+    });
+
+    // パスワード入力時の処理
+    passwordInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            passwordSubmit.click(); // EnterキーでSubmitボタンをクリック
+        }
+    });
+
+    passwordSubmit.addEventListener('click', () => {
+        if (passwordInput.value === CORRECT_PASSWORD) {
+            passwordOverlay.classList.remove('active'); // パスワードオーバーレイを閉じる
+
+            // リンクの表示を切り替える
+            defaultLinks.classList.remove('visible');
+            defaultLinks.classList.add('hidden');
+            secretLinks.classList.remove('hidden');
+            secretLinks.classList.add('visible');
+
+            linksSection.classList.add('active'); // リンクセクション全体を表示
+            isSecretLinksShown = true;
+        } else {
+            passwordError.textContent = "Incorrect password. Please try again.";
+            passwordError.classList.add('show');
+            passwordInput.value = ''; // 入力クリア
+        }
+    });
+
 
     // プロフィールアバターの初期アニメーション (画像が削除されたため、エフェクトのみ残す)
     const profilePictureWrapper = document.querySelector('.profile-image-wrapper');
