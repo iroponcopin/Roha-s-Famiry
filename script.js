@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     const profileAvatar = document.getElementById('profileAvatar');
     const linksSection = document.getElementById('linksSection');
@@ -51,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const qrImage = button.dataset.qrImage; // QR画像のパス
 
                 if (handle) infoDetails.innerHTML += `<p>${handle}</p>`;
+                // Official Site URLはContact以外の全ての項目に表示
                 if (url) infoDetails.innerHTML += `<p>Official Site: <a href="${url}" target="_blank">${url.replace(/(^\w+:|^)\/\//, '')}</a></p>`;
                 
                 // TelegramとMessengerのみQRコード画像を表示
