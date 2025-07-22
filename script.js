@@ -1,7 +1,6 @@
 // YouTube IFrame Player API ready
 let player;
 function onYouTubeIframeAPIReady() {
-    // プレイヤーが作成されるのはMusic Playerオーバーレイが開かれた時
     console.log("YouTube IFrame API is ready.");
 }
 
@@ -17,9 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // PC版のリンクグループ
     const defaultLinksPC = document.getElementById('defaultLinksPC');
     const secretLinksPC = document.getElementById('secretLinksPC');
-    // const pcToggleButtonContainer = document.getElementById('pcToggleButtonContainer'); // 削除
-    // const pcToggleLeftButton = document.getElementById('pcToggleLeft'); // 削除
-    // const pcToggleRightButton = document.getElementById('pcToggleRight'); // 削除
 
     // モバイル版のリンクグループ
     const mobileLinks = document.getElementById('mobileLinks');
@@ -29,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileOptionButton = document.getElementById('mobileOptionButton');
     const optionGridLinksMobile = document.getElementById('optionGridLinksMobile');
 
-    const allLinkButtons = document.querySelectorAll('.link-button');
+    const allLinkButtons = document.querySelectorAll('.link-button'); // すべてのリンクボタン
 
     const infoOverlay = document.getElementById('infoOverlay');
     const closeInfoOverlayButton = document.getElementById('closeInfoOverlay');
@@ -60,10 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const addressButtonPC = document.getElementById('addressButtonPC');
     const musicButtonPC = document.getElementById('musicButtonPC');
     const settingsButtonPC = document.getElementById('settingsButtonPC');
-
-    // モバイル版のLinkTree項目になったボタン
-    const mobileSecretButton = document.getElementById('mobileSecretButton');
-    // mobileAddressButtonとmobileSettingsButtonはHTMLから削除済み
 
     // モバイル版の戻るボタン
     const backToFileLinksButton = document.getElementById('backToFileLinks');
@@ -134,13 +126,15 @@ document.addEventListener('DOMContentLoaded', () => {
             bottomButtonsContainerPC.classList.remove('hidden');
         }
 
+        // PC/モバイルに応じたリンクグループの表示
         if (isMobileDevice()) {
             showLinksGroup(mobileLinks); // モバイル版の初期項目を表示
-            isPasswordEnteredOncePC = false; // モバイルではPCのパスワード状態をリセット
         } else {
-            // PC版のデフォルト表示
-            showLinksGroup(defaultLinksPC); 
+            showLinksGroup(defaultLinksPC); // PC版の初期項目を表示
         }
+        
+        // パスワード入力状態とビューはPC/モバイル共通で管理
+        isPasswordEnteredOncePC = false; 
         currentPCLinksView = 'default';
     }
 
@@ -236,6 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (homeButtonPC) {
         homeButtonPC.addEventListener('click', () => {
             closeAllOverlays();
+            linksSection.classList.add('active'); // LinkTree項目全体を表示
             showLinksGroup(defaultLinksPC); // Homeボタンで通常項目を表示
             currentPCLinksView = 'default';
         });
@@ -244,6 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (secretButtonPC) {
         secretButtonPC.addEventListener('click', () => {
             closeAllOverlays();
+            linksSection.classList.add('active'); // LinkTree項目全体を表示
             if (isPasswordEnteredOncePC) { // パスワードが一度入力済みの場合
                 showLinksGroup(secretLinksPC); // 直接シークレット項目を表示
                 currentPCLinksView = 'secret';
@@ -271,14 +267,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // YouTubeプレイヤーを初期化または再生開始
             if (!youtubePlayerInstance) {
                 youtubePlayerInstance = new YT.Player('youtubePlayer', {
-                    height: '200',
+                    height: '200', // 適切な高さに調整
                     width: '100%',
                     videoId: YOUTUBE_VIDEO_ID,
                     playerVars: {
-                        'autoplay': 0,
-                        'controls': 1,
-                        'rel': 0,
-                        'modestbranding': 1
+                        'autoplay': 0, // 自動再生しない
+                        'controls': 1, // コントロールを表示
+                        'rel': 0, // 関連動画を表示しない
+                        'modestbranding': 1 // YouTubeロゴを控えめに
                     },
                     events: {
                         'onReady': (event) => {
@@ -370,7 +366,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // === モバイル版の戻るボタン機能 ===
-    // Socialsグリッドからの戻るボタン
+    // Socialsグリッドからの戻るボタン (Back to Main Links)
     if (backToFileLinksButton) {
         backToFileLinksButton.addEventListener('click', () => {
             closeAllOverlays();
@@ -378,16 +374,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Secret展開後のリストからの戻るボタン
+    // Secret展開後のリストからの戻るボタン (Back to Main Links)
     if (backToMobileMainLinksButton) {
         backToMobileMainLinksButton.addEventListener('click', () => {
             closeAllOverlays();
             showLinksGroup(mobileLinks); // メイン項目に戻る
-            isPasswordEnteredOncePC = false; // パスワード状態をリセット (PC版とは異なる挙動)
+            isPasswordEnteredOncePC = false; // モバイル版ではSecretから戻ったらパスワード状態をリセット
         });
     }
 
-    // Optionグリッドからの戻るボタン
+    // Optionグリッドからの戻るボタン (Back to Secret Links)
     if (backToMobileSecretLinksButton) {
         backToMobileSecretLinksButton.addEventListener('click', () => {
             closeAllOverlays();
@@ -425,7 +421,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 showLinksGroup(secretLinksMobile); // モバイル版のOptionボタンがあるリストを表示
             } else {
                 showLinksGroup(secretLinksPC); // PC版のシークレットリンクを表示
-                currentPCLinksView = 'secret'; // PC版の表示状態を更新
             }
         } else {
             passwordError.textContent = "Incorrect password. Please try again.";
@@ -437,13 +432,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // プロフィールアバターの初期アニメーション
     const profilePictureWrapper = document.querySelector('.profile-image-wrapper');
-    profilePictureWrapper.style.transform = 'scale(0.8)';
-    profilePictureWrapper.style.opacity = '0';
-    setTimeout(() => {
-        profilePictureWrapper.style.transition = 'transform 0.5s ease-out, opacity 0.5s ease-out';
-        profilePictureWrapper.style.transform = 'scale(1)';
-        profilePictureWrapper.style.opacity = '1';
-    }, 200);
+    // 画像が正しく読み込まれるのを待つ
+    const profilePicture = profilePictureWrapper.querySelector('.profile-picture');
+    if (profilePicture) {
+        profilePicture.onload = () => {
+            profilePictureWrapper.style.transform = 'scale(1)';
+            profilePictureWrapper.style.opacity = '1';
+        };
+        // 画像がキャッシュされている場合のため、直接スタイルを適用
+        if (profilePicture.complete) {
+            profilePictureWrapper.style.transform = 'scale(1)';
+            profilePictureWrapper.style.opacity = '1';
+        } else {
+            profilePictureWrapper.style.transform = 'scale(0.8)';
+            profilePictureWrapper.style.opacity = '0';
+        }
+    }
+
 
     // 背景グラデーションのパララックス効果
     const backgroundGradient = document.querySelector('.background-gradient');
