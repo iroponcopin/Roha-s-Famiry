@@ -19,6 +19,10 @@
     /* アニメーションのタイミング関数をより滑らかに (Quintic Ease) */
     --ease-smooth-out: cubic-bezier(0.23, 1, 0.32, 1);
     --ease-smooth-in-out: cubic-bezier(0.86, 0, 0.07, 1);
+
+    /* ドックの高さの調整用変数 */
+    --dock-height: 80px; /* ドックの標準的な高さ */
+    --dock-bottom-margin: 20px; /* 画面下部からの距離 */
 }
 
 body {
@@ -67,7 +71,7 @@ body {
     box-shadow: 
         inset 0 0 10px var(--glass-shadow-inner), /* 内側の柔らかい影 */
         0 10px 40px var(--glass-shadow-outer), /* 外側の影をさらに強く */
-        0 0 0 1px var(--glass-border-light); /* 細いハイライトボーダー */
+        0 0 0 1px rgba(255,255,255,0.05); /* 非常に薄い追加ボーダーで光沢感を */
     text-align: center;
     max-width: 450px;
     width: 90%;
@@ -111,7 +115,6 @@ body {
     align-items: center;
     position: relative;
     z-index: 10;
-    /* 初期アニメーションはJSで制御するため、CSSからは削除 */
 }
 
 .avatar-emoji { /* 絵文字アバターのスタイル */
@@ -128,42 +131,7 @@ body {
 }
 
 
-/* アバターの水のエフェクト */
-.water-effect-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: radial-gradient(circle at center, rgba(150, 200, 255, 0.2) 0%, transparent 70%); /* 青みがかった水色 */
-    animation: waterRipple 4s infinite var(--ease-smooth-in-out); /* アニメーション時間を長く、スムーズに */
-    mix-blend-mode: screen; /* 明るい部分が重なり合うように */
-    z-index: 2; /* 絵文字の下 */
-    filter: blur(2px); /* ややぼかす */
-}
-
-.water-effect-layer.water-effect-2 {
-    animation-delay: 2s; /* 2つ目のレイヤーは遅れて開始 */
-    transform: scale(0.9);
-    opacity: 0.7;
-    background: radial-gradient(circle at center, rgba(200, 230, 255, 0.15) 0%, transparent 60%);
-}
-
-@keyframes waterRipple {
-    0% {
-        transform: scale(0.8);
-        opacity: 0.7;
-    }
-    50% {
-        transform: scale(1.2);
-        opacity: 0.1;
-    }
-    100% {
-        transform: scale(0.8);
-        opacity: 0.7;
-    }
-}
+/* 水エフェクトのレイヤーは削除 */
 
 
 .profile-name {
@@ -191,6 +159,19 @@ body {
     opacity: 1;
 }
 
+/* モバイル版のLinktreeオーバーレイをドックの分だけ上に配置 */
+@media (max-width: 768px) {
+    .links-section.active {
+        /* ドックの高さ + ドックのマージン */
+        max-height: calc(100vh - var(--dock-height) - var(--dock-bottom-margin) - 100px); /* 画面下部からドックの高さと余白を引く */
+        margin-bottom: calc(var(--dock-height) + var(--dock-bottom-margin) + 20px); /* ドックの上にLinktree項目が重ならないように */
+        overflow-y: auto; /* コンテンツが多い場合にスクロール可能に */
+        -webkit-overflow-scrolling: touch; /* iOSでのスムーズなスクロール */
+    }
+}
+
+
+/* リンクグループの共通スタイル */
 .links-group {
     display: flex;
     flex-direction: column;
@@ -198,6 +179,7 @@ body {
     width: 100%;
 }
 
+/* 隠れている/表示されるセクションのスタイル */
 .hidden {
     display: none !important;
     opacity: 0;
@@ -250,7 +232,7 @@ body {
 }
 
 .link-button:hover, .back-button:hover, .bottom-button:hover, .toggle-button:hover, .modal-card button:not(.close-button):hover {
-    transform: translateY(-5px) scale(1.02);
+    transform: translateY(-3px) scale(1.02); /* 少しだけ浮き上がり、拡大 */
     box-shadow: 
         inset 0 1px 0 var(--glass-highlight),
         inset 0 -1px 0 rgba(0,0,0,0.1),
@@ -275,7 +257,7 @@ body {
     background: linear-gradient(
         90deg,
         transparent,
-        rgba(255, 255, 255, 0.5), /* 光をより強く */
+        rgba(255, 255, 255, 0.3), /* 光をより強く */
         transparent
     );
     transition: left 0.6s var(--ease-smooth-out); /* アニメーションを長くスムーズに */
@@ -375,12 +357,13 @@ body {
     right: 15px;
     background: none;
     border: none;
+    font-family: 'Outfit', sans-serif;
     font-size: 1.8em; /* サイズを大きく */
     color: var(--text-color);
     cursor: pointer;
     padding: 5px 10px;
     border-radius: 8px; /* 角丸を少し大きく */
-    transition: background-color 0.2s var(--ease-smooth-out), color 0.2s var(--ease-smooth-out);
+    transition: background-color 0.2s var(--ease-smooth-out), color 0.2s var(--ease-smooth-out), transform 0.3s var(--ease-smooth-out);
     text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
@@ -392,12 +375,13 @@ body {
 
 /* Input & Button Styles within Modals */
 .modal-card input[type="password"] {
+    font-family: 'Inter', sans-serif;
     width: calc(100% - 20px);
     padding: 12px 10px;
     margin-bottom: 15px;
     border-radius: 8px;
     border: 1px solid var(--glass-border-light);
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.05); /* より透明に */
     color: var(--text-color);
     font-size: 1em;
     outline: none;
@@ -410,14 +394,17 @@ body {
 }
 
 .modal-card button:not(.close-button) { /* glass-effectクラスでスタイルを定義 */
+    font-family: 'Outfit', sans-serif;
     padding: 12px 25px;
     border-radius: 8px;
     font-size: 1.1em;
     margin-top: 10px;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.5); /* 影を強く */
 }
 
 .error-message {
     color: #ff6347;
+    font-family: 'Inter', sans-serif;
     font-size: 0.9em;
     margin-top: -10px;
     margin-bottom: 10px;
@@ -431,15 +418,15 @@ body {
 }
 
 /* ---------------------------------- */
-/* Bottom Fixed Buttons (PC only) - Dock Style */
+/* Bottom Fixed Buttons (Dock Style) */
 /* ---------------------------------- */
 .bottom-buttons-container { /* glass-effectクラスでスタイルを定義 */
     position: fixed;
-    bottom: 20px;
+    bottom: var(--dock-bottom-margin); /* 画面下部からの距離 */
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 15px;
+    gap: 15px; /* ボタン間の隙間 */
     z-index: 500;
     transition: opacity 0.4s var(--ease-smooth-out), visibility 0.4s var(--ease-smooth-out);
     
@@ -451,7 +438,7 @@ body {
         0 0 0 1px var(--glass-border-light);
 }
 
-.bottom-buttons-container.hidden { /* アバター展開時に隠れる */
+.bottom-buttons-container.hidden { /* アバター展開時に隠れる (PC版のみ) */
     opacity: 0;
     visibility: hidden;
 }
@@ -460,7 +447,7 @@ body {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: transparent;
+    background: transparent; /* ドック内なので透明にする */
     border: none;
     font-size: 1.8em;
     color: var(--text-color);
@@ -493,6 +480,10 @@ body {
     }
     .pc-only {
         display: flex !important; /* PCではPC用リンクを表示 */
+    }
+    /* PC版のドックは通常表示 */
+    #bottomButtonsContainerMobile {
+        display: none !important;
     }
 }
 
@@ -549,10 +540,17 @@ body {
         max-width: 120px;
     }
 
-    /* モバイルでは下部固定ボタンを非表示にする (リンク項目として表示するため) */
-    .bottom-buttons-container {
+    /* モバイルではPC版のドックを非表示に */
+    #bottomButtonsContainerPC {
         display: none !important;
     }
+    /* モバイル版のドックを表示 */
+    #bottomButtonsContainerMobile {
+        display: flex !important;
+        height: var(--dock-height);
+        padding: 10px 15px; /* ドックの内側のパディングを調整 */
+    }
+
 
     /* パスワード入力フィールドとボタンの幅をモバイル向けに調整 */
     .modal-card input[type="password"] {
