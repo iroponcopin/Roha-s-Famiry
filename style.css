@@ -87,32 +87,21 @@ body {
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
     transition: transform 0.3s ease;
     cursor: pointer; /* クリック可能であることを示す */
-    /* アバター画像削除に伴う背景 */
     background: rgba(255, 255, 255, 0.2); /* 透明な背景でボタンの役割を視覚化 */
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2em; /* ボタンの役割を示す記号などがあれば */
+    font-size: 2em;
     color: var(--text-color);
-    /* ここにアイコンなどを追加することも可能 */
 }
 
 .profile-image-wrapper:hover {
     transform: scale(1.05);
 }
 
-/* プロフィール画像は削除されたため、このスタイルは不要
-.profile-picture {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-*/
-
 .profile-name {
     font-size: 2.2em;
-    margin-bottom: 0; /* バイオがないため、名前の下の余白を調整 */
+    margin-bottom: 0;
     font-weight: 700;
     color: var(--text-color);
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
@@ -123,7 +112,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    /* 初期状態では非表示 */
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
@@ -135,9 +123,26 @@ body {
     opacity: 1;
 }
 
+/* 隠れているセクションのスタイル */
+.hidden {
+    display: none;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.5s ease, max-height 0.5s ease;
+}
+
+/* 表示されるセクションのスタイル */
+.visible {
+    display: flex; /* flexboxで縦に並べる */
+    flex-direction: column;
+    opacity: 1;
+    max-height: 500px; /* 親のlinks-sectionのmax-heightと同じかそれ以上 */
+}
+
 .link-button {
     display: flex;
-    align-items: center; /* アイコンとテキストを中央に */
+    align-items: center;
     justify-content: center;
     padding: 18px 25px;
     border-radius: 15px;
@@ -151,9 +156,8 @@ body {
     cursor: pointer;
     background: rgba(255, 255, 255, 0.85);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-
-    width: 100%; /* デフォルトの幅 */
-    box-sizing: border-box; /* paddingを含める */
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .liquid-glass-effect {
@@ -164,7 +168,7 @@ body {
 }
 
 .link-button:hover {
-    transform: translateY(-5px) scale(1.02); /* ホバー効果は残す */
+    transform: translateY(-5px) scale(1.02);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 30px var(--button-hover-glow);
     color: var(--text-color-dark);
 }
@@ -183,19 +187,11 @@ body {
         transparent
     );
     transition: left 0.5s ease;
-    z-index: 1; /* コンテンツの上に表示 */
+    z-index: 1;
 }
 
 .link-button:hover::before {
     left: 100%;
-}
-
-.button-icon {
-    /* 絵文字が削除されたため、このスタイルは影響しないが念のため残す */
-    margin-right: 15px;
-    font-size: 1.4em;
-    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.1));
-    z-index: 2;
 }
 
 .button-text {
@@ -216,10 +212,10 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7); /* 半透明の背景 */
+    background: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
-    align-items: flex-end; /* 下から上がってくるアニメーションのため */
+    align-items: flex-end;
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
@@ -241,22 +237,20 @@ body {
     padding: 30px;
     box-shadow: 0 -8px 32px 0 rgba(0, 0, 0, 0.4);
     text-align: center;
-    max-width: 450px; /* 幅 */
+    max-width: 450px;
     width: 90%;
-    /* 3:2 の比率に近づけるために高さと幅を調整 */
-    height: auto; /* コンテンツに応じて自動調整 */
-    max-height: 60vh; /* 画面高さの60%を最大に */
-    transform: translateY(100%); /* 初期位置を下にはみ出すように */
+    height: auto;
+    max-height: 60vh;
+    transform: translateY(100%);
     transition: transform 0.5s ease-out;
     position: relative;
     color: var(--text-color);
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */ /* コンテンツが複数行になる場合のために調整 */
 }
 
 .info-overlay.active .info-card {
-    transform: translateY(0); /* 通常位置へ */
+    transform: translateY(0);
 }
 
 .info-card h2 {
@@ -268,11 +262,11 @@ body {
 .info-card p {
     font-size: 1.1em;
     margin-bottom: 10px;
-    word-break: break-all; /* URLが長すぎる場合に改行 */
+    word-break: break-all;
 }
 
 .info-card a {
-    color: #87ceeb; /* ライトブルーのリンク */
+    color: #87ceeb;
     text-decoration: none;
     font-weight: 600;
 }
@@ -282,7 +276,7 @@ body {
 }
 
 .info-qr-code-image {
-    max-width: 180px; /* オーバーレイ内のQRコード */
+    max-width: 180px;
     height: auto;
     margin: 20px auto;
     border-radius: 10px;
@@ -308,6 +302,107 @@ body {
     color: #fff;
 }
 
+/* Password Overlay Styles */
+.password-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* より濃い背景 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000; /* 最前面に表示 */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.password-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.password-card {
+    background: var(--glass-background);
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    padding: 30px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    text-align: center;
+    max-width: 350px;
+    width: 80%;
+    position: relative;
+    transform: translateY(-20px); /* 少し上に表示するアニメーションのため */
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    color: var(--text-color);
+}
+
+.password-overlay.active .password-card {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.password-card h2 {
+    font-size: 1.6em;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.password-card input[type="password"] {
+    width: calc(100% - 20px); /* Padding考慮 */
+    padding: 12px 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--glass-border);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.password-card input[type="password"]:focus {
+    border-color: #87ceeb;
+}
+
+.password-card button {
+    background: linear-gradient(90deg, #8a2be2, #ff007f);
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 10px;
+}
+
+.password-card button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.password-card .close-button {
+    color: var(--text-color); /* Xボタンの色を親要素から継承 */
+}
+
+.error-message {
+    color: #ff6347; /* Tomato red */
+    font-size: 0.9em;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.error-message.show {
+    opacity: 1;
+}
 
 /* Responsive adjustments */
 @media (max-width: 600px) {
@@ -324,15 +419,9 @@ body {
         padding: 15px 20px;
     }
 
-    .button-icon {
-        /* 絵文字のサイズ調整。絵文字が削除されたため影響しないが残す */
-        font-size: 1.2em;
-        margin-right: 10px;
-    }
-
-    .info-card {
+    .info-card, .password-card {
         padding: 20px;
-        max-height: 80vh; /* モバイルでは高さをもう少し伸ばす */
+        max-height: 80vh;
     }
 
     .info-qr-code-image {
