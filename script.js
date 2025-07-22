@@ -128,9 +128,9 @@ document.addEventListener('DOMContentLoaded', () => {
         linksSection.classList.remove('active'); // LinkTree項目全体は最初は隠す
         closeAllOverlays();
         
-        // ドックは常に表示（PC版とモバイル版でそれぞれ制御）
-        if (bottomButtonsContainerPC) bottomButtonsContainerPC.classList.remove('hidden');
-        if (bottomButtonsContainerMobile) bottomButtonsContainerMobile.classList.remove('hidden');
+        // ドックは常に表示 (PC版とモバイル版でそれぞれCSSで制御)
+        // bottomButtonsContainerPC/Mobile の hidden クラスのトグルは不要
+        // PC版とモバイル版の表示切り替えはCSSのメディアクエリに任せる
 
         // PC/モバイルに応じたリンクグループの表示
         if (isMobileDevice()) {
@@ -173,6 +173,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.id === 'addressButtonPC' || 
                 button.id === 'musicButtonPC' || 
                 button.id === 'settingsButtonPC' || 
+                button.id === 'homeButtonMobile' || // モバイルドックボタン
+                button.id === 'secretButtonMobile' || // モバイルドックボタン
+                button.id === 'musicButtonMobile' || // モバイルドックボタン
                 button.id === 'mobileOptionButton' || 
                 button.classList.contains('back-button') ||
                 button.id === 'passwordSubmit' // passwordSubmitはここで処理しない
@@ -234,6 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // === PC版の画面下部ドックボタンの機能 ===
+    // PC版ドックは LinksSection の状態に影響されない
     if (homeButtonPC) {
         homeButtonPC.addEventListener('click', () => {
             closeAllOverlays();
@@ -341,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // === モバイル版のドックボタンの機能 ===
-    // LinksSectionの表示/非表示に影響されず独立して動作
+    // モバイル版ドックは LinksSection の展開状態に影響されず独立して動作
     if (homeButtonMobile) {
         homeButtonMobile.addEventListener('click', () => {
             closeAllOverlays();
@@ -400,6 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (backToFileLinksButton) {
         backToFileLinksButton.addEventListener('click', () => {
             closeAllOverlays();
+            linksSection.classList.add('active'); // LinksSectionを再度アクティブに（もし非アクティブなら）
             showLinksGroup(mobileLinks); // メイン項目に戻る
         });
     }
@@ -408,6 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (backToMobileMainLinksButton) {
         backToMobileMainLinksButton.addEventListener('click', () => {
             closeAllOverlays();
+            linksSection.classList.add('active'); // LinksSectionを再度アクティブに
             showLinksGroup(mobileLinks); // メイン項目に戻る
             isPasswordEnteredOncePC = false; // モバイル版ではSecretから戻ったらパスワード状態をリセット
         });
@@ -417,6 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (backToMobileSecretLinksButton) {
         backToMobileSecretLinksButton.addEventListener('click', () => {
             closeAllOverlays();
+            linksSection.classList.add('active'); // LinksSectionを再度アクティブに
             showLinksGroup(secretLinksMobile); // OptionボタンがあるSecretリストに戻る
         });
     }
@@ -448,8 +455,10 @@ document.addEventListener('DOMContentLoaded', () => {
             isPasswordEnteredOncePC = true; // パスワード入力成功で状態を更新
 
             if (isMobileDevice()) {
+                linksSection.classList.add('active'); // LinksSectionを展開
                 showLinksGroup(secretLinksMobile); // モバイル版のOptionボタンがあるリストを表示
             } else {
+                linksSection.classList.add('active'); // LinksSectionを展開
                 showLinksGroup(secretLinksPC); // PC版のシークレットリンクを表示
                 currentPCLinksView = 'secret'; // PC版の表示状態を更新
             }
