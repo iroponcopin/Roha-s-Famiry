@@ -18,23 +18,40 @@
         </header>
 
         <main class="links-section" id="linksSection">
-            <a href="https://example.com/session" target="_blank" class="link-button liquid-glass-effect">
+            <a href="#" class="link-button liquid-glass-effect"
+               data-link-id="session"
+               data-info-handle="@SessionUser"
+               data-info-url="https://example.com/session">
                 <span class="button-icon">💬</span>
                 <span class="button-text">Session</span>
             </a>
-            <a href="https://example.com/telegram" target="_blank" class="link-button liquid-glass-effect">
+            <a href="#" class="link-button liquid-glass-effect"
+               data-link-id="telegram"
+               data-info-handle="@iroponcopin"
+               data-info-url="https://example.com/telegram"
+               data-qr-image="image_2e50be.png">
                 <span class="button-icon">✈️</span>
                 <span class="button-text">Telegram</span>
             </a>
-            <a href="https://example.com/messenger" target="_blank" class="link-button liquid-glass-effect">
+            <a href="#" class="link-button liquid-glass-effect"
+               data-link-id="messenger"
+               data-info-handle="@iroponcopin"
+               data-info-url="https://example.com/messenger"
+               data-qr-image="image_2e50be.png">
                 <span class="button-icon">📱</span>
                 <span class="button-text">Messenger</span>
             </a>
-            <a href="https://example.com/whatsapp" target="_blank" class="link-button liquid-glass-effect">
+            <a href="#" class="link-button liquid-glass-effect"
+               data-link-id="whatsapp"
+               data-info-handle="@WhatsAppUser"
+               data-info-url="https://example.com/whatsapp">
                 <span class="button-icon">🟢</span>
                 <span class="button-text">WhatsApp</span>
             </a>
-            <a href="https://example.com/wechat" target="_blank" class="link-button liquid-glass-effect">
+            <a href="#" class="link-button liquid-glass-effect"
+               data-link-id="wechat"
+               data-info-handle="@WeChatUser"
+               data-info-url="https://example.com/wechat">
                 <span class="button-icon">🗣️</span>
                 <span class="button-text">WeChat</span>
             </a>
@@ -43,6 +60,16 @@
         <footer class="footer">
             <p>&copy; 2025 櫻 彩羽. All rights reserved.</p>
         </footer>
+    </div>
+
+    <div class="info-overlay" id="infoOverlay">
+        <div class="info-card">
+            <button class="close-button" id="closeInfoOverlay">X</button>
+            <h2 id="infoTitle"></h2>
+            <p id="infoHandle"></p>
+            <img src="" alt="QR Code" class="info-qr-code-image" id="infoQrCodeImage" style="display: none;">
+            <p>Official Site: <a href="#" target="_blank" id="infoUrl"></a></p>
+        </div>
     </div>
 
     <script src="script.js"></script>
