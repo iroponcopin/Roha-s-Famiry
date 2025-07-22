@@ -43,7 +43,7 @@
         <a href="https://www.messenger.com/" target="_blank" rel="noopener noreferrer">公式サイトへ</a>
       </div>
     </div>
-
+    
     <div class="card">
       <div class="card-header">
         <h2>Signal</h2>
@@ -69,14 +69,11 @@
     <div class="card">
       <div class="card-header">
         <h2>Contact</h2>
-        <svg class="app-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20,22H4a2,2,0,0,1-2-2V4A2,2,0,0,1,4,2H20a2,2,0,0,1,2,2V20A2,2,0,0,1,20,22ZM12,11a3,3,0,1,0-3-3A3,3,0,0,0,12,11Zm-6,6a6.08,6.08,0,0,0,12,0Z"/></svg>
+        <svg class="app-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M22 6C22 4.9 21.1 4 20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6ZM20 6L12 11L4 6H20ZM20 18H4V8L12 13L20 8V18Z"/></svg>
       </div>
       <div class="details">
         m4a1scar@aespa.me<br>
         +1 (347) 703-1242<br>
-        +1 (919) 337-2791<br>
-        +852 1591-7284<br>
-        +82 1658-8095
       </div>
     </div>
 
@@ -85,9 +82,10 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const cards = document.querySelectorAll('.card');
+
       cards.forEach(card => {
         card.addEventListener('click', (event) => {
-          // Check if the click was on the link itself
+          // リンク自体をクリックした場合は、開閉させない
           if (event.target.tagName.toLowerCase() === 'a') {
             return;
           }
