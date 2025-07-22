@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Social Links</title>
+  <title>Dynamic Links</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div class="container">
-    <h1>Social Links</h1>
-
     <div class="card">
-      <h2>Session</h2>
+      <div class="card-visible">
+        <h2>Session</h2>
+      </div>
       <div class="details">
         <p>ID: 0502c95513e6c515caf68f1c95b5c4eb58148056ae0a532d126de9503a226c5f13</p>
         <a href="https://getsession.org/" target="_blank" rel="noopener noreferrer">Visit Website</a>
@@ -20,7 +20,9 @@
     </div>
 
     <div class="card">
-      <h2>Telegram</h2>
+      <div class="card-visible">
+        <h2>Telegram</h2>
+      </div>
       <div class="details">
         <p>ID: @iroponcopin</p>
         <a href="https://telegram.org/" target="_blank" rel="noopener noreferrer">Visit Website</a>
@@ -28,7 +30,9 @@
     </div>
 
     <div class="card" id="messenger-card">
-      <h2>Messenger</h2>
+      <div class="card-visible">
+        <h2>Messenger</h2>
+      </div>
       <div class="details">
         <p>ID: @iroponcopin</p>
         <a href="https://www.messenger.com/" target="_blank" rel="noopener noreferrer">Visit Website</a>
@@ -36,23 +40,19 @@
     </div>
     
     <div class="card">
-      <h2>Signal</h2>
+       <div class="card-visible">
+        <h2>Signal</h2>
+      </div>
       <div class="details">
         <p>ID: @iroponcopin.01</p>
         <a href="https://signal.org/" target="_blank" rel="noopener noreferrer">Visit Website</a>
       </div>
     </div>
-
+    
     <div class="card">
-      <h2>微信 (WeChat)</h2>
-      <div class="details">
-        <p>ID: @wxid_9qdzsdfsmir812</p>
-        <a href="https://www.wechat.com/" target="_blank" rel="noopener noreferrer">Visit Website</a>
+       <div class="card-visible">
+        <h2>Contact</h2>
       </div>
-    </div>
-
-    <div class="card">
-      <h2>Contact</h2>
       <div class="details">
         m4a1scar@aespa.me<br>
         +1 (347) 703-1242<br>
@@ -82,9 +82,11 @@
       const infoDoneBtn = document.getElementById('info-done-btn');
 
       cards.forEach(card => {
+        const visiblePart = card.querySelector('.card-visible');
+        
         // Messengerカード以外の通常のカードに対する処理
         if (card.id !== 'messenger-card') {
-          card.addEventListener('click', (event) => {
+          visiblePart.addEventListener('click', (event) => {
             if (event.target.tagName.toLowerCase() === 'a') return;
             card.classList.toggle('active');
           });
@@ -92,25 +94,21 @@
       });
 
       // Messengerカードがクリックされた時の特別な処理
-      messengerCard.addEventListener('click', (event) => {
+      const messengerVisiblePart = messengerCard.querySelector('.card-visible');
+      messengerVisiblePart.addEventListener('click', (event) => {
         if (event.target.tagName.toLowerCase() === 'a') return;
 
-        // すでに情報を見ていたら、通常の開閉を行う
         if (messengerCard.classList.contains('info-seen')) {
           messengerCard.classList.toggle('active');
         } else {
-          // 情報パネルを下にスライドアップして表示
           infoOverlay.classList.add('is-visible');
         }
       });
 
       // 情報パネルの「Done」ボタンがクリックされた時の処理
       infoDoneBtn.addEventListener('click', () => {
-        // パネルを非表示に
         infoOverlay.classList.remove('is-visible');
-        // Messengerカードを開いた状態にする
         messengerCard.classList.add('active');
-        // 情報を見たことを記録する
         messengerCard.classList.add('info-seen');
       });
     });
