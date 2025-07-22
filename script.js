@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileOptionButton = document.getElementById('mobileOptionButton');
     const optionGridLinksMobile = document.getElementById('optionGridLinksMobile');
 
-    const allLinkButtons = document.querySelectorAll('.link-button'); // すべてのリンクボタン
+    const allLinkButtons = document.querySelectorAll('.link-button, .back-button, #passwordSubmit'); // すべてのインタラクティブなボタン
 
     const infoOverlay = document.getElementById('infoOverlay');
     const closeInfoOverlayButton = document.getElementById('closeInfoOverlay');
@@ -168,7 +168,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.id === 'musicButtonPC' || 
                 button.id === 'settingsButtonPC' || 
                 button.id === 'mobileOptionButton' || 
-                button.classList.contains('back-button')
+                button.classList.contains('back-button') ||
+                button.id === 'passwordSubmit' // passwordSubmitはここで処理しない
             ) {
                 return; 
             }
@@ -421,6 +422,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showLinksGroup(secretLinksMobile); // モバイル版のOptionボタンがあるリストを表示
             } else {
                 showLinksGroup(secretLinksPC); // PC版のシークレットリンクを表示
+                currentPCLinksView = 'secret'; // PC版の表示状態を更新
             }
         } else {
             passwordError.textContent = "Incorrect password. Please try again.";
@@ -432,24 +434,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // プロフィールアバターの初期アニメーション
     const profilePictureWrapper = document.querySelector('.profile-image-wrapper');
-    // 画像が正しく読み込まれるのを待つ
-    const profilePicture = profilePictureWrapper.querySelector('.profile-picture');
-    if (profilePicture) {
-        profilePicture.onload = () => {
-            profilePictureWrapper.style.transform = 'scale(1)';
-            profilePictureWrapper.style.opacity = '1';
-        };
-        // 画像がキャッシュされている場合のため、直接スタイルを適用
-        if (profilePicture.complete) {
-            profilePictureWrapper.style.transform = 'scale(1)';
-            profilePictureWrapper.style.opacity = '1';
-        } else {
-            profilePictureWrapper.style.transform = 'scale(0.8)';
-            profilePictureWrapper.style.opacity = '0';
-        }
-    }
+    const avatarEmoji = profilePictureWrapper.querySelector('.avatar-emoji'); // 絵文字要素を取得
 
-
+    // ロード時にアニメーションを開始
+    profilePictureWrapper.style.transform = 'scale(1)';
+    profilePictureWrapper.style.opacity = '1';
+    
     // 背景グラデーションのパララックス効果
     const backgroundGradient = document.querySelector('.background-gradient');
     document.body.addEventListener('mousemove', (e) => {
