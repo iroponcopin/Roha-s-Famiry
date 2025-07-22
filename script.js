@@ -2,6 +2,7 @@
 let player;
 function onYouTubeIframeAPIReady() {
     // プレイヤーが作成されるのはMusic Playerオーバーレイが開かれた時
+    console.log("YouTube IFrame API is ready.");
 }
 
 // ヘルパー関数: モバイルデバイスかどうかを判定
@@ -13,12 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const profileAvatar = document.getElementById('profileAvatar');
     const linksSection = document.getElementById('linksSection');
 
+    // PC版のリンクグループ
     const defaultLinksPC = document.getElementById('defaultLinksPC');
     const secretLinksPC = document.getElementById('secretLinksPC');
     // const pcToggleButtonContainer = document.getElementById('pcToggleButtonContainer'); // 削除
     // const pcToggleLeftButton = document.getElementById('pcToggleLeft'); // 削除
     // const pcToggleRightButton = document.getElementById('pcToggleRight'); // 削除
 
+    // モバイル版のリンクグループ
     const mobileLinks = document.getElementById('mobileLinks');
     const fileButton = document.getElementById('fileButton');
     const fileGridLinks = document.getElementById('fileGridLinks');
@@ -45,23 +48,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const addToHomeScreenOverlay = document.getElementById('addToHomeScreenOverlay');
     const closeAddToHomeScreenOverlayButton = document.getElementById('closeAddToHomeScreenOverlay');
 
-    const musicPlayerOverlay = document.getElementById('musicPlayerOverlay'); // Music Player Overlay
+    const musicPlayerOverlay = document.getElementById('musicPlayerOverlay');
     const closeMusicPlayerOverlayButton = document.getElementById('closeMusicPlayerOverlay');
     const togglePlaybackButton = document.getElementById('togglePlaybackButton');
     const audioResponseDiv = document.getElementById('audioResponse');
 
     // PC版フッターボタン
     const bottomButtonsContainerPC = document.getElementById('bottomButtonsContainerPC');
-    const homeButtonPC = document.getElementById('homeButtonPC'); // Homeボタン
+    const homeButtonPC = document.getElementById('homeButtonPC');
     const secretButtonPC = document.getElementById('secretButtonPC');
     const addressButtonPC = document.getElementById('addressButtonPC');
-    const musicButtonPC = document.getElementById('musicButtonPC'); // Musicボタン
+    const musicButtonPC = document.getElementById('musicButtonPC');
     const settingsButtonPC = document.getElementById('settingsButtonPC');
 
     // モバイル版のLinkTree項目になったボタン
     const mobileSecretButton = document.getElementById('mobileSecretButton');
-    // const mobileAddressButton = document.getElementById('mobileAddressButton'); // 削除
-    // const mobileSettingsButton = document.getElementById('mobileSettingsButton'); // 削除
+    // mobileAddressButtonとmobileSettingsButtonはHTMLから削除済み
 
     // モバイル版の戻るボタン
     const backToFileLinksButton = document.getElementById('backToFileLinks');
@@ -70,11 +72,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     const CORRECT_PASSWORD = "0204";
-    const YOUTUBE_VIDEO_ID = '3rxTZ-mZ9O4'; // YouTube動画ID
+    const YOUTUBE_VIDEO_ID = 'dQw4w9WgXcQ'; // Rick Astley - Never Gonna Give You Up (例の動画)
 
-    let isSecretLinksShown = false; // PC/モバイル共通のシークレットリンク表示状態（一度パスワードが入力されたか）
+    let isPasswordEnteredOncePC = false; // PC版でパスワードが一度入力されたか
     let currentPCLinksView = 'default'; // 'default' or 'secret' (PC版のみ)
-    let youtubePlayerInstance; // YouTube Playerインスタンス
+    let youtubePlayerInstance;
 
 
     // ヘルパー関数: オーバーレイの表示/非表示を切り替える
@@ -88,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 !passwordOverlay.classList.contains('active') &&
                 !addressOverlay.classList.contains('active') &&
                 !addToHomeScreenOverlay.classList.contains('active') &&
-                !musicPlayerOverlay.classList.contains('active')) { // Music Player Overlayも追加
+                !musicPlayerOverlay.classList.contains('active')) {
                 document.body.style.overflow = '';
             }
         }
@@ -100,9 +102,9 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleOverlay(passwordOverlay, false);
         toggleOverlay(addressOverlay, false);
         toggleOverlay(addToHomeScreenOverlay, false);
-        toggleOverlay(musicPlayerOverlay, false); // Music Player Overlayも追加
+        toggleOverlay(musicPlayerOverlay, false);
         if (youtubePlayerInstance && typeof youtubePlayerInstance.pauseVideo === 'function') {
-            youtubePlayerInstance.pauseVideo(); // オーバーレイを閉じたら動画を一時停止
+            youtubePlayerInstance.pauseVideo();
         }
     }
 
@@ -120,34 +122,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
-        // PC版の切り替えボタンの表示/非表示
-        if (!isMobileDevice() && pcToggleButtonContainer) { // PC版のみ
-            if (groupToShow === secretLinksPC) {
-                pcToggleButtonContainer.classList.remove('hidden');
-                pcToggleButtonContainer.classList.add('visible');
-            } else {
-                pcToggleButtonContainer.classList.remove('visible');
-                pcToggleButtonContainer.classList.add('hidden');
-            }
-        }
     }
 
     // 初期状態の表示設定（PC/モバイルで分岐）
     function initializeLinksDisplay() {
-        linksSection.classList.remove('active'); // リンクセクション全体は非表示
+        linksSection.classList.remove('active'); // LinkTree項目全体は最初は隠す
         closeAllOverlays();
-        isSecretLinksShown = false; // パスワード入力状態をリセット
-        currentPCLinksView = 'default'; // PC版表示はデフォルトに戻す
+        
+        // PC版のドックは常に表示（Avatarクリックで隠れない）
+        if (bottomButtonsContainerPC) {
+            bottomButtonsContainerPC.classList.remove('hidden');
+        }
 
         if (isMobileDevice()) {
             showLinksGroup(mobileLinks); // モバイル版の初期項目を表示
-            if (bottomButtonsContainerPC) bottomButtonsContainerPC.classList.add('hidden'); // PC版のフッターボタンを隠す
-            // if (pcToggleButtonContainer) pcToggleButtonContainer.classList.add('hidden'); // PC版切り替えボタンを隠す
+            isPasswordEnteredOncePC = false; // モバイルではPCのパスワード状態をリセット
         } else {
-            showLinksGroup(defaultLinksPC); // PC版の初期項目を表示
-            if (bottomButtonsContainerPC) bottomButtonsContainerPC.classList.remove('hidden'); // PC版のフッターボタンを表示
-            // if (pcToggleButtonContainer) pcToggleButtonContainer.classList.add('hidden'); // PC版切り替えボタンを隠す
+            // PC版のデフォルト表示
+            showLinksGroup(defaultLinksPC); 
         }
+        currentPCLinksView = 'default';
     }
 
     // ページロード時とウィンドウサイズ変更時に初期表示を調整
@@ -159,14 +153,9 @@ document.addEventListener('DOMContentLoaded', () => {
     profileAvatar.addEventListener('click', () => {
         linksSection.classList.toggle('active'); // LinkSection全体の表示/非表示をトグル
         
-        // PC版のフッターボタン表示/非表示はPC時のみ制御
-        if (!isMobileDevice() && bottomButtonsContainerPC) {
-            bottomButtonsContainerPC.classList.toggle('hidden');
-        } 
-
-        // リンクが閉じられた場合、全てのリセットを行う
+        // アバタークリックでリンク項目が閉じられた場合、状態をリセット
         if (!linksSection.classList.contains('active')) {
-            initializeLinksDisplay(); // 全てのリンク表示状態を初期化
+            initializeLinksDisplay(); // PC/モバイルに応じた初期表示に戻す
         }
         
         closeAllOverlays(); // 他の全てのオーバーレイを閉じる
@@ -176,17 +165,16 @@ document.addEventListener('DOMContentLoaded', () => {
     allLinkButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             // 特殊な処理を持つボタンはここでフィルタリング
+            // ここにIDを持つボタンは直接リンク遷移しないか、オーバーレイを開くため
             if (button.id === 'fileButton' || 
                 button.id === 'mobileSecretButton' || 
-                // button.id === 'mobileAddressButton' || // 削除
-                // button.id === 'mobileSettingsButton' || // 削除
-                button.id === 'homeButtonPC' || // Homeボタン
-                button.id === 'secretButtonPC' || // Secretボタン
-                button.id === 'addressButtonPC' || // Addressボタン
-                button.id === 'musicButtonPC' || // Musicボタン
-                button.id === 'settingsButtonPC' || // Settingsボタン
-                button.id === 'mobileOptionButton' || // モバイルOptionボタン
-                button.classList.contains('back-button') // 戻るボタン
+                button.id === 'homeButtonPC' || 
+                button.id === 'secretButtonPC' || 
+                button.id === 'addressButtonPC' || 
+                button.id === 'musicButtonPC' || 
+                button.id === 'settingsButtonPC' || 
+                button.id === 'mobileOptionButton' || 
+                button.classList.contains('back-button')
             ) {
                 return; 
             }
@@ -244,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // === PC版の画面下部ボタンの機能 ===
+    // === PC版の画面下部ドックボタンの機能 ===
     if (homeButtonPC) {
         homeButtonPC.addEventListener('click', () => {
             closeAllOverlays();
@@ -256,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (secretButtonPC) {
         secretButtonPC.addEventListener('click', () => {
             closeAllOverlays();
-            if (isSecretLinksShown) { // パスワードが一度入力済みの場合
+            if (isPasswordEnteredOncePC) { // パスワードが一度入力済みの場合
                 showLinksGroup(secretLinksPC); // 直接シークレット項目を表示
                 currentPCLinksView = 'secret';
             } else {
@@ -275,34 +263,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (musicButtonPC) { // Music Playerボタン
+    if (musicButtonPC) {
         musicButtonPC.addEventListener('click', () => {
             closeAllOverlays();
             toggleOverlay(musicPlayerOverlay, true);
+            
             // YouTubeプレイヤーを初期化または再生開始
             if (!youtubePlayerInstance) {
                 youtubePlayerInstance = new YT.Player('youtubePlayer', {
-                    height: '200', // 適切な高さに調整
+                    height: '200',
                     width: '100%',
                     videoId: YOUTUBE_VIDEO_ID,
                     playerVars: {
-                        'autoplay': 0, // 自動再生しない
-                        'controls': 1, // コントロールを表示
-                        'rel': 0, // 関連動画を表示しない
-                        'modestbranding': 1 // YouTubeロゴを控えめに
+                        'autoplay': 0,
+                        'controls': 1,
+                        'rel': 0,
+                        'modestbranding': 1
                     },
                     events: {
                         'onReady': (event) => {
-                            // プレイヤーが準備できたらLLMレスポンスを生成
                             audioResponseDiv.textContent = "Generating audio response...";
-                            // ここでLLM APIを呼び出す（例: Gemini API）
-                            // 実際のLLM呼び出しは非同期処理になる
-                            setTimeout(() => { // 擬似的なLLMレスポンス
-                                audioResponseDiv.textContent = "Here's a chill track for your day!";
+                            setTimeout(() => {
+                                audioResponseDiv.textContent = "Welcome! Enjoy this track while you browse.";
                             }, 1500);
                         },
                         'onStateChange': (event) => {
-                            // プレイヤーの状態変化を監視
                             if (event.data == YT.PlayerState.PLAYING) {
                                 togglePlaybackButton.textContent = "Pause";
                             } else {
@@ -398,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
         backToMobileMainLinksButton.addEventListener('click', () => {
             closeAllOverlays();
             showLinksGroup(mobileLinks); // メイン項目に戻る
-            isSecretLinksShown = false; // シークレット表示状態もリセット
+            isPasswordEnteredOncePC = false; // パスワード状態をリセット (PC版とは異なる挙動)
         });
     }
 
@@ -434,14 +419,13 @@ document.addEventListener('DOMContentLoaded', () => {
     passwordSubmit.addEventListener('click', () => {
         if (passwordInput.value === CORRECT_PASSWORD) {
             toggleOverlay(passwordOverlay, false);
-            isSecretLinksShown = true; // パスワード入力成功でシークレットアクセス権を付与
+            isPasswordEnteredOncePC = true; // パスワード入力成功で状態を更新
 
             if (isMobileDevice()) {
                 showLinksGroup(secretLinksMobile); // モバイル版のOptionボタンがあるリストを表示
             } else {
                 showLinksGroup(secretLinksPC); // PC版のシークレットリンクを表示
-                // PC版の切り替えボタンはSecret表示時に自動で表示される
-                currentPCLinksView = 'secret';
+                currentPCLinksView = 'secret'; // PC版の表示状態を更新
             }
         } else {
             passwordError.textContent = "Incorrect password. Please try again.";
