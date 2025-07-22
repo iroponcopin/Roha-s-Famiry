@@ -6,10 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const infoOverlay = document.getElementById('infoOverlay');
     const closeInfoOverlayButton = document.getElementById('closeInfoOverlay');
     const infoTitle = document.getElementById('infoTitle');
-    const infoHandle = document.getElementById('infoHandle');
-    const infoQrCodeImage = document.getElementById('infoQrCodeImage');
-    const infoUrl = document.getElementById('infoUrl');
-
+    const infoDetails = document.getElementById('infoDetails'); // 新しく追加
 
     // 初期状態ではリンク項目を非表示
     linksSection.classList.remove('active');
@@ -29,24 +26,43 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault(); // デフォルトのリンク動作を防止
 
             const linkId = button.dataset.linkId;
-            const handle = button.dataset.infoHandle;
-            const url = button.dataset.infoUrl;
-            const qrImage = button.dataset.qrImage; // QR画像のパス
+            const title = button.querySelector('.button-text').textContent;
+            infoTitle.textContent = title; // ボタンのテキストをタイトルに設定
 
-            // 情報をセット
-            infoTitle.textContent = button.querySelector('.button-text').textContent; // ボタンのテキストをタイトルに
-            infoHandle.textContent = handle;
-            infoUrl.href = url;
-            infoUrl.textContent = url.replace(/(^\w+:|^)\/\//, ''); // URLからプロトコルを削除して表示
+            // infoDetails の中身をクリア
+            infoDetails.innerHTML = '';
 
-            if (qrImage) {
-                infoQrCodeImage.src = qrImage;
-                infoQrCodeImage.style.display = 'block'; // 画像を表示
+            // 各項目に応じた情報を infoDetails に追加
+            if (linkId === 'contact') {
+                const email = button.dataset.infoEmail;
+                const phone1 = button.dataset.infoPhone1;
+                const phone2 = button.dataset.infoPhone2;
+                const phone3 = button.dataset.infoPhone3;
+                const phone4 = button.dataset.infoPhone4;
+
+                if (email) infoDetails.innerHTML += `<p><a href="mailto:${email}">${email}</a></p>`;
+                if (phone1) infoDetails.innerHTML += `<p><a href="tel:${phone1.replace(/\s|-|\(|\)/g, '')}">${phone1}</a></p>`;
+                if (phone2) infoDetails.innerHTML += `<p><a href="tel:${phone2.replace(/\s|-|\(|\)/g, '')}">${phone2}</a></p>`;
+                if (phone3) infoDetails.innerHTML += `<p><a href="tel:${phone3.replace(/\s|-|\(|\)/g, '')}">${phone3}</a></p>`;
+                if (phone4) infoDetails.innerHTML += `<p><a href="tel:${phone4.replace(/\s|-|\(|\)/g, '')}">${phone4}</a></p>`;
             } else {
-                infoQrCodeImage.style.display = 'none'; // 画像を非表示
-                infoQrCodeImage.src = ''; // srcもクリア
-            }
+                const handle = button.dataset.infoHandle;
+                const url = button.dataset.infoUrl;
+                const qrImage = button.dataset.qrImage; // QR画像のパス
 
+                if (handle) infoDetails.innerHTML += `<p>${handle}</p>`;
+                if (url) infoDetails.innerHTML += `<p>Official Site: <a href="${url}" target="_blank">${url.replace(/(^\w+:|^)\/\//, '')}</a></p>`;
+                
+                // TelegramとMessengerのみQRコード画像を表示
+                if (qrImage && (linkId === 'telegram' || linkId === 'messenger')) {
+                    const img = document.createElement('img');
+                    img.src = qrImage;
+                    img.alt = `${linkId} QR Code`;
+                    img.classList.add('info-qr-code-image');
+                    infoDetails.appendChild(img);
+                }
+            }
+            
             // オーバーレイを表示
             infoOverlay.classList.add('active');
         });
@@ -57,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         infoOverlay.classList.remove('active');
     });
 
-    // プロフィールアバターの初期アニメーション
+    // プロフィールアバターの初期アニメーション (画像が削除されたため、エフェクトのみ残す)
     const profilePictureWrapper = document.querySelector('.profile-image-wrapper');
     profilePictureWrapper.style.transform = 'scale(0.8)';
     profilePictureWrapper.style.opacity = '0';
