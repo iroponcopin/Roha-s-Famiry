@@ -360,7 +360,7 @@ body {
 }
 
 /* ---------------------------------- */
-/* Bottom Fixed Buttons (PC only) */
+/* Bottom Fixed Buttons (PC only) - Dock Style */
 /* ---------------------------------- */
 .bottom-buttons-container {
     position: fixed;
@@ -368,9 +368,18 @@ body {
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 15px;
+    gap: 15px; /* ボタン間の隙間 */
     z-index: 500;
     transition: opacity 0.3s ease, visibility 0.3s ease;
+    
+    /* Dock Style */
+    background: rgba(255, 255, 255, 0.1); /* ドックの背景 */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    border-radius: 20px; /* 角丸 */
+    padding: 10px 15px; /* 内側の余白 */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
 .bottom-buttons-container.hidden {
@@ -381,24 +390,54 @@ body {
 .bottom-button {
     width: 60px;
     height: 60px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 50%; /* アイコンボタンの形状 */
+    background: transparent; /* ドック内なので透明にする */
+    border: none; /* ボーダーもなし */
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 1.8em;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    color: var(--text-color-dark);
+    color: var(--text-color); /* アイコンの色 */
+    box-shadow: none; /* ボタン自体の影はなし */
 }
 
 .bottom-button:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-10px) scale(1.2); /* ホバーで上に浮き上がり拡大 */
+    /* background: rgba(255, 255, 255, 0.2); */ /* ホバー時の背景色 */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* ホバー時の影 */
+    z-index: 501; /* ホバー時に手前に来る */
+}
+
+/* ---------------------------------- */
+/* PC Toggle Buttons (←→) Styles   */
+/* ---------------------------------- */
+.toggle-button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px; /* リンクリストの下に配置 */
+}
+
+.toggle-button {
+    padding: 10px 20px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: var(--text-color);
+    font-size: 1.2em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.toggle-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -408,6 +447,9 @@ body {
 
 /* PC-specific styles (default) */
 .mobile-only {
+    display: none !important;
+}
+.back-button { /* PCでは戻るボタンを非表示 */
     display: none !important;
 }
 
@@ -520,9 +562,9 @@ body {
         height: 100px;
     }
 
-    /* === 戻るボタンのスタイル === */
+    /* === 戻るボタンのスタイル (モバイルのみ表示) === */
     .back-button {
-        display: block; /* モバイルで表示 */
+        display: block !important; /* モバイルで表示を強制 */
         width: 100%;
         padding: 15px 20px;
         margin-bottom: 20px; /* 下のグリッド/リストとの間隔 */
