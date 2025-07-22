@@ -191,10 +191,9 @@ body {
 }
 
 .button-icon {
-    width: 28px; /* アイコンのサイズを固定 */
-    height: 28px;
+    /* 以前のimgタグからspanに変更したため、スタイル調整 */
     margin-right: 15px;
-    object-fit: contain; /* 画像がはみ出さないように */
+    font-size: 1.4em; /* 絵文字のサイズ */
     filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.1));
     z-index: 2; /* アイコンを前に */
 }
@@ -255,97 +254,7 @@ body {
     opacity: 0.7;
 }
 
-/* Information Overlay (Messenger初回表示用) */
-.info-overlay {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: flex-end; /* 下から上がってくるアニメーションのため */
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-}
-
-.info-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.info-card {
-    background: var(--glass-background);
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    padding: 30px;
-    box-shadow: 0 -8px 32px 0 rgba(0, 0, 0, 0.4);
-    text-align: center;
-    max-width: 450px;
-    width: 90%;
-    transform: translateY(100%); /* 初期位置を下にはみ出すように */
-    transition: transform 0.5s ease-out;
-    position: relative;
-    color: var(--text-color);
-}
-
-.info-overlay.active .info-card {
-    transform: translateY(0); /* 通常位置へ */
-}
-
-.info-card h2 {
-    font-size: 1.8em;
-    margin-bottom: 15px;
-    color: var(--text-color);
-}
-
-.info-card p {
-    font-size: 1.1em;
-    margin-bottom: 10px;
-}
-
-.info-card a {
-    color: #87ceeb; /* ライトブルーのリンク */
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.info-card a:hover {
-    text-decoration: underline;
-}
-
-.info-qr-code-image {
-    max-width: 180px; /* オーバーレイ内のQRコード */
-    height: auto;
-    margin: 20px auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.close-button {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-size: 1.5em;
-    color: var(--text-color);
-    cursor: pointer;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.close-button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: #fff;
-}
+/* Messenger Information Overlay関連のスタイルは削除されました */
 
 /* Responsive adjustments */
 @media (max-width: 600px) {
@@ -364,20 +273,11 @@ body {
     }
 
     .button-icon {
-        width: 24px;
-        height: 24px;
+        font-size: 1.2em; /* 絵文字のサイズ調整 */
         margin-right: 10px;
     }
 
     .qr-code-image {
         max-width: 100px;
-    }
-
-    .info-card {
-        padding: 20px;
-    }
-
-    .info-qr-code-image {
-        max-width: 120px;
     }
 }
