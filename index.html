@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>櫻 彩羽 - Linktree</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="background-gradient"></div>
     <div class="container">
         <header class="profile-section">
             <div class="profile-image-wrapper" id="profileAvatar">
-                <img src="IMG_6958.jpeg" alt="Profile Picture" class="profile-picture">
+                <span class="avatar-emoji">🐢</span>
                 <div class="water-effect-layer water-effect-1"></div>
                 <div class="water-effect-layer water-effect-2"></div>
             </div>
@@ -167,7 +167,7 @@
     </div>
 
     <div class="overlay-modal" id="infoOverlay">
-        <div class="modal-card">
+        <div class="modal-card glass-effect">
             <button class="close-button" id="closeInfoOverlay">X</button>
             <h2 id="infoTitle"></h2>
             <div id="infoDetails">
@@ -176,17 +176,17 @@
     </div>
 
     <div class="overlay-modal" id="passwordOverlay">
-        <div class="modal-card">
+        <div class="modal-card glass-effect">
             <button class="close-button" id="closePasswordOverlay">X</button>
             <h2>Enter Password</h2>
             <input type="password" id="passwordInput" placeholder="Password" autofocus>
             <p id="passwordError" class="error-message"></p>
-            <button id="passwordSubmit">Submit</button>
+            <button id="passwordSubmit" class="glass-effect">Submit</button>
         </div>
     </div>
 
     <div class="overlay-modal" id="addressOverlay">
-        <div class="modal-card">
+        <div class="modal-card glass-effect">
             <button class="close-button" id="closeAddressOverlay">X</button>
             <h2>Location</h2>
             <p>Osaka Prefecture, Osaka City,</p>
@@ -195,7 +195,7 @@
     </div>
 
     <div class="overlay-modal" id="addToHomeScreenOverlay">
-        <div class="modal-card">
+        <div class="modal-card glass-effect">
             <button class="close-button" id="closeAddToHomeScreenOverlay">X</button>
             <h2>Add to Home Screen</h2>
             <p style="font-weight: 600;">For Apple Devices:</p>
@@ -206,13 +206,13 @@
     </div>
 
     <div class="overlay-modal" id="musicPlayerOverlay">
-        <div class="modal-card">
+        <div class="modal-card glass-effect">
             <button class="close-button" id="closeMusicPlayerOverlay">X</button>
             <h2>Music Player</h2>
             <div id="audioResponse" style="margin-bottom: 20px; font-style: italic;">
                 </div>
             <div id="youtubePlayer"></div>
-            <button id="togglePlaybackButton" style="margin-top: 20px;">Play/Pause</button>
+            <button id="togglePlaybackButton" class="glass-effect" style="margin-top: 20px;">Play/Pause</button>
         </div>
     </div>
 
