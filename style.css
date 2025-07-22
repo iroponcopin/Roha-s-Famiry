@@ -107,12 +107,11 @@ body {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
-.profile-bio {
-    font-size: 1.1em;
-    line-height: 1.6;
-    color: var(--text-color);
-    opacity: 0.8;
+/* バイオの部分が削除されたため、余白を調整する場合ここに追記 */
+.profile-section .profile-name {
+    margin-bottom: 0; /* バイオがないため、名前の下の余白を調整 */
 }
+
 
 .links-section {
     display: flex;
@@ -196,10 +195,6 @@ body {
 
     .profile-name {
         font-size: 1.8em;
-    }
-
-    .profile-bio {
-        font-size: 1em;
     }
 
     .link-button {
