@@ -1,5 +1,5 @@
 :root {
-    /* Apple Intelligence風の新しい背景色（提供画像を参考に調整） */
+    /* 提供画像を参考に調整した新しい背景色 */
     --color-bg-start: #0a0e1a; /* 深いダークブルー */
     --color-bg-mid: #1c253d;   /* 中間の青 */
     --color-bg-end: #2d3855;   /* より明るい青紫 */
@@ -47,9 +47,9 @@ body {
     height: 100%;
     background: linear-gradient(
         135deg,
-        var(--color-bg-start),
-        var(--color-bg-mid),
-        var(--color-bg-end)
+        #1a0f3d, /* 提供画像の上部の深い紫 */
+        #2b1a5e, /* 中央の濃い紫 */
+        #4f348c  /* 下部の明るい紫 */
     );
     background-size: 400% 400%;
     animation: gradientAnimation 25s var(--ease-smooth-in-out) infinite alternate; /* アニメーション時間を長く、往復アニメーションに */
@@ -438,10 +438,11 @@ body {
         0 0 0 1px var(--glass-border-light);
 }
 
-.bottom-buttons-container.hidden { /* アバター展開時に隠れる (PC版のみ) */
+/* ドックは展開しても隠れないため、hiddenクラスは削除 */
+/* .bottom-buttons-container.hidden {
     opacity: 0;
     visibility: hidden;
-}
+} */
 
 .bottom-button { /* glass-effectクラスでスタイルを定義 */
     width: 60px;
@@ -482,8 +483,11 @@ body {
         display: flex !important; /* PCではPC用リンクを表示 */
     }
     /* PC版のドックは通常表示 */
+    #bottomButtonsContainerPC {
+        display: flex !important; /* 強制表示 */
+    }
     #bottomButtonsContainerMobile {
-        display: none !important;
+        display: none !important; /* モバイル版ドックをPCで非表示 */
     }
 }
 
