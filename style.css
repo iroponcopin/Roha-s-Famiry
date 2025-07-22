@@ -1,4 +1,3 @@
-/* style.css は前回のものから変更なし */
 :root {
     --color-primary-start: #ff007f; /* Pink/Red from image */
     --color-primary-end: #8a2be2;   /* Purple from image */
@@ -87,8 +86,8 @@ body {
     border: 3px solid var(--glass-border);
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
     transition: transform 0.3s ease;
-    cursor: pointer; /* クリック可能であることを示す */
-    background: rgba(255, 255, 255, 0.2); /* 透明な背景でボタンの役割を視覚化 */
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.2);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -120,26 +119,24 @@ body {
 }
 
 .links-section.active {
-    max-height: 500px; /* 十分な高さを設定 (コンテンツに合わせて調整) */
+    max-height: 500px;
     opacity: 1;
 }
 
-/* 隠れているセクションのスタイル */
 .hidden {
     display: none;
     opacity: 0;
     max-height: 0;
     overflow: hidden;
-    transition: opacity 0.5s ease, max-height 0.5s ease; /* transitionを追加 */
+    transition: opacity 0.5s ease, max-height 0.5s ease;
 }
 
-/* 表示されるセクションのスタイル */
 .visible {
-    display: flex; /* flexboxで縦に並べる */
+    display: flex;
     flex-direction: column;
     opacity: 1;
-    max-height: 500px; /* 親のlinks-sectionのmax-heightと同じかそれ以上 */
-    transition: opacity 0.5s ease, max-height 0.5s ease; /* transitionを追加 */
+    max-height: 500px;
+    transition: opacity 0.5s ease, max-height 0.5s ease;
 }
 
 .link-button {
@@ -207,73 +204,74 @@ body {
     opacity: 0.7;
 }
 
-/* Info Overlay Styles */
-.info-overlay {
+/* ---------------------------------- */
+/* Common Overlay/Modal Styles   */
+/* ---------------------------------- */
+.overlay-modal {
     position: fixed;
-    bottom: 0;
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.7); /* 半透明の背景 */
     display: flex;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center; /* PC版では中央に表示 */
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.info-overlay.active {
+.overlay-modal.active {
     opacity: 1;
     visibility: visible;
 }
 
-.info-card {
+.modal-card {
     background: var(--glass-background);
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    border-radius: 20px;
     border: 1px solid var(--glass-border);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
     padding: 30px;
-    box-shadow: 0 -8px 32px 0 rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
     text-align: center;
     max-width: 450px;
     width: 90%;
-    height: auto;
-    max-height: 60vh;
-    transform: translateY(100%);
-    transition: transform 0.5s ease-out;
     position: relative;
+    transform: translateY(-20px); /* PC版の初期アニメーション */
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
     color: var(--text-color);
     display: flex;
     flex-direction: column;
 }
 
-.info-overlay.active .info-card {
-    transform: translateY(0);
+.overlay-modal.active .modal-card {
+    transform: translateY(0); /* PC版の表示アニメーション */
+    opacity: 1;
 }
 
-.info-card h2 {
+.modal-card h2 {
     font-size: 1.8em;
     margin-bottom: 15px;
     color: var(--text-color);
 }
 
-.info-card p {
+.modal-card p {
     font-size: 1.1em;
     margin-bottom: 10px;
     word-break: break-all;
 }
 
-.info-card a {
+.modal-card a {
     color: #87ceeb;
     text-decoration: none;
     font-weight: 600;
 }
 
-.info-card a:hover {
+.modal-card a:hover {
     text-decoration: underline;
 }
 
@@ -304,58 +302,8 @@ body {
     color: #fff;
 }
 
-/* Password Overlay Styles */
-.password-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.password-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.password-card {
-    background: var(--glass-background);
-    border-radius: 20px;
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(25px) saturate(180%);
-    -webkit-backdrop-filter: blur(25px) saturate(180%);
-    padding: 30px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-    text-align: center;
-    max-width: 350px;
-    width: 80%;
-    position: relative;
-    transform: translateY(-20px);
-    opacity: 0;
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-    color: var(--text-color);
-}
-
-.password-overlay.active .password-card {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-.password-card h2 {
-    font-size: 1.6em;
-    margin-bottom: 20px;
-    color: var(--text-color);
-}
-
-.password-card input[type="password"] {
+/* Input & Button Styles within Modals (Password Card specific) */
+.modal-card input[type="password"] {
     width: calc(100% - 20px);
     padding: 12px 10px;
     margin-bottom: 15px;
@@ -368,11 +316,11 @@ body {
     transition: border-color 0.2s ease;
 }
 
-.password-card input[type="password"]:focus {
+.modal-card input[type="password"]:focus {
     border-color: #87ceeb;
 }
 
-.password-card button {
+.modal-card button:not(.close-button) { /* close-button以外のボタン */
     background: linear-gradient(90deg, #8a2be2, #ff007f);
     color: #fff;
     border: none;
@@ -384,13 +332,9 @@ body {
     margin-top: 10px;
 }
 
-.password-card button:hover {
+.modal-card button:not(.close-button):hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-.password-card .close-button {
-    color: var(--text-color);
 }
 
 .error-message {
@@ -406,64 +350,9 @@ body {
     opacity: 1;
 }
 
-/* Address Overlay Styles */
-.address-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center; /* 中央に表示 */
-    z-index: 1500; /* Info OverlayとPassword Overlayの間 */
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.address-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.address-card {
-    background: var(--glass-background);
-    border-radius: 20px;
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(25px) saturate(180%);
-    -webkit-backdrop-filter: blur(25px) saturate(180%);
-    padding: 30px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-    text-align: center;
-    max-width: 400px;
-    width: 85%;
-    position: relative;
-    transform: scale(0.9);
-    opacity: 0;
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-    color: var(--text-color);
-}
-
-.address-overlay.active .address-card {
-    transform: scale(1);
-    opacity: 1;
-}
-
-.address-card h2 {
-    font-size: 1.6em;
-    margin-bottom: 15px;
-    color: var(--text-color);
-}
-
-.address-card p {
-    font-size: 1.1em;
-    line-height: 1.5;
-    margin-bottom: 5px;
-}
-
-/* Bottom Fixed Buttons */
+/* ---------------------------------- */
+/* Bottom Fixed Buttons Styles   */
+/* ---------------------------------- */
 .bottom-buttons-container {
     position: fixed;
     bottom: 20px;
@@ -471,7 +360,7 @@ body {
     transform: translateX(-50%);
     display: flex;
     gap: 15px;
-    z-index: 500; /* links-sectionより手前、オーバーレイより奥 */
+    z-index: 500;
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
@@ -504,8 +393,11 @@ body {
 }
 
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
+/* ---------------------------------- */
+/* Responsive Adjustments    */
+/* ---------------------------------- */
+
+@media (max-width: 768px) { /* モバイルとPCの切り替えブレークポイント */
     .container {
         padding: 20px;
     }
@@ -519,9 +411,28 @@ body {
         padding: 15px 20px;
     }
 
-    .info-card, .password-card, .address-card {
-        padding: 20px;
-        max-height: 80vh;
+    /* モバイル時のオーバーレイ表示を改善 */
+    .overlay-modal {
+        align-items: flex-end; /* 下に配置 */
+    }
+
+    .modal-card {
+        border-radius: 20px 20px 0 0; /* 下側は角丸にしない */
+        max-width: 100%; /* 幅を画面いっぱいに */
+        width: 100%;
+        max-height: 70vh; /* 画面高さの70%まで広がる */
+        transform: translateY(100%); /* 下からスライドアップの初期位置 */
+        opacity: 1; /* モバイルでは常時opacityを1にし、transformで表示/非表示を制御 */
+        transition: transform 0.4s ease-out; /* transformアニメーションのみに焦点を当てる */
+    }
+
+    .overlay-modal.active .modal-card {
+        transform: translateY(0); /* 表示時 */
+    }
+
+    /* PC版の中央アニメーションをモバイルで無効化 */
+    .overlay-modal:not(.active) .modal-card {
+        opacity: 1; /* hidden時もopacityは1のままtransformで隠す */
     }
 
     .info-qr-code-image {
@@ -537,5 +448,13 @@ body {
         width: 50px;
         height: 50px;
         font-size: 1.5em;
+    }
+
+    /* パスワード入力フィールドとボタンの幅をモバイル向けに調整 */
+    .modal-card input[type="password"] {
+        width: calc(100% - 40px); /* 左右padding分 */
+    }
+    .modal-card button:not(.close-button) {
+        width: calc(100% - 40px);
     }
 }
