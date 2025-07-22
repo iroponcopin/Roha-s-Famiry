@@ -13,6 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
         linkButtons.forEach(button => {
             if (button.classList.contains('expanded')) {
                 button.classList.remove('expanded');
+                // 情報を削除
+                const infoContent = button.querySelector('.info-content');
+                if (infoContent) {
+                    infoContent.remove();
+                }
             }
         });
     });
@@ -22,17 +27,62 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', (e) => {
             e.preventDefault(); // デフォルトのリンク動作を防止
 
-            // クリックされたボタン以外の、展開されているボタンを閉じる
+            const isExpanded = button.classList.contains('expanded');
+
+            // クリックされたボタン以外の、展開されているボタンを全て閉じる
             linkButtons.forEach(btn => {
                 if (btn !== button && btn.classList.contains('expanded')) {
                     btn.classList.remove('expanded');
+                    // 情報を削除
+                    const infoContent = btn.querySelector('.info-content');
+                    if (infoContent) {
+                        infoContent.remove();
+                    }
                 }
             });
 
-            // クリックされたボタンの展開/折りたたみ
-            button.classList.toggle('expanded');
+            if (!isExpanded) {
+                // ボタンを展開し、情報を追加
+                button.classList.add('expanded');
+                appendInfoContent(button);
+            } else {
+                // ボタンを折りたたみ、情報を削除
+                button.classList.remove('expanded');
+                const infoContent = button.querySelector('.info-content');
+                if (infoContent) {
+                    infoContent.remove();
+                }
+            }
         });
     });
+
+    // 情報を動的に追加する関数
+    function appendInfoContent(button) {
+        const infoUrl = button.dataset.infoUrl;
+        const qrImage = button.dataset.qrImage;
+        const linkId = button.dataset.linkId;
+
+        const infoContent = document.createElement('div');
+        infoContent.classList.add('info-content');
+
+        let contentHTML = `<p>Official Site: <a href="${infoUrl}" target="_blank">${infoUrl.replace(/(^\w+:|^)\/\//, '')}</a></p>`;
+
+        if (qrImage && linkId === 'telegram') { // TelegramのみQR画像を表示
+            contentHTML += `<img src="${qrImage}" alt="${linkId} QR Code" class="qr-code-image">`;
+        }
+
+        infoContent.innerHTML = contentHTML;
+
+        // ボタンの最後に情報を追加
+        button.appendChild(infoContent);
+
+        // 少し遅延させてopacityとmax-heightのアニメーションを開始
+        setTimeout(() => {
+            infoContent.style.opacity = '1';
+            infoContent.style.maxHeight = infoContent.scrollHeight + 'px'; // コンテンツの高さに合わせてmaxHeightを設定
+        }, 10);
+    }
+
 
     // プロフィールアバターの初期アニメーション
     const profilePictureWrapper = document.querySelector('.profile-image-wrapper');
