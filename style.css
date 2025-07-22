@@ -142,17 +142,12 @@ body {
     background: rgba(255, 255, 255, 0.85);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 
-    /* 横に伸びるアニメーションのための設定 */
-    transition: width 0.3s ease-out, background 0.3s, transform 0.3s, box-shadow 0.3s;
-    width: 100%; /* 初期幅 */
+    /* 横に伸びるアニメーションを削除したため、ここでの特殊な幅設定も削除 */
+    width: 100%; /* デフォルトの幅 */
     box-sizing: border-box; /* paddingを含める */
 }
 
-.link-button.expanded-sideways {
-    width: calc(100% + 40px); /* 例: 20pxずつ左右に伸びる */
-    transform: translateX(-20px); /* 中央に保つために左に移動 */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 30px var(--button-hover-glow);
-}
+/* .link-button.expanded-sideways のスタイルは削除 */
 
 
 .liquid-glass-effect {
@@ -201,13 +196,111 @@ body {
     z-index: 2; /* テキストを前に */
 }
 
-/* 展開される情報のコンテナは削除されたため、関連スタイルも削除 */
-
 .footer {
     margin-top: 40px;
     font-size: 0.9em;
     opacity: 0.7;
 }
+
+/* Info Overlay Styles (新しい枠組み) */
+.info-overlay {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* 半透明の背景 */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* 下から上がってくるアニメーションのため */
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.info-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.info-card {
+    background: var(--glass-background);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    padding: 30px;
+    box-shadow: 0 -8px 32px 0 rgba(0, 0, 0, 0.4);
+    text-align: center;
+    max-width: 450px; /* 幅 */
+    width: 90%;
+    /* 3:2 の比率に近づけるために高さと幅を調整 */
+    height: auto; /* コンテンツに応じて自動調整 */
+    max-height: 60vh; /* 画面高さの60%を最大に */
+    transform: translateY(100%); /* 初期位置を下にはみ出すように */
+    transition: transform 0.5s ease-out;
+    position: relative;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* コンテンツの配置 */
+}
+
+.info-overlay.active .info-card {
+    transform: translateY(0); /* 通常位置へ */
+}
+
+.info-card h2 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.info-card p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    word-break: break-all; /* URLが長すぎる場合に改行 */
+}
+
+.info-card a {
+    color: #87ceeb; /* ライトブルーのリンク */
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.info-card a:hover {
+    text-decoration: underline;
+}
+
+.info-qr-code-image {
+    max-width: 180px; /* オーバーレイ内のQRコード */
+    height: auto;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.close-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
 
 /* Responsive adjustments */
 @media (max-width: 600px) {
@@ -229,8 +322,12 @@ body {
         margin-right: 10px;
     }
 
-    .link-button.expanded-sideways {
-        width: calc(100% + 20px); /* 小さい画面では伸びる量を調整 */
-        transform: translateX(-10px);
+    .info-card {
+        padding: 20px;
+        max-height: 80vh; /* モバイルでは高さをもう少し伸ばす */
+    }
+
+    .info-qr-code-image {
+        max-width: 120px;
     }
 }
