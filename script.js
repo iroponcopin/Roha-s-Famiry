@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordError = document.getElementById('passwordError');
 
     const addressOverlay = document.getElementById('addressOverlay');
-    const closeAddressOverlayButton = document.getElementById('closeAddressOverlay'); // ここで要素を取得
+    const closeAddressOverlayButton = document.getElementById('closeAddressOverlay');
 
     const bottomButtonsContainer = document.getElementById('bottomButtonsContainer');
     const secretButton = document.getElementById('secretButton');
@@ -26,6 +26,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const CORRECT_PASSWORD = "0204"; // 設定するパスワード
 
     let isSecretLinksShown = false; // シークレットリンクが表示されているかどうかのフラグ
+
+    // ヘルパー関数: オーバーレイの表示/非表示を切り替える
+    function toggleOverlay(overlayElement, show) {
+        if (show) {
+            overlayElement.classList.add('active');
+        } else {
+            overlayElement.classList.remove('active');
+        }
+        // モバイル時のスライドアップ/ダウンを強制するために、transformプロパティを直接操作
+        // CSSでモバイル時のtransformを制御しているため、JSでの直接操作は不要
+    }
+
+    // ヘルパー関数: 他の全てのオーバーレイを閉じる
+    function closeAllOverlays() {
+        toggleOverlay(infoOverlay, false);
+        toggleOverlay(passwordOverlay, false);
+        toggleOverlay(addressOverlay, false);
+    }
 
     // 初期状態の表示設定
     linksSection.classList.remove('active'); // アバタークリックで展開される
@@ -37,16 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         linksSection.classList.toggle('active');
         bottomButtonsContainer.classList.toggle('hidden'); // ボタンの表示/非表示を切り替え
 
-        // 他のオーバーレイを閉じる
-        if (infoOverlay.classList.contains('active')) {
-            infoOverlay.classList.remove('active');
-        }
-        if (passwordOverlay.classList.contains('active')) {
-            passwordOverlay.classList.remove('active');
-        }
-        if (addressOverlay.classList.contains('active')) { // Address Overlayも閉じる
-            addressOverlay.classList.remove('active');
-        }
+        closeAllOverlays(); // 他の全てのオーバーレイを閉じる
 
         // リンクが閉じられた場合、シークレットリンクが表示中であれば通常リンクに戻す
         if (!linksSection.classList.contains('active') && isSecretLinksShown) {
@@ -62,6 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
     allLinkButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault(); // デフォルトのリンク動作を防止
+
+            closeAllOverlays(); // 他の全てのオーバーレイを閉じる
 
             const linkId = button.dataset.linkId;
             const title = button.querySelector('.button-text').textContent;
@@ -89,11 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (handle) infoDetails.innerHTML += `<p>${handle}</p>`;
                 
-                if (url && url !== '#' && url !== window.location.href) { // #や現在のページURLの場合は表示しない
+                if (url && url !== '#' && url !== window.location.href) {
                     infoDetails.innerHTML += `<p>Official Site: <a href="${url}" target="_blank">${url.replace(/(^\w+:|^)\/\//, '')}</a></p>`;
                 }
                 
-                // TelegramとMessengerのみQRコード画像を表示
                 const qrImage = button.dataset.qrImage;
                 if (qrImage && (linkId === 'telegram' || linkId === 'messenger')) {
                     const img = document.createElement('img');
@@ -104,47 +114,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             
-            // オーバーレイを表示
-            infoOverlay.classList.add('active');
+            toggleOverlay(infoOverlay, true); // オーバーレイを表示
         });
     });
 
     // オーバーレイの閉じるボタン
     closeInfoOverlayButton.addEventListener('click', () => {
-        infoOverlay.classList.remove('active');
+        toggleOverlay(infoOverlay, false);
     });
 
     // === 画面下部ボタンの機能 ===
 
     // 左のボタン (シークレットリンク表示)
     secretButton.addEventListener('click', () => {
-        passwordOverlay.classList.add('active'); // パスワードオーバーレイを表示
+        closeAllOverlays(); // 他のオーバーレイを閉じる
+        toggleOverlay(passwordOverlay, true); // パスワードオーバーレイを表示
         passwordInput.value = ''; // 入力欄をクリア
         passwordError.classList.remove('show'); // エラーメッセージを隠す
         passwordInput.focus(); // 入力欄にフォーカス
-
-        // 他のオーバーレイを閉じる
-        if (infoOverlay.classList.contains('active')) infoOverlay.classList.remove('active');
-        if (addressOverlay.classList.contains('active')) addressOverlay.classList.remove('active');
     });
 
     // 中央のボタン (住所表示)
     addressButton.addEventListener('click', () => {
-        addressOverlay.classList.add('active'); // 住所オーバーレイを表示
-
-        // 他のオーバーレイを閉じる
-        if (infoOverlay.classList.contains('active')) infoOverlay.classList.remove('active');
-        if (passwordOverlay.classList.contains('active')) passwordOverlay.classList.remove('active');
+        closeAllOverlays(); // 他のオーバーレイを閉じる
+        toggleOverlay(addressOverlay, true); // 住所オーバーレイを表示
     });
 
     // 住所オーバーレイの閉じるボタン
-    closeAddressOverlayButton.addEventListener('click', () => { // ここでイベントリスナーを設定
-        addressOverlay.classList.remove('active');
+    closeAddressOverlayButton.addEventListener('click', () => {
+        toggleOverlay(addressOverlay, false);
     });
 
     // パスワード入力オーバーレイの閉じるボタン
     closePasswordOverlayButton.addEventListener('click', () => {
-        passwordOverlay.classList.remove('active');
+        toggleOverlay(passwordOverlay, false);
     });
 
     // パスワード入力時の処理
@@ -156,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     passwordSubmit.addEventListener('click', () => {
         if (passwordInput.value === CORRECT_PASSWORD) {
-            passwordOverlay.classList.remove('active'); // パスワードオーバーレイを閉じる
+            toggleOverlay(passwordOverlay, false); // パスワードオーバーレイを閉じる
 
             // リンクの表示を切り替える
             defaultLinks.classList.remove('visible');
