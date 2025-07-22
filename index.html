@@ -101,7 +101,7 @@
             </div>
 
             <div id="fileGridLinks" class="links-group mobile-only hidden grid-display">
-                <a href="#" class="link-button grid-item liquid-glass-effect"
+                <button class="back-button" id="backToFileLinks">Back to Main Links</button> <a href="#" class="link-button grid-item liquid-glass-effect"
                    data-link-id="messenger"
                    data-info-handle="@iroponcopin"
                    data-info-url="https://example.com/messenger">
@@ -132,6 +132,24 @@
                     <span class="button-text">微信</span>
                 </a>
                 <div class="grid-item-placeholder"></div>
+            </div>
+
+            <div id="secretLinksMobile" class="links-group mobile-only hidden">
+                <button class="back-button" id="backToMobileMainLinks">Back to Main Links</button> <a href="https://www.instagram.com/your_instagram" target="_blank" class="link-button liquid-glass-effect">
+                    <span class="button-text">Instagram</span>
+                </a>
+                <a href="https://x.com/macaronwinter_" target="_blank" class="link-button liquid-glass-effect">
+                    <span class="button-text">X</span>
+                </a>
+                <a href="https://www.youtube.com/user/your_youtube_channel" target="_blank" class="link-button liquid-glass-effect">
+                    <span class="button-text">YouTube</span>
+                </a>
+                <a href="https://www.twitch.tv/tougairoha" target="_blank" class="link-button liquid-glass-effect">
+                    <span class="button-text">Twitch</span>
+                </a>
+                <a href="https://discord.gg/ax4Cvp9Xzk" target="_blank" class="link-button liquid-glass-effect">
+                    <span class="button-text">Discord</span>
+                </a>
             </div>
         </main>
 
@@ -172,9 +190,9 @@
         <div class="modal-card">
             <button class="close-button" id="closeAddToHomeScreenOverlay">X</button>
             <h2>Add to Home Screen</h2>
-            <p>For Apple Devices:</p>
+            <p style="font-weight: 600;">For Apple Devices:</p>
             <p><a href="https://support.apple.com/en-us/guide/iphone/iph42ab2f3a7/ios" target="_blank">Add to Home Screen (Apple Support)</a></p>
-            <p style="margin-top: 15px;">For Android Devices (Google Chrome):</p>
+            <p style="margin-top: 15px; font-weight: 600;">For Android Devices (Google Chrome):</p>
             <p><a href="https://support.google.com/chrome/answer/9658361?hl=ja" target="_blank">Install progressive web apps (PWAs) (Google Support)</a></p>
         </div>
     </div>
