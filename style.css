@@ -86,6 +86,7 @@ body {
     border: 3px solid var(--glass-border);
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
     transition: transform 0.3s ease;
+    cursor: pointer; /* クリック可能であることを示す */
 }
 
 .profile-image-wrapper:hover {
@@ -101,15 +102,10 @@ body {
 
 .profile-name {
     font-size: 2.2em;
-    margin-bottom: 10px;
+    margin-bottom: 0; /* バイオがないため、名前の下の余白を調整 */
     font-weight: 700;
     color: var(--text-color);
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-}
-
-/* バイオの部分が削除されたため、余白を調整する場合ここに追記 */
-.profile-section .profile-name {
-    margin-bottom: 0; /* バイオがないため、名前の下の余白を調整 */
 }
 
 
@@ -117,10 +113,21 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    /* 初期状態では非表示 */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+    opacity: 0;
+}
+
+.links-section.active {
+    max-height: 500px; /* 十分な高さを設定 (コンテンツに合わせて調整) */
+    opacity: 1;
 }
 
 .link-button {
     display: flex;
+    flex-direction: column; /* 拡張コンテンツのために縦方向に配置 */
     align-items: center;
     justify-content: center;
     padding: 18px 25px;
@@ -135,6 +142,15 @@ body {
     cursor: pointer;
     background: rgba(255, 255, 255, 0.85); /* Slightly less transparent for readability */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+
+    /* 拡張コンテンツのトランジションのため */
+    max-height: 60px; /* ボタンのデフォルトの高さ (paddingによって変動) */
+    transition: max-height 0.5s ease-in-out, background 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.link-button.expanded {
+    max-height: 300px; /* 拡張時の高さ (コンテンツに合わせて調整) */
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.75));
 }
 
 .liquid-glass-effect {
@@ -151,6 +167,14 @@ body {
     color: var(--text-color-dark); /* Keep color consistent or change slightly */
 }
 
+/* リンクボタンのテキストとアイコンの行 */
+.link-button > span:not(.expanded-content) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* 親要素の幅いっぱいに広げる */
+}
+
 .link-button::before {
     content: '';
     position: absolute;
@@ -165,6 +189,7 @@ body {
         transparent
     );
     transition: left 0.5s ease;
+    z-index: 1; /* コンテンツの上に表示 */
 }
 
 .link-button:hover::before {
@@ -175,10 +200,56 @@ body {
     margin-right: 15px;
     font-size: 1.4em;
     filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.1));
+    z-index: 2; /* アイコンを前に */
 }
 
 .button-text {
     flex-grow: 1; /* Allows text to take up available space */
+    z-index: 2; /* テキストを前に */
+}
+
+.expanded-content {
+    width: 100%;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-size: 0.9em;
+    color: var(--text-color-dark);
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.4s ease-in-out 0.1s, max-height 0.4s ease-in-out;
+}
+
+.link-button.expanded .expanded-content {
+    opacity: 1;
+    max-height: 200px; /* 拡張コンテンツの高さ (コンテンツに合わせて調整) */
+}
+
+.expanded-content p {
+    margin: 5px 0;
+    font-weight: 500;
+}
+
+.expanded-content a {
+    color: #007bff; /* リンクの色 */
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.expanded-content a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.qr-code-image {
+    max-width: 150px; /* QRコード画像の最大幅 */
+    height: auto;
+    margin-top: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .footer {
@@ -205,5 +276,9 @@ body {
     .button-icon {
         font-size: 1.2em;
         margin-right: 10px;
+    }
+
+    .qr-code-image {
+        max-width: 100px; /* 小さい画面でのQRコード画像のサイズ調整 */
     }
 }
