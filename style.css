@@ -132,7 +132,7 @@ body {
 
 /* 隠れている/表示されるセクションのスタイル */
 .hidden {
-    display: none !important; /* 強制的に非表示 */
+    display: none !important;
     opacity: 0;
     max-height: 0;
     overflow: hidden;
@@ -140,7 +140,7 @@ body {
 }
 
 .visible {
-    display: flex !important; /* 強制的に表示 */
+    display: flex !important;
     opacity: 1;
     max-height: 500px;
     transition: opacity 0.5s ease, max-height 0.5s ease;
@@ -410,6 +410,15 @@ body {
     display: none !important;
 }
 
+@media (min-width: 769px) { /* PCブレークポイント */
+    .mobile-only {
+        display: none !important;
+    }
+    .pc-only {
+        display: flex !important; /* PCではPC用リンクを表示 */
+    }
+}
+
 @media (max-width: 768px) { /* モバイルブレークポイント */
     /* PC-only要素をモバイルで非表示 */
     .pc-only {
@@ -427,6 +436,11 @@ body {
 
     .profile-name {
         font-size: 1.8em;
+    }
+
+    .link-button {
+        font-size: 1.1em;
+        padding: 15px 20px;
     }
 
     /* モバイル時のオーバーレイ表示を改善 (下からスライドアップ) */
@@ -449,9 +463,12 @@ body {
     }
 
     /* PC版の中央アニメーションをモバイルで無効化（transform制御のためopacityは1のまま） */
+    /* これにより、`opacity`と`visibility`は`.overlay-modal`クラスで制御され、
+       `.modal-card`の`transform`のみがモバイルで適用される */
     .overlay-modal:not(.active) .modal-card {
-        opacity: 1; /* hidden時もopacityは1のままtransformで隠す */
+        opacity: 1;
     }
+
 
     .info-qr-code-image {
         max-width: 120px;
@@ -460,11 +477,6 @@ body {
     /* モバイルでは下部固定ボタンを非表示にする (リンク項目として表示するため) */
     .bottom-buttons-container {
         display: none !important;
-    }
-
-    .link-button {
-        font-size: 1.1em;
-        padding: 15px 20px;
     }
 
     /* パスワード入力フィールドとボタンの幅をモバイル向けに調整 */
@@ -477,17 +489,17 @@ body {
 
     /* === モバイル版のファイル内グリッド表示 === */
     .links-group.grid-display {
-        display: grid !important; /* グリッド表示を強制 */
+        display: grid !important;
         grid-template-columns: repeat(2, 1fr); /* 2列 */
         gap: 15px; /* グリッドアイテム間の隙間 */
-        padding: 0; /* 親のpaddingは必要に応じて調整 */
+        padding: 0;
     }
 
     .link-button.grid-item {
-        width: auto; /* グリッドアイテムの幅はグリッドが制御 */
-        height: 100px; /* グリッドアイテムの高さ */
-        padding: 10px; /* パディングを調整 */
-        font-size: 1em; /* フォントサイズ調整 */
+        width: auto;
+        height: 100px;
+        padding: 10px;
+        font-size: 1em;
         flex-direction: column; /* アイコンとテキストを縦に並べる */
     }
 
@@ -496,16 +508,15 @@ body {
         margin-top: 5px;
     }
 
-    .link-button.grid-item .button-icon {
-        font-size: 1.8em; /* アイコンを大きくする */
-        margin-right: 0; /* アイコンの右マージンを削除 */
+    .link-button.grid-item .button-icon { /* 絵文字アイコンは削除されたが、もし使う場合に備えて */
+        font-size: 1.8em;
+        margin-right: 0;
     }
 
     .grid-item-placeholder {
-        /* グリッドレイアウトを調整するための空のアイテム */
-        background: rgba(255, 255, 255, 0.05); /* ほとんど見えない背景 */
+        background: rgba(255, 255, 255, 0.05);
         border-radius: 15px;
-        border: 1px dashed rgba(255, 255, 255, 0.1); /* 点線ボーダー */
-        height: 100px; /* グリッドアイテムの高さに合わせる */
+        border: 1px dashed rgba(255, 255, 255, 0.1);
+        height: 100px;
     }
 }
