@@ -1,118 +1,51 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dynamic Links</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Linktree - Inspired by Liquid Glass</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="background-gradient"></div>
+    <div class="container">
+        <header class="profile-section">
+            <div class="profile-image-wrapper">
+                <img src="https://via.placeholder.com/150/FFFFFF/000000?text=Profile" alt="Profile Picture" class="profile-picture">
+            </div>
+            <h1 class="profile-name">Your Name Here</h1>
+            <p class="profile-bio">Welcome to my digital space! Exploring new horizons with a touch of modern design.</p>
+        </header>
 
-  <div class="container">
-    <div class="card">
-      <div class="card-visible">
-        <h2>Session</h2>
-      </div>
-      <div class="details">
-        <p>ID: 0502c95513e6c515caf68f1c95b5c4eb58148056ae0a532d126de9503a226c5f13</p>
-        <a href="https://getsession.org/" target="_blank" rel="noopener noreferrer">Visit Website</a>
-      </div>
+        <main class="links-section">
+            <a href="#" class="link-button liquid-glass-effect">
+                <span class="button-icon">🔗</span>
+                <span class="button-text">My Website</span>
+            </a>
+            <a href="#" class="link-button liquid-glass-effect">
+                <span class="button-icon">📝</span>
+                <span class="button-text">Blog & Articles</span>
+            </a>
+            <a href="#" class="link-button liquid-glass-effect">
+                <span class="button-icon">📸</span>
+                <span class="button-text">Portfolio/Gallery</span>
+            </a>
+            <a href="#" class="link-button liquid-glass-effect">
+                <span class="button-icon">📧</span>
+                <span class="button-text">Contact Me</span>
+            </a>
+            <a href="#" class="link-button liquid-glass-effect">
+                <span class="button-icon">🛒</span>
+                <span class="button-text">Shop My Products</span>
+            </a>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 Your Name. All rights reserved.</p>
+        </footer>
     </div>
 
-    <div class="card">
-      <div class="card-visible">
-        <h2>Telegram</h2>
-      </div>
-      <div class="details">
-        <p>ID: @iroponcopin</p>
-        <a href="https://telegram.org/" target="_blank" rel="noopener noreferrer">Visit Website</a>
-      </div>
-    </div>
-
-    <div class="card" id="messenger-card">
-      <div class="card-visible">
-        <h2>Messenger</h2>
-      </div>
-      <div class="details">
-        <p>ID: @iroponcopin</p>
-        <a href="https://www.messenger.com/" target="_blank" rel="noopener noreferrer">Visit Website</a>
-      </div>
-    </div>
-    
-    <div class="card">
-       <div class="card-visible">
-        <h2>Signal</h2>
-      </div>
-      <div class="details">
-        <p>ID: @iroponcopin.01</p>
-        <a href="https://signal.org/" target="_blank" rel="noopener noreferrer">Visit Website</a>
-      </div>
-    </div>
-    
-    <div class="card">
-       <div class="card-visible">
-        <h2>Contact</h2>
-      </div>
-      <div class="details">
-        m4a1scar@aespa.me<br>
-        +1 (347) 703-1242<br>
-        +1 (919) 337-2791<br>
-        +852 1591-7284<br>
-        +82 1658-8095
-      </div>
-    </div>
-  </div>
-
-  <div id="info-overlay">
-    <div id="info-panel">
-      <h3>Information</h3>
-      <p class="info-text">
-        Please note: Service for Messenger will be discontinued on August 31, 2025.
-      </p>
-      <button id="info-done-btn">Done</button>
-    </div>
-  </div>
-
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const cards = document.querySelectorAll('.card');
-      const messengerCard = document.getElementById('messenger-card');
-      const infoOverlay = document.getElementById('info-overlay');
-      const infoDoneBtn = document.getElementById('info-done-btn');
-
-      cards.forEach(card => {
-        const visiblePart = card.querySelector('.card-visible');
-        
-        // Messengerカード以外の通常のカードに対する処理
-        if (card.id !== 'messenger-card') {
-          visiblePart.addEventListener('click', (event) => {
-            if (event.target.tagName.toLowerCase() === 'a') return;
-            card.classList.toggle('active');
-          });
-        }
-      });
-
-      // Messengerカードがクリックされた時の特別な処理
-      const messengerVisiblePart = messengerCard.querySelector('.card-visible');
-      messengerVisiblePart.addEventListener('click', (event) => {
-        if (event.target.tagName.toLowerCase() === 'a') return;
-
-        if (messengerCard.classList.contains('info-seen')) {
-          messengerCard.classList.toggle('active');
-        } else {
-          infoOverlay.classList.add('is-visible');
-        }
-      });
-
-      // 情報パネルの「Done」ボタンがクリックされた時の処理
-      infoDoneBtn.addEventListener('click', () => {
-        infoOverlay.classList.remove('is-visible');
-        messengerCard.classList.add('active');
-        messengerCard.classList.add('info-seen');
-      });
-    });
-  </script>
-
+    <script src="script.js"></script>
 </body>
 </html>
