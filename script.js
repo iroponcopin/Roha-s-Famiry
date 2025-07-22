@@ -7,13 +7,21 @@ function isMobileDevice() {
 document.addEventListener('DOMContentLoaded', () => {
     const profileAvatar = document.getElementById('profileAvatar');
     const linksSection = document.getElementById('linksSection');
-    const defaultLinksPC = document.getElementById('defaultLinksPC');
-    const secretLinksPC = document.getElementById('secretLinksPC'); // PC用シークレットリンク群
 
-    const mobileLinks = document.getElementById('mobileLinks'); // モバイル版の初期リンク群（Socials, Contact, Secret, Location, Settings）
+    // PC版のリンクグループ
+    const defaultLinksPC = document.getElementById('defaultLinksPC');
+    const secretLinksPC = document.getElementById('secretLinksPC');
+    const pcToggleButtonContainer = document.getElementById('pcToggleButtonContainer'); // PC版切り替えボタンコンテナ
+    const pcToggleLeftButton = document.getElementById('pcToggleLeft'); // PC版左切り替えボタン
+    const pcToggleRightButton = document.getElementById('pcToggleRight'); // PC版右切り替えボタン
+
+    // モバイル版のリンクグループ
+    const mobileLinks = document.getElementById('mobileLinks'); // Socials, Contact, Secret, Location, Settings
     const fileButton = document.getElementById('fileButton'); // モバイル版の「Socials」ボタン
-    const fileGridLinks = document.getElementById('fileGridLinks'); // モバイル版のファイル内グリッド
-    const secretLinksMobile = document.getElementById('secretLinksMobile'); // モバイル版のSecret展開後のリンク群
+    const fileGridLinks = document.getElementById('fileGridLinks'); // モバイル版のSocials内グリッド
+    const secretLinksMobile = document.getElementById('secretLinksMobile'); // モバイル版のSecret展開後の項目（Optionボタン）
+    const mobileOptionButton = document.getElementById('mobileOptionButton'); // モバイル版のSecret展開後の「Option」ボタン
+    const optionGridLinksMobile = document.getElementById('optionGridLinksMobile'); // モバイル版のOption内グリッド
 
     const allLinkButtons = document.querySelectorAll('.link-button'); // すべてのリンクボタン
 
@@ -34,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addToHomeScreenOverlay = document.getElementById('addToHomeScreenOverlay');
     const closeAddToHomeScreenOverlayButton = document.getElementById('closeAddToHomeScreenOverlay');
 
-    // PC版フッターボタン (PCのみ存在)
+    // PC版フッターボタン
     const bottomButtonsContainerPC = document.getElementById('bottomButtonsContainerPC');
     const secretButtonPC = document.getElementById('secretButtonPC');
     const addressButtonPC = document.getElementById('addressButtonPC');
@@ -48,22 +56,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // モバイル版の戻るボタン
     const backToFileLinksButton = document.getElementById('backToFileLinks');
     const backToMobileMainLinksButton = document.getElementById('backToMobileMainLinks');
+    const backToMobileSecretLinksButton = document.getElementById('backToMobileSecretLinks');
 
 
     const CORRECT_PASSWORD = "0204";
 
-    let isSecretLinksShown = false; // PC/モバイル共通のシークレットリンク表示状態
-    let isFileGridShown = false; // モバイル版のファイルグリッド表示状態
-    let isMobileSecretActive = false; // モバイル版でパスワード入力後シークレットリンクが表示されている状態
+    let isSecretLinksShown = false; // PC/モバイル共通のシークレットリンク表示状態（どちらかのシークレットが表示中か）
+    let currentPCLinksView = 'default'; // 'default' or 'secret' (PC版のみ)
+
 
     // ヘルパー関数: オーバーレイの表示/非表示を切り替える
     function toggleOverlay(overlayElement, show) {
         if (show) {
             overlayElement.classList.add('active');
-            document.body.style.overflow = 'hidden'; // オーバーレイ表示中は本体のスクロールを無効化
+            document.body.style.overflow = 'hidden';
         } else {
             overlayElement.classList.remove('active');
-            // 全てのオーバーレイが閉じたら本体のスクロールを有効化
             if (!infoOverlay.classList.contains('active') &&
                 !passwordOverlay.classList.contains('active') &&
                 !addressOverlay.classList.contains('active') &&
@@ -83,9 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // リンクグループの表示を制御する共通関数
     function showLinksGroup(groupToShow) {
-        const groups = [defaultLinksPC, secretLinksPC, mobileLinks, fileGridLinks, secretLinksMobile];
+        const groups = [defaultLinksPC, secretLinksPC, mobileLinks, fileGridLinks, secretLinksMobile, optionGridLinksMobile];
         groups.forEach(group => {
-            if (group) { // groupが存在することを確認
+            if (group) {
                 if (group === groupToShow) {
                     group.classList.remove('hidden');
                     group.classList.add('visible');
@@ -99,18 +107,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 初期状態の表示設定（PC/モバイルで分岐）
     function initializeLinksDisplay() {
-        linksSection.classList.remove('active');
+        linksSection.classList.remove('active'); // リンクセクション全体は非表示
         closeAllOverlays();
         isSecretLinksShown = false;
         isFileGridShown = false;
-        isMobileSecretActive = false;
+        isMobileSecretActive = false; // モバイルシークレット表示状態もリセット
 
         if (isMobileDevice()) {
             showLinksGroup(mobileLinks); // モバイル版の初期項目を表示
-            if (bottomButtonsContainerPC) bottomButtonsContainerPC.classList.add('hidden'); // PC版のフッターボタンを隠す
+            if (bottomButtonsContainerPC) bottomButtonsContainerPC.classList.add('hidden'); // PC版フッターボタンを隠す
+            if (pcToggleButtonContainer) pcToggleButtonContainer.classList.add('hidden'); // PC版切り替えボタンを隠す
         } else {
             showLinksGroup(defaultLinksPC); // PC版の初期項目を表示
-            if (bottomButtonsContainerPC) bottomButtonsContainerPC.classList.remove('hidden'); // PC版のフッターボタンを表示
+            if (bottomButtonsContainerPC) bottomButtonsContainerPC.classList.remove('hidden'); // PC版フッターボタンを表示
+            if (pcToggleButtonContainer) pcToggleButtonContainer.classList.add('hidden'); // PC版切り替えボタンを隠す
+            currentPCLinksView = 'default'; // PC版表示はデフォルトに戻す
         }
     }
 
@@ -121,20 +132,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // プロフィールアバターのクリックでリンク項目を表示/非表示
     profileAvatar.addEventListener('click', () => {
-        linksSection.classList.toggle('active');
+        linksSection.classList.toggle('active'); // LinkSection全体の表示/非表示をトグル
+        
+        // PC版のフッターボタン表示/非表示はPC時のみ制御
         if (!isMobileDevice() && bottomButtonsContainerPC) {
             bottomButtonsContainerPC.classList.toggle('hidden');
-        } else if (isMobileDevice()) {
-            // モバイル版の場合、開閉時に状態をリセット
-            if (linksSection.classList.contains('active')) {
-                // 開く場合
-                showLinksGroup(mobileLinks);
-                isSecretLinksShown = false;
-                isFileGridShown = false;
-                isMobileSecretActive = false;
-            } else {
-                // 閉じる場合、リンクグループの表示状態はそのまま（次に開いたときにinitializeLinksDisplayでリセットされる）
-            }
+        } 
+
+        // リンクが閉じられた場合、全てのリセットを行う
+        if (!linksSection.classList.contains('active')) {
+            initializeLinksDisplay(); // 全てのリンク表示状態を初期化
         }
         
         closeAllOverlays(); // 他の全てのオーバーレイを閉じる
@@ -148,15 +155,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.id === 'mobileSecretButton' || 
                 button.id === 'mobileAddressButton' || 
                 button.id === 'mobileSettingsButton' ||
-                button.id === 'secretButtonPC' || // PC版フッターボタン
-                button.id === 'addressButtonPC' || // PC版フッターボタン
-                button.id === 'settingsButtonPC' || // PC版設定ボタン
-                button.classList.contains('back-button') // 戻るボタンもフィルタリング
+                button.id === 'secretButtonPC' || 
+                button.id === 'addressButtonPC' || 
+                button.id === 'settingsButtonPC' || 
+                button.classList.contains('toggle-button') || // PC切り替えボタン
+                button.id === 'mobileOptionButton' || // モバイルOptionボタン
+                button.classList.contains('back-button') // 戻るボタン
             ) {
                 return; 
             }
 
-            e.preventDefault(); // デフォルトのリンク動作を防止
+            e.preventDefault(); // デフォルトのリンク動作を防止（URL遷移は情報オーバーレイ内で実行）
 
             closeAllOverlays(); // 他の全てのオーバーレイを閉じる
 
@@ -210,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // === PC版の画面下部ボタンの機能 ===
-    if (secretButtonPC) { // PC版のみ存在することを確認
+    if (secretButtonPC) {
         secretButtonPC.addEventListener('click', () => {
             closeAllOverlays();
             toggleOverlay(passwordOverlay, true);
@@ -220,17 +229,41 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (addressButtonPC) { // PC版のみ存在することを確認
+    if (addressButtonPC) {
         addressButtonPC.addEventListener('click', () => {
             closeAllOverlays();
             toggleOverlay(addressOverlay, true);
         });
     }
 
-    if (settingsButtonPC) { // PC版のみ存在することを確認
+    if (settingsButtonPC) {
         settingsButtonPC.addEventListener('click', () => {
             closeAllOverlays();
-            toggleOverlay(addToHomeScreenOverlay, true); // Settingボタンで「Add to Home Screen」オーバーレイを表示
+            toggleOverlay(addToHomeScreenOverlay, true);
+        });
+    }
+
+    // === PC版の項目切り替えボタン ===
+    if (pcToggleLeftButton) {
+        pcToggleLeftButton.addEventListener('click', () => {
+            if (currentPCLinksView === 'secret') {
+                showLinksGroup(defaultLinksPC);
+                currentPCLinksView = 'default';
+            } else {
+                // デフォルト表示中に左ボタンを押しても何もしないか、シークレットに切り替えるか
+                // 今回はシンプルに何もせず、シークレットから戻る機能としてのみ扱う
+            }
+        });
+    }
+
+    if (pcToggleRightButton) {
+        pcToggleRightButton.addEventListener('click', () => {
+            if (currentPCLinksView === 'default' && isSecretLinksShown) { // パスワード入力済みの場合のみ切り替え可能
+                showLinksGroup(secretLinksPC);
+                currentPCLinksView = 'secret';
+            } else {
+                // シークレット表示中に右ボタンを押しても何もしない
+            }
         });
     }
 
@@ -241,10 +274,8 @@ document.addEventListener('DOMContentLoaded', () => {
         fileButton.addEventListener('click', (e) => {
             e.preventDefault();
             closeAllOverlays();
-            if (isMobileDevice()) {
-                showLinksGroup(fileGridLinks); // グリッドを表示
-                isFileGridShown = true;
-            }
+            showLinksGroup(fileGridLinks); // グリッドを表示
+            isFileGridShown = true;
         });
     }
 
@@ -274,24 +305,44 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileSettingsButton.addEventListener('click', (e) => {
             e.preventDefault();
             closeAllOverlays();
-            toggleOverlay(addToHomeScreenOverlay, true); // Settingボタンで「Add to Home Screen」オーバーレイを表示
+            toggleOverlay(addToHomeScreenOverlay, true);
         });
     }
 
     // === モバイル版の戻るボタン機能 ===
+    // Socialsグリッドからの戻るボタン
     if (backToFileLinksButton) {
         backToFileLinksButton.addEventListener('click', () => {
             closeAllOverlays();
-            showLinksGroup(mobileLinks); // Socials, Contactなどがあるメインに戻る
+            showLinksGroup(mobileLinks); // メイン項目に戻る
             isFileGridShown = false;
         });
     }
 
+    // Secret展開後のリストからの戻るボタン
     if (backToMobileMainLinksButton) {
         backToMobileMainLinksButton.addEventListener('click', () => {
             closeAllOverlays();
-            showLinksGroup(mobileLinks); // Socials, Contactなどがあるメインに戻る
+            showLinksGroup(mobileLinks); // メイン項目に戻る
             isMobileSecretActive = false;
+            isSecretLinksShown = false; // シークレット表示状態もリセット
+        });
+    }
+
+    // Optionグリッドからの戻るボタン
+    if (backToMobileSecretLinksButton) {
+        backToMobileSecretLinksButton.addEventListener('click', () => {
+            closeAllOverlays();
+            showLinksGroup(secretLinksMobile); // OptionボタンがあるSecretリストに戻る
+        });
+    }
+
+    // モバイル版の「Option」ボタン
+    if (mobileOptionButton) {
+        mobileOptionButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeAllOverlays();
+            showLinksGroup(optionGridLinksMobile); // Option内グリッドを表示
         });
     }
 
@@ -319,14 +370,16 @@ document.addEventListener('DOMContentLoaded', () => {
     passwordSubmit.addEventListener('click', () => {
         if (passwordInput.value === CORRECT_PASSWORD) {
             toggleOverlay(passwordOverlay, false);
+            isSecretLinksShown = true; // パスワード入力成功でシークレットアクセス権を付与
 
             if (isMobileDevice()) {
-                showLinksGroup(secretLinksMobile); // モバイル版のシークレットリンクを表示
+                showLinksGroup(secretLinksMobile); // モバイル版のOptionボタンがあるリストを表示
                 isMobileSecretActive = true;
             } else {
                 showLinksGroup(secretLinksPC); // PC版のシークレットリンクを表示
+                if (pcToggleButtonContainer) pcToggleButtonContainer.classList.remove('hidden'); // PC切り替えボタンを表示
+                currentPCLinksView = 'secret';
             }
-            isSecretLinksShown = true;
         } else {
             passwordError.textContent = "Incorrect password. Please try again.";
             passwordError.classList.add('show');
