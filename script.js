@@ -2,6 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const profileAvatar = document.getElementById('profileAvatar');
     const linksSection = document.getElementById('linksSection');
     const linkButtons = document.querySelectorAll('.link-button');
+    const messengerInfoOverlay = document.getElementById('messengerInfoOverlay');
+    const closeInfoOverlayButton = document.getElementById('closeInfoOverlay');
+
+    let hasShownMessengerInfo = false; // Messenger Information初回表示フラグ
 
     // 初期状態ではリンク項目を非表示
     linksSection.classList.remove('active');
@@ -20,6 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+        // もし情報オーバーレイが表示中なら閉じる
+        if (messengerInfoOverlay.classList.contains('active')) {
+            messengerInfoOverlay.classList.remove('active');
+        }
     });
 
     // 各リンクボタンのクリックイベント
@@ -27,6 +35,28 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', (e) => {
             e.preventDefault(); // デフォルトのリンク動作を防止
 
+            const linkId = button.dataset.linkId;
+            const hasInfoScreen = button.dataset.hasInfoScreen === 'true';
+
+            if (linkId === 'messenger' && hasInfoScreen && !hasShownMessengerInfo) {
+                // Messengerかつ初回の場合、情報画面を表示
+                messengerInfoOverlay.classList.add('active');
+                hasShownMessengerInfo = true; // フラグを立てる
+
+                // 他の展開されている項目があれば閉じる
+                linkButtons.forEach(btn => {
+                    if (btn.classList.contains('expanded')) {
+                        btn.classList.remove('expanded');
+                        const infoContent = btn.querySelector('.info-content');
+                        if (infoContent) {
+                            infoContent.remove();
+                        }
+                    }
+                });
+                return; // ここで処理を終了し、通常のボタン展開は行わない
+            }
+
+            // 通常のボタン展開/折りたたみロジック
             const isExpanded = button.classList.contains('expanded');
 
             // クリックされたボタン以外の、展開されているボタンを全て閉じる
@@ -56,6 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Messenger情報画面の閉じるボタン
+    closeInfoOverlayButton.addEventListener('click', () => {
+        messengerInfoOverlay.classList.remove('active');
+    });
+
     // 情報を動的に追加する関数
     function appendInfoContent(button) {
         const infoUrl = button.dataset.infoUrl;
@@ -67,8 +102,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let contentHTML = `<p>Official Site: <a href="${infoUrl}" target="_blank">${infoUrl.replace(/(^\w+:|^)\/\//, '')}</a></p>`;
 
-        if (qrImage && linkId === 'telegram') { // TelegramのみQR画像を表示
-            contentHTML += `<img src="${qrImage}" alt="${linkId} QR Code" class="qr-code-image">`;
+        if (linkId === 'telegram' || (linkId === 'messenger' && button.classList.contains('expanded'))) {
+            // TelegramとMessenger（通常展開時）でQR画像を表示
+            if (qrImage) {
+                contentHTML += `<img src="${qrImage}" alt="${linkId} QR Code" class="qr-code-image">`;
+                if (linkId === 'messenger') {
+                    contentHTML = `<p>@iroponcopin</p>` + contentHTML; // Messengerに@iroponcopinを追加
+                }
+            }
         }
 
         infoContent.innerHTML = contentHTML;
@@ -79,7 +120,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // 少し遅延させてopacityとmax-heightのアニメーションを開始
         setTimeout(() => {
             infoContent.style.opacity = '1';
-            infoContent.style.maxHeight = infoContent.scrollHeight + 'px'; // コンテンツの高さに合わせてmaxHeightを設定
+            // infoContentのscrollHeightは、まだDOMに追加されてもレイアウトが確定していない場合があるため、
+            // 高さを設定する前に強制的にレイアウトを再計算させる
+            infoContent.offsetWidth; // 強制的にリフロー
+            infoContent.style.maxHeight = infoContent.scrollHeight + 'px';
         }, 10);
     }
 
