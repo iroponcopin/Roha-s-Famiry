@@ -128,6 +128,7 @@ body {
     display: flex; /* デフォルトでflexに設定 */
     flex-direction: column;
     gap: 20px;
+    width: 100%; /* 親の幅に合わせる */
 }
 
 /* 隠れている/表示されるセクションのスタイル */
@@ -463,8 +464,6 @@ body {
     }
 
     /* PC版の中央アニメーションをモバイルで無効化（transform制御のためopacityは1のまま） */
-    /* これにより、`opacity`と`visibility`は`.overlay-modal`クラスで制御され、
-       `.modal-card`の`transform`のみがモバイルで適用される */
     .overlay-modal:not(.active) .modal-card {
         opacity: 1;
     }
@@ -493,6 +492,7 @@ body {
         grid-template-columns: repeat(2, 1fr); /* 2列 */
         gap: 15px; /* グリッドアイテム間の隙間 */
         padding: 0;
+        margin-top: 15px; /* 戻るボタンとの隙間 */
     }
 
     .link-button.grid-item {
@@ -508,7 +508,7 @@ body {
         margin-top: 5px;
     }
 
-    .link-button.grid-item .button-icon { /* 絵文字アイコンは削除されたが、もし使う場合に備えて */
+    .link-button.grid-item .button-icon {
         font-size: 1.8em;
         margin-right: 0;
     }
@@ -518,5 +518,30 @@ body {
         border-radius: 15px;
         border: 1px dashed rgba(255, 255, 255, 0.1);
         height: 100px;
+    }
+
+    /* === 戻るボタンのスタイル === */
+    .back-button {
+        display: block; /* モバイルで表示 */
+        width: 100%;
+        padding: 15px 20px;
+        margin-bottom: 20px; /* 下のグリッド/リストとの間隔 */
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        color: var(--text-color);
+        font-size: 1.1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+
+    .back-button:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 }
