@@ -106,7 +106,7 @@ body {
     margin: 0 auto 15px auto;
     border: 3px solid var(--glass-border-light);
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.3), /* 強い光沢 */
-                inset  0 0 15px rgba(255, 255, 255, 0.1); /* 内側の光沢 */
+                inset 0 0 15px rgba(255, 255, 255, 0.1); /* 内側の光沢 */
     transition: transform 0.4s var(--ease-smooth-out);
     cursor: pointer;
     background: transparent;
@@ -539,6 +539,12 @@ body {
 
     .overlay-modal.active .modal-card {
         transform: translateY(0); /* 表示時 */
+        /* モバイル版の光るエフェクト */
+        box-shadow:
+            inset 0 0 20px rgba(0, 0, 0, 0.3), /* 内側の影を強調 */
+            0 0 30px rgba(0, 0, 0, 0.4), /* 基本のぼかし影を強調 */
+            0 -5px 25px 8px rgba(135, 206, 235, 0.8), /* 上部への水色の強い光彩 */
+            inset 0 10px 15px 3px rgba(135, 206, 235, 0.6); /* 上部内側への強い反射風ハイライト */
     }
 
     /* PC版の中央アニメーションをモバイルで無効化（transform制御のためopacityは1のまま） */
