@@ -1,8 +1,8 @@
 :root {
     /* 提供画像を参考に調整した新しい背景色 */
-    --color-bg-start: #0a0e1a; /* 深いダークブルー */
-    --color-bg-mid: #1c253d;   /* 中間の青 */
-    --color-bg-end: #2d3855;   /* より明るい青紫 */
+    --color-bg-start: #1a0f3d; /* 深い紫 */
+    --color-bg-mid: #2b1a5e;   /* 中間の濃い紫 */
+    --color-bg-end: #4f348c;   /* より明るい紫 */
 
     /* よりリアルなガラス効果の新しい変数 */
     --glass-fill: rgba(255, 255, 255, 0.05); /* 内部の透明度を非常に低く */
@@ -106,7 +106,7 @@ body {
     margin: 0 auto 15px auto;
     border: 3px solid var(--glass-border-light);
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.3), /* 強い光沢 */
-                inset 0 0 15px rgba(255, 255, 255, 0.1); /* 内側の光沢 */
+                inset  0 0 15px rgba(255, 255, 255, 0.1); /* 内側の光沢 */
     transition: transform 0.4s var(--ease-smooth-out);
     cursor: pointer;
     background: transparent;
@@ -196,7 +196,7 @@ body {
 }
 
 /* ガラスボタン共通スタイル (glass-effect クラスを適用) */
-.link-button, .back-button, .bottom-button, .toggle-button, .modal-card, .modal-card button:not(.close-button) {
+.link-button, .back-button, .bottom-button, .toggle-button, .modal-card button:not(.close-button) {
     /* ベーススタイル */
     display: flex;
     align-items: center;
@@ -314,6 +314,13 @@ body {
 .overlay-modal.active .modal-card {
     transform: translateY(0); /* PC版の表示アニメーション */
     opacity: 1;
+    /* 光っている効果を強調 */
+    box-shadow:
+        inset 0 0 20px rgba(0, 0, 0, 0.3), /* 内側の影を強調 */
+        0 0 30px rgba(0, 0, 0, 0.4), /* 基本のぼかし影を強調 */
+        0 0 15px 5px rgba(135, 206, 235, 0.8), /* 水色の外側への強い光彩 */
+        inset 0 0 10px 3px rgba(135, 206, 235, 0.6); /* 水色の内側への強い反射風ハイライト */
+    border-radius: 20px; /* 角丸を保持 */
 }
 
 .modal-card h2 {
