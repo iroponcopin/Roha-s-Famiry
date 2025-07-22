@@ -129,8 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
         closeAllOverlays();
         
         // ドックは常に表示 (PC版とモバイル版でそれぞれCSSで制御)
-        // bottomButtonsContainerPC/Mobile の hidden クラスのトグルは不要
-        // PC版とモバイル版の表示切り替えはCSSのメディアクエリに任せる
 
         // PC/モバイルに応じたリンクグループの表示
         if (isMobileDevice()) {
@@ -173,9 +171,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.id === 'addressButtonPC' || 
                 button.id === 'musicButtonPC' || 
                 button.id === 'settingsButtonPC' || 
-                button.id === 'homeButtonMobile' || // モバイルドックボタン
-                button.id === 'secretButtonMobile' || // モバイルドックボタン
-                button.id === 'musicButtonMobile' || // モバイルドックボタン
+                button.id === 'homeButtonMobile' || 
+                button.id === 'secretButtonMobile' || 
+                button.id === 'musicButtonMobile' || 
                 button.id === 'mobileOptionButton' || 
                 button.classList.contains('back-button') ||
                 button.id === 'passwordSubmit' // passwordSubmitはここで処理しない
@@ -385,6 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fileButton.addEventListener('click', (e) => {
             e.preventDefault();
             closeAllOverlays();
+            linksSection.classList.add('active'); // LinksSectionを展開
             showLinksGroup(fileGridLinks); // グリッドを表示
         });
     }
@@ -394,6 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileOptionButton.addEventListener('click', (e) => {
             e.preventDefault();
             closeAllOverlays();
+            linksSection.classList.add('active'); // LinksSectionを展開
             showLinksGroup(optionGridLinksMobile); // Option内グリッドを表示
         });
     }
