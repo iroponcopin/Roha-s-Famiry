@@ -1,3 +1,4 @@
+/* style.css は前回のものから変更なし */
 :root {
     --color-primary-start: #ff007f; /* Pink/Red from image */
     --color-primary-end: #8a2be2;   /* Purple from image */
@@ -129,7 +130,7 @@ body {
     opacity: 0;
     max-height: 0;
     overflow: hidden;
-    transition: opacity 0.5s ease, max-height 0.5s ease;
+    transition: opacity 0.5s ease, max-height 0.5s ease; /* transitionを追加 */
 }
 
 /* 表示されるセクションのスタイル */
@@ -138,6 +139,7 @@ body {
     flex-direction: column;
     opacity: 1;
     max-height: 500px; /* 親のlinks-sectionのmax-heightと同じかそれ以上 */
+    transition: opacity 0.5s ease, max-height 0.5s ease; /* transitionを追加 */
 }
 
 .link-button {
@@ -309,11 +311,11 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8); /* より濃い背景 */
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 2000; /* 最前面に表示 */
+    z-index: 2000;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -336,7 +338,7 @@ body {
     max-width: 350px;
     width: 80%;
     position: relative;
-    transform: translateY(-20px); /* 少し上に表示するアニメーションのため */
+    transform: translateY(-20px);
     opacity: 0;
     transition: transform 0.3s ease-out, opacity 0.3s ease-out;
     color: var(--text-color);
@@ -354,7 +356,7 @@ body {
 }
 
 .password-card input[type="password"] {
-    width: calc(100% - 20px); /* Padding考慮 */
+    width: calc(100% - 20px);
     padding: 12px 10px;
     margin-bottom: 15px;
     border-radius: 8px;
@@ -388,11 +390,11 @@ body {
 }
 
 .password-card .close-button {
-    color: var(--text-color); /* Xボタンの色を親要素から継承 */
+    color: var(--text-color);
 }
 
 .error-message {
-    color: #ff6347; /* Tomato red */
+    color: #ff6347;
     font-size: 0.9em;
     margin-top: -10px;
     margin-bottom: 10px;
@@ -403,6 +405,104 @@ body {
 .error-message.show {
     opacity: 1;
 }
+
+/* Address Overlay Styles */
+.address-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center; /* 中央に表示 */
+    z-index: 1500; /* Info OverlayとPassword Overlayの間 */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.address-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.address-card {
+    background: var(--glass-background);
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    padding: 30px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    text-align: center;
+    max-width: 400px;
+    width: 85%;
+    position: relative;
+    transform: scale(0.9);
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    color: var(--text-color);
+}
+
+.address-overlay.active .address-card {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.address-card h2 {
+    font-size: 1.6em;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.address-card p {
+    font-size: 1.1em;
+    line-height: 1.5;
+    margin-bottom: 5px;
+}
+
+/* Bottom Fixed Buttons */
+.bottom-buttons-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    z-index: 500; /* links-sectionより手前、オーバーレイより奥 */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.bottom-buttons-container.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.bottom-button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8em;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    color: var(--text-color-dark);
+}
+
+.bottom-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
 
 /* Responsive adjustments */
 @media (max-width: 600px) {
@@ -419,12 +519,23 @@ body {
         padding: 15px 20px;
     }
 
-    .info-card, .password-card {
+    .info-card, .password-card, .address-card {
         padding: 20px;
         max-height: 80vh;
     }
 
     .info-qr-code-image {
         max-width: 120px;
+    }
+
+    .bottom-buttons-container {
+        gap: 10px;
+        bottom: 15px;
+    }
+
+    .bottom-button {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5em;
     }
 }
