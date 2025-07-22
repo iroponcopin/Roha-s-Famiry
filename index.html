@@ -12,11 +12,13 @@
     <div class="container">
         <header class="profile-section">
             <div class="profile-image-wrapper button-avatar" id="profileAvatar">
-                </div>
+                <!-- アバター画像を削除し、ボタンとしての視覚的な役割のみに -->
+            </div>
             <h1 class="profile-name">櫻 彩羽</h1>
         </header>
 
         <main class="links-section" id="linksSection">
+            <!-- PC版のデフォルト項目 -->
             <div id="defaultLinksPC" class="links-group pc-only">
                 <a href="#" class="link-button liquid-glass-effect"
                    data-link-id="messenger"
@@ -59,6 +61,7 @@
                 </a>
             </div>
 
+            <!-- PC版のシークレット項目 -->
             <div id="secretLinksPC" class="links-group pc-only hidden">
                 <a href="https://www.instagram.com/your_instagram" target="_blank" class="link-button liquid-glass-effect">
                     <span class="button-text">Instagram</span>
@@ -77,15 +80,19 @@
                 </a>
             </div>
 
-            <div id="pcToggleButtonContainer" class="pc-only toggle-button-container hidden">
+            <!-- PC版の項目切り替えボタン (Secret表示時に出現 - 今回はHome/Secretボタンで切り替えるため不要) -->
+            <!-- <div id="pcToggleButtonContainer" class="pc-only toggle-button-container hidden">
                 <button class="toggle-button liquid-glass-effect" id="pcToggleLeft">←</button>
                 <button class="toggle-button liquid-glass-effect" id="pcToggleRight">→</button>
-            </div>
+            </div> -->
 
+            <!-- モバイル版の項目 -->
             <div id="mobileLinks" class="links-group mobile-only">
+                <!-- Socialsファイルボタン -->
                 <a href="#" class="link-button liquid-glass-effect" id="fileButton">
                     <span class="button-text">Socials</span>
                 </a>
+                <!-- Contactは独立 -->
                 <a href="#" class="link-button liquid-glass-effect"
                    data-link-id="contact"
                    data-info-email="m4a1scar@aespa.me"
@@ -95,19 +102,17 @@
                    data-info-phone4="+82 1658-8095 🇰🇷">
                     <span class="button-text">Contact</span>
                 </a>
+                <!-- モバイル版の下部ボタンが項目になったもの -->
                 <a href="#" class="link-button liquid-glass-effect" id="mobileSecretButton">
                     <span class="button-text">🔐 Secret</span>
                 </a>
-                <a href="#" class="link-button liquid-glass-effect" id="mobileAddressButton">
-                    <span class="button-text">📍 Location</span>
-                </a>
-                <a href="#" class="link-button liquid-glass-effect" id="mobileSettingsButton">
-                    <span class="button-text">⚙️ Settings</span>
-                </a>
+                <!-- LocationとSettingsはモバイル版から削除 -->
             </div>
 
+            <!-- モバイル版のファイル内グリッド項目 (初期は非表示) -->
             <div id="fileGridLinks" class="links-group mobile-only hidden grid-display">
-                <button class="back-button" id="backToFileLinks">Back</button> <a href="#" class="link-button grid-item liquid-glass-effect"
+                <button class="back-button" id="backToFileLinks">Back</button>
+                <a href="#" class="link-button grid-item liquid-glass-effect"
                    data-link-id="messenger"
                    data-info-handle="@iroponcopin"
                    data-info-url="https://example.com/messenger">
@@ -137,16 +142,22 @@
                    data-info-url="https://example.com/wechat">
                     <span class="button-text">微信</span>
                 </a>
+                <!-- 調整用の空きグリッドアイテム -->
                 <div class="grid-item-placeholder"></div>
             </div>
 
+            <!-- モバイル版のシークレット項目表示エリア -->
             <div id="secretLinksMobile" class="links-group mobile-only hidden">
-                <button class="back-button" id="backToMobileMainLinks">Back</button> <a href="#" class="link-button liquid-glass-effect" id="mobileOptionButton">
-                    <span class="button-text">Option</span> </a>
-                </div>
+                <button class="back-button" id="backToMobileMainLinks">Back</button>
+                <a href="#" class="link-button liquid-glass-effect" id="mobileOptionButton">
+                    <span class="button-text">Option</span>
+                </a>
+            </div>
 
+            <!-- モバイル版のOption項目展開後グリッド (初期は非表示) -->
             <div id="optionGridLinksMobile" class="links-group mobile-only hidden grid-display">
-                <button class="back-button" id="backToMobileSecretLinks">Back</button> <a href="https://www.instagram.com/your_instagram" target="_blank" class="link-button grid-item liquid-glass-effect">
+                <button class="back-button" id="backToMobileSecretLinks">Back</button>
+                <a href="https://www.instagram.com/your_instagram" target="_blank" class="link-button grid-item liquid-glass-effect">
                     <span class="button-text">Instagram</span>
                 </a>
                 <a href="https://x.com/macaronwinter_" target="_blank" class="link-button grid-item liquid-glass-effect">
@@ -161,6 +172,7 @@
                 <a href="https://discord.gg/ax4Cvp9Xzk" target="_blank" class="link-button grid-item liquid-glass-effect">
                     <span class="button-text">Discord</span>
                 </a>
+                <!-- 調整用の空きグリッドアイテム -->
                 <div class="grid-item-placeholder"></div>
             </div>
         </main>
@@ -170,15 +182,18 @@
         </footer>
     </div>
 
+    <!-- Info Overlay Structure -->
     <div class="overlay-modal" id="infoOverlay">
         <div class="modal-card">
             <button class="close-button" id="closeInfoOverlay">X</button>
             <h2 id="infoTitle"></h2>
             <div id="infoDetails">
-                </div>
+                <!-- JSで詳細情報をここに追加 -->
+            </div>
         </div>
     </div>
 
+    <!-- Password Input Overlay -->
     <div class="overlay-modal" id="passwordOverlay">
         <div class="modal-card">
             <button class="close-button" id="closePasswordOverlay">X</button>
@@ -189,6 +204,7 @@
         </div>
     </div>
 
+    <!-- Address Overlay -->
     <div class="overlay-modal" id="addressOverlay">
         <div class="modal-card">
             <button class="close-button" id="closeAddressOverlay">X</button>
@@ -198,6 +214,7 @@
         </div>
     </div>
 
+    <!-- Add to Home Screen Overlay -->
     <div class="overlay-modal" id="addToHomeScreenOverlay">
         <div class="modal-card">
             <button class="close-button" id="closeAddToHomeScreenOverlay">X</button>
@@ -209,12 +226,30 @@
         </div>
     </div>
 
+    <!-- Music Player Overlay -->
+    <div class="overlay-modal" id="musicPlayerOverlay">
+        <div class="modal-card">
+            <button class="close-button" id="closeMusicPlayerOverlay">X</button>
+            <h2>Music Player</h2>
+            <div id="audioResponse" style="margin-bottom: 20px; font-style: italic;">
+                <!-- LLMからのオーディオレスポンス（テキスト）がここに表示されます -->
+            </div>
+            <div id="youtubePlayer"></div>
+            <button id="togglePlaybackButton" style="margin-top: 20px;">Play/Pause</button>
+        </div>
+    </div>
+
+    <!-- PC版のBottom Fixed Buttons (ドック風) -->
     <div class="bottom-buttons-container pc-only dock-style" id="bottomButtonsContainerPC">
+        <button class="bottom-button liquid-glass-effect" id="homeButtonPC">🏠</button> <!-- Homeボタン -->
         <button class="bottom-button liquid-glass-effect" id="secretButtonPC">🔐</button>
         <button class="bottom-button liquid-glass-effect" id="addressButtonPC">📍</button>
+        <button class="bottom-button liquid-glass-effect" id="musicButtonPC">🎵</button> <!-- Musicプレイヤーボタン -->
         <button class="bottom-button liquid-glass-effect" id="settingsButtonPC">⚙️</button>
     </div>
 
+    <!-- YouTube IFrame Player APIを非同期で読み込む -->
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script src="script.js"></script>
 </body>
 </html>
