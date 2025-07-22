@@ -1,3 +1,160 @@
+はい、承知いたしました。ご要望の「下から上がってくるモーション」は、まさしく前回ご提案したコードに実装されているアニメーションです。
+
+おそらく、コードの反映がうまくいかなかったか、再度ご確認されたいという状況かと存じます。
+
+実装の仕組みを簡単にご説明した上で、完成版のコードを再度掲載いたします。
+
+実装箇所の解説
+このアニメーションは、CSSのtransformプロパティを使って実現しています。
+
+パネルの初期位置: まず、情報パネル(info-panel)を画面の下側に隠しておきます。
+
+CSS
+
+#info-panel {
+  /* Y軸(垂直方向)に100%分、つまり画面一つ分だけ下にずらす */
+  transform: translateY(100%); 
+  transition: transform 0.5s var(--animation-curve);
+}
+表示クラスの追加: Messengerの項目をクリックすると、JavaScriptが情報パネルの親要素(info-overlay)に.is-visibleというクラスを追加します。
+
+パネルの上昇: .is-visibleクラスが付くと、CSSが適用されてパネルが本来の位置（Y軸のずれが0）に戻ります。transitionが設定されているため、この移動が滑らかなアニメーションになります。
+
+CSS
+
+#info-overlay.is-visible #info-panel {
+  /* Y軸のずれを0に戻すことで、パネルがせり上がってくる */
+  transform: translateY(0);
+}
+再掲：完成版コード
+以下のコードをもう一度お使いのファイルに上書きして、動作をご確認ください。
+
+1. HTML (index.html)
+HTML
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Links</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Social Links</h1>
+
+    <div class="card">
+      <h2>Session</h2>
+      <div class="details">
+        <p>ID: 0502c95513e6c515caf68f1c95b5c4eb58148056ae0a532d126de9503a226c5f13</p>
+        <a href="https://getsession.org/" target="_blank" rel="noopener noreferrer">Visit Website</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Telegram</h2>
+      <div class="details">
+        <p>ID: @iroponcopin</p>
+        <a href="https://telegram.org/" target="_blank" rel="noopener noreferrer">Visit Website</a>
+      </div>
+    </div>
+
+    <div class="card" id="messenger-card">
+      <h2>Messenger</h2>
+      <div class="details">
+        <p>ID: @iroponcopin</p>
+        <a href="https://www.messenger.com/" target="_blank" rel="noopener noreferrer">Visit Website</a>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2>Signal</h2>
+      <div class="details">
+        <p>ID: @iroponcopin.01</p>
+        <a href="https://signal.org/" target="_blank" rel="noopener noreferrer">Visit Website</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>微信 (WeChat)</h2>
+      <div class="details">
+        <p>ID: @wxid_9qdzsdfsmir812</p>
+        <a href="https://www.wechat.com/" target="_blank" rel="noopener noreferrer">Visit Website</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Contact</h2>
+      <div class="details">
+        m4a1scar@aespa.me<br>
+        +1 (347) 703-1242<br>
+        +1 (919) 337-2791<br>
+        +852 1591-7284<br>
+        +82 1658-8095
+      </div>
+    </div>
+  </div>
+
+  <div id="info-overlay">
+    <div id="info-panel">
+      <h3>Information</h3>
+      <p class="info-text">
+        Please note: Service for Messenger will be discontinued on August 31, 2025.
+      </p>
+      <button id="info-done-btn">Done</button>
+    </div>
+  </div>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards = document.querySelectorAll('.card');
+      const messengerCard = document.getElementById('messenger-card');
+      const infoOverlay = document.getElementById('info-overlay');
+      const infoDoneBtn = document.getElementById('info-done-btn');
+
+      cards.forEach(card => {
+        // Messengerカード以外の通常のカードに対する処理
+        if (card.id !== 'messenger-card') {
+          card.addEventListener('click', (event) => {
+            if (event.target.tagName.toLowerCase() === 'a') return;
+            card.classList.toggle('active');
+          });
+        }
+      });
+
+      // Messengerカードがクリックされた時の特別な処理
+      messengerCard.addEventListener('click', (event) => {
+        if (event.target.tagName.toLowerCase() === 'a') return;
+
+        // すでに情報を見ていたら、通常の開閉を行う
+        if (messengerCard.classList.contains('info-seen')) {
+          messengerCard.classList.toggle('active');
+        } else {
+          // 情報パネルを下にスライドアップして表示
+          infoOverlay.classList.add('is-visible');
+        }
+      });
+
+      // 情報パネルの「Done」ボタンがクリックされた時の処理
+      infoDoneBtn.addEventListener('click', () => {
+        // パネルを非表示に
+        infoOverlay.classList.remove('is-visible');
+        // Messengerカードを開いた状態にする
+        messengerCard.classList.add('active');
+        // 情報を見たことを記録する
+        messengerCard.classList.add('info-seen');
+      });
+    });
+  </script>
+
+</body>
+</html>
+2. CSS (style.css)
+CSS
+
 /* --- Apple Design System 風の変数定義 --- */
 :root {
   --background-color: #f0f2f5;
