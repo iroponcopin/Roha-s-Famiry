@@ -1,198 +1,214 @@
 :root {
-  --text-primary: #fff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --accent-color: #8A2BE2; /* BlueViolet */
-  --accent-color-hover: #9932CC; /* MediumOrchid */
-  
-  /* カードの初期円形サイズ */
-  --card-size: 90px;
-  
-  /* Dynamic Island風アニメーションカーブ（バウンス効果） */
-  --animation-curve-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --animation-duration: 0.6s;
-}
-
-*, *::before, *::after {
-  box-sizing: border-box;
+    --color-primary-start: #ff007f; /* Pink/Red from image */
+    --color-primary-end: #8a2be2;   /* Purple from image */
+    --color-secondary-start: #00bcd4; /* Light Blue from image */
+    --color-secondary-end: #ffa500;   /* Orange from image */
+    --glass-background: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --text-color: #f0f0f0;
+    --text-color-dark: #333;
+    --button-hover-glow: rgba(255, 255, 255, 0.4);
 }
 
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  /* 提示された画像風のメッシュグラデーション背景 */
-  background-color: #1a1a2e;
-  background-image: 
-    radial-gradient(at 20% 25%, hsla(282, 80%, 40%, 0.3) 0px, transparent 50%),
-    radial-gradient(at 80% 20%, hsla(210, 90%, 55%, 0.3) 0px, transparent 50%),
-    radial-gradient(at 50% 80%, hsla(330, 85%, 60%, 0.3) 0px, transparent 50%);
-  color: var(--text-primary);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 50px 20px;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #1a1a2e; /* Fallback dark background */
+    overflow: hidden; /* Hide potential overflow from background animation */
+    color: var(--text-color);
+}
+
+.background-gradient {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        var(--color-primary-start),
+        var(--color-primary-end),
+        var(--color-secondary-start),
+        var(--color-secondary-end)
+    );
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+    z-index: -1;
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .container {
-  width: 100%;
-  max-width: 550px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 25px;
-  justify-content: center;
-  align-items: center;
+    background: var(--glass-background);
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    padding: 30px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+    animation: fadeInScale 1s ease-out forwards;
+    position: relative; /* For z-index context */
+    z-index: 1; /* Ensure content is above background */
 }
 
-/* --- カードの基本スタイル（円形） --- */
-.card {
-  position: relative;
-  width: var(--card-size);
-  height: var(--card-size);
-  border-radius: 50%; /* 完全な円 */
-  background: rgba(20, 20, 40, 0.5);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  cursor: pointer;
-  overflow: hidden;
-
-  /* ★★★ Dynamic Islandアニメーション設定 ★★★ */
-  transition: width var(--animation-duration) var(--animation-curve-bounce),
-              height var(--animation-duration) var(--animation-curve-bounce),
-              border-radius var(--animation-duration) var(--animation-curve-bounce);
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
-.card-visible {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+.profile-section {
+    margin-bottom: 30px;
 }
 
-.card h2 {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  padding: 5px;
+.profile-image-wrapper {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 15px auto;
+    border: 3px solid var(--glass-border);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease;
 }
 
-/* --- カード展開後のスタイル --- */
-.card.active {
-  width: 100%; /* 横に広がる */
-  height: auto; /* 高さはコンテンツに合わせる */
-  min-height: var(--card-size);
-  border-radius: 40px; /* 角丸の四角形に変化 */
-  cursor: default;
+.profile-image-wrapper:hover {
+    transform: scale(1.05);
 }
 
-.card.active .card-visible {
-  cursor: pointer;
+.profile-picture {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
-/* --- 詳細情報の表示アニメーション --- */
-.details {
-  padding: 0 25px 25px 25px;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--text-secondary);
-  max-height: 0;
-  opacity: 0;
-  
-  /* ★★★ 遅延実行で二段階アニメーションを実現 ★★★ */
-  transition: max-height 0.5s ease 0.2s, /* 0.2秒遅れて開始 */
-              opacity 0.5s ease 0.2s;
+.profile-name {
+    font-size: 2.2em;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: var(--text-color);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
-.card.active .details {
-  max-height: 500px;
-  opacity: 1;
+.profile-bio {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: var(--text-color);
+    opacity: 0.8;
 }
 
-.details p {
-  margin: 10px 0 15px 0;
+.links-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.details a {
-  display: inline-block;
-  background: var(--accent-color);
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: background-color 0.2s ease;
+.link-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px 25px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--text-color-dark); /* Darker text for contrast on button */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.85); /* Slightly less transparent for readability */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.details a:hover {
-  background: var(--accent-color-hover);
+.liquid-glass-effect {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
+    border: 1px solid rgba(255, 255, 255, 0.7);
 }
 
-/* --- Messenger情報パネル（変更なし） --- */
-#info-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.4s ease, visibility 0.4s ease;
-  z-index: 1000;
+
+.link-button:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 30px var(--button-hover-glow);
+    color: var(--text-color-dark); /* Keep color consistent or change slightly */
 }
 
-#info-overlay.is-visible {
-  opacity: 1;
-  visibility: visible;
+.link-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+    );
+    transition: left 0.5s ease;
 }
 
-#info-panel {
-  background: rgba(30, 30, 50, 0.7);
-  backdrop-filter: blur(25px);
-  width: 100%;
-  max-width: 550px;
-  padding: 30px;
-  margin: 20px;
-  border-radius: 24px;
-  box-shadow: 0 0 50px rgba(0,0,0,0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  text-align: center;
-  transform: translateY(100%);
-  transition: transform 0.5s var(--animation-curve-bounce);
+.link-button:hover::before {
+    left: 100%;
 }
 
-#info-overlay.is-visible #info-panel {
-  transform: translateY(0);
+.button-icon {
+    margin-right: 15px;
+    font-size: 1.4em;
+    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.1));
 }
 
-#info-panel h3 {
-  font-size: 1.5rem;
-  margin: 0 0 10px 0;
-  color: #fff;
+.button-text {
+    flex-grow: 1; /* Allows text to take up available space */
 }
-#info-panel .info-text {
-  font-size: 1rem;
-  color: var(--text-secondary);
-  margin-bottom: 25px;
+
+.footer {
+    margin-top: 40px;
+    font-size: 0.9em;
+    opacity: 0.7;
 }
-#info-done-btn {
-  width: 100%;
-  padding: 15px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #fff;
-  background-color: var(--accent-color);
-  border: none;
-  border-radius: 15px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-#info-done-btn:hover {
-  background-color: var(--accent-color-hover);
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+
+    .profile-name {
+        font-size: 1.8em;
+    }
+
+    .profile-bio {
+        font-size: 1em;
+    }
+
+    .link-button {
+        font-size: 1.1em;
+        padding: 15px 20px;
+    }
+
+    .button-icon {
+        font-size: 1.2em;
+        margin-right: 10px;
+    }
 }
