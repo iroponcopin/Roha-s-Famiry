@@ -11,49 +11,56 @@
     <div class="background-gradient"></div>
     <div class="container">
         <header class="profile-section">
-            <div class="profile-image-wrapper">
-                <img src="IMG_6958.jpeg" alt="Profile Picture" class="profile-picture" id="profileAvatar">
-            </div>
+            <div class="profile-image-wrapper button-avatar" id="profileAvatar">
+                </div>
             <h1 class="profile-name">櫻 彩羽</h1>
         </header>
 
         <main class="links-section" id="linksSection">
             <a href="#" class="link-button liquid-glass-effect"
+               data-link-id="messenger"
+               data-info-handle="@iroponcopin"
+               data-info-url="https://example.com/messenger">
+                <span class="button-text">Messenger</span>
+            </a>
+            <a href="#" class="link-button liquid-glass-effect"
                data-link-id="session"
-               data-info-handle="@SessionUser"
+               data-info-handle="0502c95513e6c515caf68f1c95b5c4eb58148056ae0a532d126de9503a226c5f13"
                data-info-url="https://example.com/session">
-                <span class="button-icon">💬</span>
                 <span class="button-text">Session</span>
+            </a>
+            <a href="#" class="link-button liquid-glass-effect"
+               data-link-id="signal"
+               data-info-handle="@iroponcopin.01"
+               data-info-url="https://example.com/signal">
+                <span class="button-text">Signal</span>
             </a>
             <a href="#" class="link-button liquid-glass-effect"
                data-link-id="telegram"
                data-info-handle="@iroponcopin"
-               data-info-url="https://example.com/telegram"
-               data-qr-image="image_2e50be.png">
-                <span class="button-icon">✈️</span>
+               data-info-url="https://example.com/telegram">
                 <span class="button-text">Telegram</span>
-            </a>
-            <a href="#" class="link-button liquid-glass-effect"
-               data-link-id="messenger"
-               data-info-handle="@iroponcopin"
-               data-info-url="https://example.com/messenger"
-               data-qr-image="image_2e50be.png">
-                <span class="button-icon">📱</span>
-                <span class="button-text">Messenger</span>
             </a>
             <a href="#" class="link-button liquid-glass-effect"
                data-link-id="whatsapp"
                data-info-handle="@WhatsAppUser"
                data-info-url="https://example.com/whatsapp">
-                <span class="button-icon">🟢</span>
                 <span class="button-text">WhatsApp</span>
             </a>
             <a href="#" class="link-button liquid-glass-effect"
                data-link-id="wechat"
-               data-info-handle="@WeChatUser"
+               data-info-handle="@wxid_9qdzsdfsmir812"
                data-info-url="https://example.com/wechat">
-                <span class="button-icon">🗣️</span>
                 <span class="button-text">WeChat</span>
+            </a>
+            <a href="#" class="link-button liquid-glass-effect"
+               data-link-id="contact"
+               data-info-email="m4a1scar@aespa.me"
+               data-info-phone1="+1 (347) 703-1242"
+               data-info-phone2="+1 (919) 337-2791"
+               data-info-phone3="+852 1591-7284 🇭🇰"
+               data-info-phone4="+82 1658-8095 🇰🇷">
+                <span class="button-text">Contact</span>
             </a>
         </main>
 
@@ -66,9 +73,8 @@
         <div class="info-card">
             <button class="close-button" id="closeInfoOverlay">X</button>
             <h2 id="infoTitle"></h2>
-            <p id="infoHandle"></p>
-            <img src="" alt="QR Code" class="info-qr-code-image" id="infoQrCodeImage" style="display: none;">
-            <p>Official Site: <a href="#" target="_blank" id="infoUrl"></a></p>
+            <div id="infoDetails">
+                </div>
         </div>
     </div>
 
