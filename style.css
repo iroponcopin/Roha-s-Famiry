@@ -17,8 +17,8 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: #1a1a2e; /* Fallback dark background */
-    overflow: hidden; /* Hide potential overflow from background animation */
+    background: #1a1a2e;
+    overflow: hidden;
     color: var(--text-color);
 }
 
@@ -58,8 +58,8 @@ body {
     max-width: 450px;
     width: 90%;
     animation: fadeInScale 1s ease-out forwards;
-    position: relative; /* For z-index context */
-    z-index: 1; /* Ensure content is above background */
+    position: relative;
+    z-index: 1;
 }
 
 @keyframes fadeInScale {
@@ -107,7 +107,7 @@ body {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
-
+/* リンクセクションの全体設定 */
 .links-section {
     display: flex;
     flex-direction: column;
@@ -123,8 +123,16 @@ body {
     opacity: 1;
 }
 
+/* リンクグループの共通スタイル */
+.links-group {
+    display: flex; /* デフォルトでflexに設定 */
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 隠れている/表示されるセクションのスタイル */
 .hidden {
-    display: none;
+    display: none !important; /* 強制的に非表示 */
     opacity: 0;
     max-height: 0;
     overflow: hidden;
@@ -132,13 +140,13 @@ body {
 }
 
 .visible {
-    display: flex;
-    flex-direction: column;
+    display: flex !important; /* 強制的に表示 */
     opacity: 1;
     max-height: 500px;
     transition: opacity 0.5s ease, max-height 0.5s ease;
 }
 
+/* リンクボタン共通スタイル */
 .link-button {
     display: flex;
     align-items: center;
@@ -213,10 +221,10 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7); /* 半透明の背景 */
+    background: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
-    align-items: center; /* PC版では中央に表示 */
+    align-items: center; /* PC版は中央配置 */
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
@@ -241,7 +249,7 @@ body {
     width: 90%;
     position: relative;
     transform: translateY(-20px); /* PC版の初期アニメーション */
-    opacity: 0;
+    opacity: 0; /* PC版の表示/非表示アニメーション用 */
     transition: transform 0.3s ease-out, opacity 0.3s ease-out;
     color: var(--text-color);
     display: flex;
@@ -302,7 +310,7 @@ body {
     color: #fff;
 }
 
-/* Input & Button Styles within Modals (Password Card specific) */
+/* Input & Button Styles within Modals */
 .modal-card input[type="password"] {
     width: calc(100% - 20px);
     padding: 12px 10px;
@@ -320,7 +328,7 @@ body {
     border-color: #87ceeb;
 }
 
-.modal-card button:not(.close-button) { /* close-button以外のボタン */
+.modal-card button:not(.close-button) {
     background: linear-gradient(90deg, #8a2be2, #ff007f);
     color: #fff;
     border: none;
@@ -351,7 +359,7 @@ body {
 }
 
 /* ---------------------------------- */
-/* Bottom Fixed Buttons Styles   */
+/* Bottom Fixed Buttons (PC only) */
 /* ---------------------------------- */
 .bottom-buttons-container {
     position: fixed;
@@ -397,7 +405,22 @@ body {
 /* Responsive Adjustments    */
 /* ---------------------------------- */
 
-@media (max-width: 768px) { /* モバイルとPCの切り替えブレークポイント */
+/* PC-specific styles (default) */
+.mobile-only {
+    display: none !important;
+}
+
+@media (max-width: 768px) { /* モバイルブレークポイント */
+    /* PC-only要素をモバイルで非表示 */
+    .pc-only {
+        display: none !important;
+    }
+
+    /* モバイル-only要素をモバイルで表示 */
+    .mobile-only {
+        display: flex !important;
+    }
+
     .container {
         padding: 20px;
     }
@@ -406,12 +429,7 @@ body {
         font-size: 1.8em;
     }
 
-    .link-button {
-        font-size: 1.1em;
-        padding: 15px 20px;
-    }
-
-    /* モバイル時のオーバーレイ表示を改善 */
+    /* モバイル時のオーバーレイ表示を改善 (下からスライドアップ) */
     .overlay-modal {
         align-items: flex-end; /* 下に配置 */
     }
@@ -430,7 +448,7 @@ body {
         transform: translateY(0); /* 表示時 */
     }
 
-    /* PC版の中央アニメーションをモバイルで無効化 */
+    /* PC版の中央アニメーションをモバイルで無効化（transform制御のためopacityは1のまま） */
     .overlay-modal:not(.active) .modal-card {
         opacity: 1; /* hidden時もopacityは1のままtransformで隠す */
     }
@@ -439,22 +457,55 @@ body {
         max-width: 120px;
     }
 
+    /* モバイルでは下部固定ボタンを非表示にする (リンク項目として表示するため) */
     .bottom-buttons-container {
-        gap: 10px;
-        bottom: 15px;
+        display: none !important;
     }
 
-    .bottom-button {
-        width: 50px;
-        height: 50px;
-        font-size: 1.5em;
+    .link-button {
+        font-size: 1.1em;
+        padding: 15px 20px;
     }
 
     /* パスワード入力フィールドとボタンの幅をモバイル向けに調整 */
     .modal-card input[type="password"] {
-        width: calc(100% - 40px); /* 左右padding分 */
+        width: calc(100% - 40px);
     }
     .modal-card button:not(.close-button) {
         width: calc(100% - 40px);
+    }
+
+    /* === モバイル版のファイル内グリッド表示 === */
+    .links-group.grid-display {
+        display: grid !important; /* グリッド表示を強制 */
+        grid-template-columns: repeat(2, 1fr); /* 2列 */
+        gap: 15px; /* グリッドアイテム間の隙間 */
+        padding: 0; /* 親のpaddingは必要に応じて調整 */
+    }
+
+    .link-button.grid-item {
+        width: auto; /* グリッドアイテムの幅はグリッドが制御 */
+        height: 100px; /* グリッドアイテムの高さ */
+        padding: 10px; /* パディングを調整 */
+        font-size: 1em; /* フォントサイズ調整 */
+        flex-direction: column; /* アイコンとテキストを縦に並べる */
+    }
+
+    .link-button.grid-item .button-text {
+        text-align: center;
+        margin-top: 5px;
+    }
+
+    .link-button.grid-item .button-icon {
+        font-size: 1.8em; /* アイコンを大きくする */
+        margin-right: 0; /* アイコンの右マージンを削除 */
+    }
+
+    .grid-item-placeholder {
+        /* グリッドレイアウトを調整するための空のアイテム */
+        background: rgba(255, 255, 255, 0.05); /* ほとんど見えない背景 */
+        border-radius: 15px;
+        border: 1px dashed rgba(255, 255, 255, 0.1); /* 点線ボーダー */
+        height: 100px; /* グリッドアイテムの高さに合わせる */
     }
 }
