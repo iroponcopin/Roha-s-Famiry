@@ -1,15 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Smooth scroll for anchor links (if any are added later)
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+    const profileAvatar = document.getElementById('profileAvatar');
+    const linksSection = document.getElementById('linksSection');
+    const linkButtons = document.querySelectorAll('.link-button');
+
+    // 初期状態ではリンク項目を非表示
+    linksSection.classList.remove('active');
+
+    // プロフィールアバターのクリックでリンク項目を表示/非表示
+    profileAvatar.addEventListener('click', () => {
+        linksSection.classList.toggle('active');
+        // 他の展開されている項目があれば閉じる
+        linkButtons.forEach(button => {
+            if (button.classList.contains('expanded')) {
+                button.classList.remove('expanded');
+            }
         });
     });
 
-    // Simple animation for the profile picture on load
+    // 各リンクボタンのクリックイベント
+    linkButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault(); // デフォルトのリンク動作を防止
+
+            // クリックされたボタン以外の、展開されているボタンを閉じる
+            linkButtons.forEach(btn => {
+                if (btn !== button && btn.classList.contains('expanded')) {
+                    btn.classList.remove('expanded');
+                }
+            });
+
+            // クリックされたボタンの展開/折りたたみ
+            button.classList.toggle('expanded');
+        });
+    });
+
+    // プロフィールアバターの初期アニメーション
     const profilePictureWrapper = document.querySelector('.profile-image-wrapper');
     profilePictureWrapper.style.transform = 'scale(0.8)';
     profilePictureWrapper.style.opacity = '0';
@@ -19,32 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
         profilePictureWrapper.style.opacity = '1';
     }, 200);
 
-    // Add a subtle "liquid" background effect to the body for a more dynamic feel
-    // This is a simple example; more complex effects would require a canvas or WebGL
+    // 背景グラデーションのパララックス効果 (以前の機能を引き継ぎ)
     const backgroundGradient = document.querySelector('.background-gradient');
-    let mouseX = 0;
-    let mouseY = 0;
-
     document.body.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-
-        // Calculate a slight parallax/shift for the background
-        const xOffset = (mouseX / window.innerWidth - 0.5) * 20; // -10 to 10px
-        const yOffset = (mouseY / window.innerHeight - 0.5) * 20; // -10 to 10px
-
+        const xOffset = (e.clientX / window.innerWidth - 0.5) * 20;
+        const yOffset = (e.clientY / window.innerHeight - 0.5) * 20;
         backgroundGradient.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
-    });
-
-    // Add subtle hover animation to buttons (already handled in CSS, but can add JS if more complex needed)
-    const linkButtons = document.querySelectorAll('.link-button');
-    linkButtons.forEach(button => {
-        button.addEventListener('mouseenter', () => {
-            // Can add more complex JS animations here if CSS isn't enough
-            // For now, CSS handles the primary hover effects
-        });
-        button.addEventListener('mouseleave', () => {
-            // Reset any JS-driven animations
-        });
     });
 });
