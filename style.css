@@ -8,8 +8,6 @@
     --text-color: #f0f0f0;
     --text-color-dark: #333;
     --button-hover-glow: rgba(255, 255, 255, 0.4);
-    --button-initial-height: 60px; /* ボタンの初期高さ */
-    --button-expanded-padding-bottom: 20px; /* 拡張時の下パディング */
 }
 
 body {
@@ -139,22 +137,23 @@ body {
     color: var(--text-color-dark);
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     position: relative;
-    overflow: hidden; /* コンテンツがはみ出さないように */
+    overflow: hidden;
     cursor: pointer;
     background: rgba(255, 255, 255, 0.85);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 
-    /* 伸びるアニメーションのための設定 */
-    height: var(--button-initial-height); /* 初期高さ */
-    transition: height 0.5s ease-out, background 0.3s, transform 0.3s, box-shadow 0.3s, padding-bottom 0.5s ease-out;
-    flex-wrap: wrap; /* コンテンツが複数行になる場合のために */
+    /* 横に伸びるアニメーションのための設定 */
+    transition: width 0.3s ease-out, background 0.3s, transform 0.3s, box-shadow 0.3s;
+    width: 100%; /* 初期幅 */
+    box-sizing: border-box; /* paddingを含める */
 }
 
-.link-button.expanded {
-    height: auto; /* 拡張時はコンテンツに合わせて高さを自動調整 */
-    padding-bottom: var(--button-expanded-padding-bottom); /* 拡張時の下パディング */
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.75));
+.link-button.expanded-sideways {
+    width: calc(100% + 40px); /* 例: 20pxずつ左右に伸びる */
+    transform: translateX(-20px); /* 中央に保つために左に移動 */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 30px var(--button-hover-glow);
 }
+
 
 .liquid-glass-effect {
     backdrop-filter: blur(8px);
@@ -164,7 +163,7 @@ body {
 }
 
 .link-button:hover {
-    transform: translateY(-5px) scale(1.02);
+    transform: translateY(-5px) scale(1.02); /* ホバー効果は残す */
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 30px var(--button-hover-glow);
     color: var(--text-color-dark);
 }
@@ -191,7 +190,6 @@ body {
 }
 
 .button-icon {
-    /* 以前のimgタグからspanに変更したため、スタイル調整 */
     margin-right: 15px;
     font-size: 1.4em; /* 絵文字のサイズ */
     filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.1));
@@ -203,58 +201,13 @@ body {
     z-index: 2; /* テキストを前に */
 }
 
-/* 展開される情報のコンテナ */
-.info-content {
-    width: 100%;
-    text-align: center;
-    margin-top: 15px; /* ボタンの上下パディングとの調整 */
-    padding-top: 15px;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    font-size: 0.9em;
-    color: var(--text-color-dark);
-    opacity: 0;
-    max-height: 0; /* 初期は非表示 */
-    overflow: hidden;
-    transition: opacity 0.4s ease-in-out, max-height 0.4s ease-in-out;
-}
-
-.link-button.expanded .info-content {
-    opacity: 1;
-    max-height: 200px; /* 十分な高さを設定 (コンテンツに合わせて調整) */
-}
-
-.info-content p {
-    margin: 5px 0;
-    font-weight: 500;
-}
-
-.info-content a {
-    color: #007bff; /* リンクの色 */
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.2s ease;
-}
-
-.info-content a:hover {
-    color: #0056b3;
-    text-decoration: underline;
-}
-
-.qr-code-image {
-    max-width: 150px; /* QRコード画像の最大幅 */
-    height: auto;
-    margin-top: 10px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
+/* 展開される情報のコンテナは削除されたため、関連スタイルも削除 */
 
 .footer {
     margin-top: 40px;
     font-size: 0.9em;
     opacity: 0.7;
 }
-
-/* Messenger Information Overlay関連のスタイルは削除されました */
 
 /* Responsive adjustments */
 @media (max-width: 600px) {
@@ -269,7 +222,6 @@ body {
     .link-button {
         font-size: 1.1em;
         padding: 15px 20px;
-        height: auto; /* 小さい画面では自動調整を優先 */
     }
 
     .button-icon {
@@ -277,7 +229,8 @@ body {
         margin-right: 10px;
     }
 
-    .qr-code-image {
-        max-width: 100px;
+    .link-button.expanded-sideways {
+        width: calc(100% + 20px); /* 小さい画面では伸びる量を調整 */
+        transform: translateX(-10px);
     }
 }
