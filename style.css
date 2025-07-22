@@ -1,16 +1,15 @@
-/* --- Apple Design System 風の変数定義 --- */
 :root {
-  --background-color: #f0f2f5;
-  --card-background: rgba(255, 255, 255, 0.65);
-  --text-primary: #1d1d1f;
-  --text-secondary: #515154;
-  --accent-color: #007aff;
-  --accent-color-hover: #0056b3;
-  --border-radius: 24px;
-  --border-color: rgba(0, 0, 0, 0.08);
-  /* macOS風の滑らかなアニメーションカーブ */
-  --animation-curve: cubic-bezier(0.4, 0, 0.2, 1);
-  --animation-duration: 0.45s;
+  --text-primary: #fff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --accent-color: #8A2BE2; /* BlueViolet */
+  --accent-color-hover: #9932CC; /* MediumOrchid */
+  
+  /* カードの初期円形サイズ */
+  --card-size: 90px;
+  
+  /* Dynamic Island風アニメーションカーブ（バウンス効果） */
+  --animation-curve-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --animation-duration: 0.6s;
 }
 
 *, *::before, *::after {
@@ -20,14 +19,16 @@
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  /* Apple製品の壁紙のような、柔らかい放射状グラデーション */
-  background-color: var(--background-color);
-  background-image: radial-gradient(circle at 1% 1%, hsla(214, 87%, 93%, 1) 0px, transparent 50%),
-                    radial-gradient(circle at 99% 99%, hsla(20, 78%, 95%, 1) 0px, transparent 50%);
+  /* 提示された画像風のメッシュグラデーション背景 */
+  background-color: #1a1a2e;
+  background-image: 
+    radial-gradient(at 20% 25%, hsla(282, 80%, 40%, 0.3) 0px, transparent 50%),
+    radial-gradient(at 80% 20%, hsla(210, 90%, 55%, 0.3) 0px, transparent 50%),
+    radial-gradient(at 50% 80%, hsla(330, 85%, 60%, 0.3) 0px, transparent 50%);
   color: var(--text-primary);
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   min-height: 100vh;
   padding: 50px 20px;
 }
@@ -35,77 +36,111 @@ body {
 .container {
   width: 100%;
   max-width: 550px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+  align-items: center;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 40px;
-  font-size: 2.5rem;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-/* --- Apple Liquid Glass風カードデザイン --- */
+/* --- カードの基本スタイル（円形） --- */
 .card {
-  background: var(--card-background);
-  border-radius: var(--border-radius);
-  margin: 18px 0;
-  padding: 22px 25px;
+  position: relative;
+  width: var(--card-size);
+  height: var(--card-size);
+  border-radius: 50%; /* 完全な円 */
+  background: rgba(20, 20, 40, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   cursor: pointer;
-  /* ガラスの質感を高めるブラー効果 */
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  border: 1px solid var(--border-color);
-  /* 柔らかく、奥行きのある影 */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-  transition: transform var(--animation-duration) var(--animation-curve),
-              box-shadow var(--animation-duration) var(--animation-curve);
+  overflow: hidden;
+
+  /* ★★★ Dynamic Islandアニメーション設定 ★★★ */
+  transition: width var(--animation-duration) var(--animation-curve-bounce),
+              height var(--animation-duration) var(--animation-curve-bounce),
+              border-radius var(--animation-duration) var(--animation-curve-bounce);
 }
 
-.card:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+.card-visible {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .card h2 {
   margin: 0;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-weight: 600;
+  color: var(--text-primary);
+  padding: 5px;
 }
 
-/* --- 開閉アニメーション --- */
+/* --- カード展開後のスタイル --- */
+.card.active {
+  width: 100%; /* 横に広がる */
+  height: auto; /* 高さはコンテンツに合わせる */
+  min-height: var(--card-size);
+  border-radius: 40px; /* 角丸の四角形に変化 */
+  cursor: default;
+}
+
+.card.active .card-visible {
+  cursor: pointer;
+}
+
+/* --- 詳細情報の表示アニメーション --- */
 .details {
-  margin-top: 15px;
+  padding: 0 25px 25px 25px;
   font-size: 1rem;
   line-height: 1.6;
   color: var(--text-secondary);
-  overflow: hidden;
-  display: grid;
-  grid-template-rows: 0fr; /* 高さを0にする */
+  max-height: 0;
   opacity: 0;
-  transition: grid-template-rows var(--animation-duration) var(--animation-curve),
-              opacity calc(var(--animation-duration) / 2) var(--animation-curve),
-              margin-top var(--animation-duration) var(--animation-curve);
+  
+  /* ★★★ 遅延実行で二段階アニメーションを実現 ★★★ */
+  transition: max-height 0.5s ease 0.2s, /* 0.2秒遅れて開始 */
+              opacity 0.5s ease 0.2s;
 }
 
 .card.active .details {
-  grid-template-rows: 1fr; /* 本来の高さに戻す */
+  max-height: 500px;
   opacity: 1;
 }
 
-/* --- Messenger情報パネルのデザイン --- */
+.details p {
+  margin: 10px 0 15px 0;
+}
+
+.details a {
+  display: inline-block;
+  background: var(--accent-color);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.details a:hover {
+  background: var(--accent-color-hover);
+}
+
+/* --- Messenger情報パネル（変更なし） --- */
 #info-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
-  align-items: flex-end; /* 下から表示するため */
+  align-items: flex-end;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.4s ease, visibility 0.4s ease;
@@ -118,17 +153,18 @@ h1 {
 }
 
 #info-panel {
-  background: var(--card-background);
+  background: rgba(30, 30, 50, 0.7);
+  backdrop-filter: blur(25px);
   width: 100%;
   max-width: 550px;
   padding: 30px;
   margin: 20px;
-  border-radius: var(--border-radius);
+  border-radius: 24px;
   box-shadow: 0 0 50px rgba(0,0,0,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   text-align: center;
-  /* スライドアップアニメーション */
   transform: translateY(100%);
-  transition: transform 0.5s var(--animation-curve);
+  transition: transform 0.5s var(--animation-curve-bounce);
 }
 
 #info-overlay.is-visible #info-panel {
@@ -138,6 +174,7 @@ h1 {
 #info-panel h3 {
   font-size: 1.5rem;
   margin: 0 0 10px 0;
+  color: #fff;
 }
 #info-panel .info-text {
   font-size: 1rem;
@@ -159,22 +196,3 @@ h1 {
 #info-done-btn:hover {
   background-color: var(--accent-color-hover);
 }
-
-
-.details p {
-  margin: 0 0 15px 0;
-}
-.details a {
-  display: inline-block;
-  background: var(--accent-color);
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-  margin-top: 5px;
-}
-.details a:hover {
-  background: var(--accent-color-hover);
-  transform: scale(1.03);
