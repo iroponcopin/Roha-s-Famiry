@@ -3,41 +3,58 @@ document.addEventListener('DOMContentLoaded', () => {
     const linksSection = document.getElementById('linksSection');
     const linkButtons = document.querySelectorAll('.link-button');
 
+    const infoOverlay = document.getElementById('infoOverlay');
+    const closeInfoOverlayButton = document.getElementById('closeInfoOverlay');
+    const infoTitle = document.getElementById('infoTitle');
+    const infoHandle = document.getElementById('infoHandle');
+    const infoQrCodeImage = document.getElementById('infoQrCodeImage');
+    const infoUrl = document.getElementById('infoUrl');
+
+
     // 初期状態ではリンク項目を非表示
     linksSection.classList.remove('active');
 
     // プロフィールアバターのクリックでリンク項目を表示/非表示 (下伸びモーションを保持)
     profileAvatar.addEventListener('click', () => {
         linksSection.classList.toggle('active');
-        // 表示/非表示が切り替わる際に、もし横に伸びているボタンがあれば元に戻す
-        linkButtons.forEach(button => {
-            if (button.classList.contains('expanded-sideways')) {
-                button.classList.remove('expanded-sideways');
+        // もし情報オーバーレイが表示中なら閉じる
+        if (infoOverlay.classList.contains('active')) {
+            infoOverlay.classList.remove('active');
+        }
+    });
+
+    // 各リンクボタンのクリックイベント (新たな枠組みを表示)
+    linkButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault(); // デフォルトのリンク動作を防止
+
+            const linkId = button.dataset.linkId;
+            const handle = button.dataset.infoHandle;
+            const url = button.dataset.infoUrl;
+            const qrImage = button.dataset.qrImage; // QR画像のパス
+
+            // 情報をセット
+            infoTitle.textContent = button.querySelector('.button-text').textContent; // ボタンのテキストをタイトルに
+            infoHandle.textContent = handle;
+            infoUrl.href = url;
+            infoUrl.textContent = url.replace(/(^\w+:|^)\/\//, ''); // URLからプロトコルを削除して表示
+
+            if (qrImage) {
+                infoQrCodeImage.src = qrImage;
+                infoQrCodeImage.style.display = 'block'; // 画像を表示
+            } else {
+                infoQrCodeImage.style.display = 'none'; // 画像を非表示
+                infoQrCodeImage.src = ''; // srcもクリア
             }
+
+            // オーバーレイを表示
+            infoOverlay.classList.add('active');
         });
     });
 
-    // 各リンクボタンのクリックイベント (横に伸びるモーションを追加)
-    linkButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            // デフォルトのリンク動作はそのまま維持 (target="_blank" で別タブで開く)
-            // e.preventDefault(); // これをコメントアウトして、リンクの動作を有効にする
-
-            // クリックされたボタン以外の、横に伸びているボタンを全て元に戻す
-            linkButtons.forEach(btn => {
-                if (btn !== button && btn.classList.contains('expanded-sideways')) {
-                    btn.classList.remove('expanded-sideways');
-                }
-            });
-
-            // クリックされたボタンの横伸び/元に戻すをトグル
-            button.classList.toggle('expanded-sideways');
-
-            // もしボタンが伸びている間は、リンクを開くのを少し遅らせる、またはクリックを無効にするなどの考慮が必要
-            // 今回はシンプルに、アニメーションと同時にリンクが開かれる動作になります。
-            // アニメーション完了後にリンクを開きたい場合は、e.preventDefault() を有効にして
-            // setTimeout で window.open(button.href, '_blank') を実行するなどの工夫が必要です。
-        });
+    // オーバーレイの閉じるボタン
+    closeInfoOverlayButton.addEventListener('click', () => {
+        infoOverlay.classList.remove('active');
     });
 
     // プロフィールアバターの初期アニメーション
