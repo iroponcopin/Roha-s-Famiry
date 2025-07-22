@@ -1,13 +1,24 @@
 :root {
-    --color-primary-start: #ff007f; /* Pink/Red from image */
-    --color-primary-end: #8a2be2;   /* Purple from image */
-    --color-secondary-start: #00bcd4; /* Light Blue from image */
-    --color-secondary-end: #ffa500;   /* Orange from image */
-    --glass-background: rgba(255, 255, 255, 0.1);
-    --glass-border: rgba(255, 255, 255, 0.2);
+    /* Apple Intelligence風の背景色 */
+    --color-bg-start: #0a0e1a; /* より深い青紫 */
+    --color-bg-mid: #1c253d;   /* 中間の青 */
+    --color-bg-end: #36405c;   /* 軽やかな青 */
+
+    /* ガラス効果の新しい変数 */
+    --glass-fill: rgba(255, 255, 255, 0.08); /* 内部の透明度を低くしてより透明に */
+    --glass-border-light: rgba(255, 255, 255, 0.3); /* 光源側の明るいボーダー */
+    --glass-border-dark: rgba(255, 255, 255, 0.1);  /* 影側の暗いボーダー */
+    --glass-shadow-inner: rgba(0, 0, 0, 0.2);       /* 内側の影 */
+    --glass-shadow-outer: rgba(0, 0, 0, 0.3);       /* 外側の影 */
+    --glass-highlight: rgba(255, 255, 255, 0.4);   /* 反射ハイライト */
+
     --text-color: #f0f0f0;
     --text-color-dark: #333;
     --button-hover-glow: rgba(255, 255, 255, 0.4);
+
+    /* アニメーションのタイミング関数をより滑らかに */
+    --ease-smooth: cubic-bezier(0.23, 1, 0.32, 1); /* ease-out-quint */
+    --ease-in-out-smooth: cubic-bezier(0.86, 0, 0.07, 1); /* ease-in-out-quint */
 }
 
 body {
@@ -17,7 +28,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: #1a1a2e;
+    background: var(--color-bg-start); /* Fallback */
     overflow: hidden;
     color: var(--text-color);
 }
@@ -30,13 +41,12 @@ body {
     height: 100%;
     background: linear-gradient(
         135deg,
-        var(--color-primary-start),
-        var(--color-primary-end),
-        var(--color-secondary-start),
-        var(--color-secondary-end)
+        var(--color-bg-start),
+        var(--color-bg-mid),
+        var(--color-bg-end)
     );
     background-size: 400% 400%;
-    animation: gradientAnimation 15s ease infinite;
+    animation: gradientAnimation 20s var(--ease-in-out-smooth) infinite; /* より長い時間とスムーズなアニメーション */
     z-index: -1;
 }
 
@@ -47,19 +57,23 @@ body {
 }
 
 .container {
-    background: var(--glass-background);
+    background: var(--glass-fill); /* ガラスの内部背景 */
     border-radius: 20px;
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(15px) saturate(180%);
-    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    border: 1px solid var(--glass-border-light); /* 明るいボーダー */
+    backdrop-filter: blur(25px) saturate(180%); /* ブラーを強める */
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
     padding: 30px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 32px 0 var(--glass-shadow-outer); /* 外側の影 */
     text-align: center;
     max-width: 450px;
     width: 90%;
-    animation: fadeInScale 1s ease-out forwards;
+    animation: fadeInScale 1s var(--ease-smooth) forwards;
     position: relative;
     z-index: 1;
+    /* 内側の影と反射 */
+    box-shadow: inset 0 0 10px var(--glass-shadow-inner), /* 内側の柔らかい影 */
+                0 8px 32px var(--glass-shadow-outer), /* 外側の影 */
+                0 0 0 1px var(--glass-border-light); /* 細いハイライトボーダー */
 }
 
 @keyframes fadeInScale {
@@ -83,29 +97,67 @@ body {
     border-radius: 50%;
     overflow: hidden;
     margin: 0 auto 15px auto;
-    border: 3px solid var(--glass-border);
+    border: 3px solid var(--glass-border-light); /* 明るいボーダー */
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s var(--ease-smooth);
     cursor: pointer;
-    /* 旧アバターボタンの背景を削除、画像で表示 */
-    /* background: rgba(255, 255, 255, 0.2); */
-    display: flex; /* 画像を中心に配置 */
+    background: transparent; /* 背景なし */
+    display: flex;
     justify-content: center;
     align-items: center;
-    /* font-size: 2em; */ /* 絵文字を削除したため不要 */
-    /* color: var(--text-color); */
+    position: relative; /* 水のエフェクトの基準 */
+    z-index: 10; /* 画像を最前面に */
 }
 
-.profile-picture { /* アバター画像自体 */
+.profile-picture {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    border-radius: 50%; /* 画像自体も角丸に */
+    position: relative;
+    z-index: 1; /* エフェクトの下に */
 }
 
 .profile-image-wrapper:hover {
     transform: scale(1.05);
 }
+
+/* アバターの水のエフェクト */
+.water-effect-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+    animation: waterRipple 3s infinite var(--ease-in-out-smooth);
+    mix-blend-mode: overlay; /* より光沢感のあるブレンドモード */
+    z-index: 2; /* 画像より後ろ */
+}
+
+.water-effect-layer.water-effect-2 {
+    animation-delay: 1.5s; /* 2つ目のレイヤーは遅れて開始 */
+    opacity: 0.8;
+    transform: scale(0.9);
+}
+
+@keyframes waterRipple {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.3;
+    }
+    100% {
+        transform: scale(0.8);
+        opacity: 0.8;
+    }
+}
+
 
 .profile-name {
     font-size: 2.2em;
@@ -122,7 +174,7 @@ body {
     gap: 20px;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+    transition: max-height 0.5s var(--ease-smooth), opacity 0.5s var(--ease-smooth);
     opacity: 0;
 }
 
@@ -145,18 +197,18 @@ body {
     opacity: 0;
     max-height: 0;
     overflow: hidden;
-    transition: opacity 0.5s ease, max-height 0.5s ease;
+    transition: opacity 0.5s var(--ease-smooth), max-height 0.5s var(--ease-smooth);
 }
 
 .visible {
     display: flex !important;
     opacity: 1;
     max-height: 500px;
-    transition: opacity 0.5s ease, max-height 0.5s ease;
+    transition: opacity 0.5s var(--ease-smooth), max-height 0.5s var(--ease-smooth);
 }
 
-/* リンクボタン共通スタイル */
-.link-button {
+/* ガラスボタン共通スタイル */
+.link-button, .back-button, .bottom-button, .toggle-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -165,31 +217,43 @@ body {
     text-decoration: none;
     font-size: 1.2em;
     font-weight: 600;
-    color: var(--text-color-dark);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    color: var(--text-color); /* テキスト色を明るく */
+    transition: all 0.3s var(--ease-smooth); /* 全体的にスムーズに */
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    background: rgba(255, 255, 255, 0.85);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+
+    /* 本物のガラスのようなデザイン */
+    background: var(--glass-fill); /* 内部の透明な塗り */
+    border: 1px solid;
+    border-color: var(--glass-border-light); /* 明るいボーダー */
+    box-shadow: 
+        inset 0 1px 0 var(--glass-highlight), /* 上部のハイライト */
+        inset 0 -1px 0 rgba(0,0,0,0.1), /* 下部の微妙な影 */
+        0 4px 15px var(--glass-shadow-outer); /* 外側の影 */
+    backdrop-filter: blur(15px); /* 背景のぼかしを強める */
+    -webkit-backdrop-filter: blur(15px);
+
     width: 100%;
     box-sizing: border-box;
 }
 
-.liquid-glass-effect {
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
-    border: 1px solid rgba(255, 255, 255, 0.7);
+.link-button:hover, .back-button:hover, .bottom-button:hover, .toggle-button:hover {
+    transform: translateY(-3px) scale(1.02); /* 少しだけ浮き上がり、拡大 */
+    box-shadow: 
+        inset 0 1px 0 var(--glass-highlight),
+        inset 0 -1px 0 rgba(0,0,0,0.1),
+        0 8px 25px var(--glass-shadow-outer), /* 影をより強く */
+        0 0 30px var(--button-hover-glow); /* 軽い光の輪郭 */
+    background: rgba(255, 255, 255, 0.12); /* ホバーで少し不透明に */
 }
 
-.link-button:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 30px var(--button-hover-glow);
-    color: var(--text-color-dark);
+/* ボタン内のテキストの影を調整 */
+.link-button .button-text {
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
-.link-button::before {
+.link-button::before { /* 光の通過エフェクトを維持 */
     content: '';
     position: absolute;
     top: 0;
@@ -199,20 +263,15 @@ body {
     background: linear-gradient(
         90deg,
         transparent,
-        rgba(255, 255, 255, 0.4),
+        rgba(255, 255, 255, 0.3), /* 光を強く */
         transparent
     );
-    transition: left 0.5s ease;
+    transition: left 0.5s var(--ease-smooth);
     z-index: 1;
 }
 
 .link-button:hover::before {
     left: 100%;
-}
-
-.button-text {
-    flex-grow: 1;
-    z-index: 2;
 }
 
 .footer {
@@ -237,7 +296,7 @@ body {
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: opacity 0.3s var(--ease-smooth), visibility 0.3s var(--ease-smooth);
 }
 
 .overlay-modal.active {
@@ -246,20 +305,23 @@ body {
 }
 
 .modal-card {
-    background: var(--glass-background);
+    background: var(--glass-fill); /* ガラスの内部背景 */
     border-radius: 20px;
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--glass-border-light); /* 明るいボーダー */
     backdrop-filter: blur(25px) saturate(180%);
     -webkit-backdrop-filter: blur(25px) saturate(180%);
     padding: 30px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: 
+        inset 0 0 10px var(--glass-shadow-inner), 
+        0 8px 32px var(--glass-shadow-outer),
+        0 0 0 1px var(--glass-border-light);
     text-align: center;
     max-width: 450px;
     width: 90%;
     position: relative;
     transform: translateY(-20px); /* PC版の初期アニメーション */
     opacity: 0; /* PC版の表示/非表示アニメーション用 */
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    transition: transform 0.3s var(--ease-smooth), opacity 0.3s var(--ease-smooth);
     color: var(--text-color);
     display: flex;
     flex-direction: column;
@@ -280,12 +342,14 @@ body {
     font-size: 1.1em;
     margin-bottom: 10px;
     word-break: break-all;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
 .modal-card a {
     color: #87ceeb;
     text-decoration: none;
     font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
 .modal-card a:hover {
@@ -311,7 +375,7 @@ body {
     cursor: pointer;
     padding: 5px 10px;
     border-radius: 5px;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition: background-color 0.2s var(--ease-smooth), color 0.2s var(--ease-smooth);
 }
 
 .close-button:hover {
@@ -325,33 +389,21 @@ body {
     padding: 12px 10px;
     margin-bottom: 15px;
     border-radius: 8px;
-    border: 1px solid var(--glass-border);
-    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border-light);
+    background-color: rgba(255, 255, 255, 0.05); /* より透明に */
     color: var(--text-color);
     font-size: 1em;
     outline: none;
-    transition: border-color 0.2s ease;
+    transition: border-color 0.2s var(--ease-smooth);
 }
 
 .modal-card input[type="password"]:focus {
     border-color: #87ceeb;
 }
 
+/* modal-card内のボタンは、glass-effectクラスを適用 */
 .modal-card button:not(.close-button) {
-    background: linear-gradient(90deg, #8a2be2, #ff007f);
-    color: #fff;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 8px;
-    font-size: 1.1em;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    margin-top: 10px;
-}
-
-.modal-card button:not(.close-button):hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    /* glass-effectクラスで定義されるので、ここでの重複定義は削除 */
 }
 
 .error-message {
@@ -360,7 +412,7 @@ body {
     margin-top: -10px;
     margin-bottom: 10px;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s var(--ease-smooth);
 }
 
 .error-message.show {
@@ -376,46 +428,48 @@ body {
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 15px; /* ボタン間の隙間 */
+    gap: 15px;
     z-index: 500;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: opacity 0.3s var(--ease-smooth), visibility 0.3s var(--ease-smooth);
     
-    /* Dock Style */
-    background: rgba(255, 255, 255, 0.1); /* ドックの背景 */
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    /* Dock Style (glass-effectクラスで適用されるスタイルも含む) */
+    background: var(--glass-fill);
+    border: 1px solid var(--glass-border-light);
     backdrop-filter: blur(15px) saturate(180%);
     -webkit-backdrop-filter: blur(15px) saturate(180%);
-    border-radius: 20px; /* 角丸 */
-    padding: 10px 15px; /* 内側の余白 */
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    padding: 10px 15px;
+    box-shadow: 
+        inset 0 0 10px var(--glass-shadow-inner), 
+        0 8px 32px var(--glass-shadow-outer),
+        0 0 0 1px var(--glass-border-light);
 }
 
-/* アバター展開時もドックは隠れないため、links-section.active時のhiddenは不要 */
-/* .bottom-buttons-container.hidden {
+.bottom-buttons-container.hidden { /* アバター展開時に隠れる */
     opacity: 0;
     visibility: hidden;
-} */
+}
 
-.bottom-button {
+.bottom-button { /* glass-effectクラスでスタイルされる */
     width: 60px;
     height: 60px;
-    border-radius: 50%; /* アイコンボタンの形状 */
+    border-radius: 50%;
     background: transparent; /* ドック内なので透明にする */
-    border: none; /* ボーダーもなし */
+    border: none;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 1.8em;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    color: var(--text-color); /* アイコンの色 */
-    box-shadow: none; /* ボタン自体の影はなし */
+    transition: transform 0.2s var(--ease-smooth), box-shadow 0.2s var(--ease-smooth);
+    color: var(--text-color);
+    box-shadow: none; /* ドック内のボタンは独自の影 */
 }
 
 .bottom-button:hover {
-    transform: translateY(-10px) scale(1.2); /* ホバーで上に浮き上がり拡大 */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* ホバー時の影 */
-    z-index: 501; /* ホバー時に手前に来る */
+    transform: translateY(-10px) scale(1.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 501;
 }
 
 
@@ -476,7 +530,7 @@ body {
         max-height: 70vh; /* 画面高さの70%まで広がる */
         transform: translateY(100%); /* 下からスライドアップの初期位置 */
         opacity: 1; /* モバイルでは常時opacityを1にし、transformで表示/非表示を制御 */
-        transition: transform 0.4s ease-out; /* transformアニメーションのみに焦点を当てる */
+        transition: transform 0.4s var(--ease-smooth);
     }
 
     .overlay-modal.active .modal-card {
@@ -555,7 +609,7 @@ body {
         font-size: 1.1em;
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.3s var(--ease-smooth);
         text-align: center;
     }
 
