@@ -57,6 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const musicButtonPC = document.getElementById('musicButtonPC');
     const settingsButtonPC = document.getElementById('settingsButtonPC');
 
+    // モバイル版ドックボタン
+    const bottomButtonsContainerMobile = document.getElementById('bottomButtonsContainerMobile');
+    const homeButtonMobile = document.getElementById('homeButtonMobile');
+    const secretButtonMobile = document.getElementById('secretButtonMobile');
+    const musicButtonMobile = document.getElementById('musicButtonMobile');
+
+
     // モバイル版の戻るボタン
     const backToFileLinksButton = document.getElementById('backToFileLinks');
     const backToMobileMainLinksButton = document.getElementById('backToMobileMainLinks');
@@ -121,10 +128,9 @@ document.addEventListener('DOMContentLoaded', () => {
         linksSection.classList.remove('active'); // LinkTree項目全体は最初は隠す
         closeAllOverlays();
         
-        // PC版のドックは常に表示（Avatarクリックで隠れない）
-        if (bottomButtonsContainerPC) {
-            bottomButtonsContainerPC.classList.remove('hidden');
-        }
+        // ドックは常に表示
+        if (bottomButtonsContainerPC) bottomButtonsContainerPC.classList.remove('hidden');
+        if (bottomButtonsContainerMobile) bottomButtonsContainerMobile.classList.remove('hidden');
 
         // PC/モバイルに応じたリンクグループの表示
         if (isMobileDevice()) {
@@ -334,25 +340,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // === モバイル版の特殊項目ボタンの機能 ===
+    // === モバイル版のドックボタンの機能 ===
+    if (homeButtonMobile) {
+        homeButtonMobile.addEventListener('click', () => {
+            closeAllOverlays();
+            linksSection.classList.add('active');
+            showLinksGroup(mobileLinks);
+        });
+    }
+
+    if (secretButtonMobile) {
+        secretButtonMobile.addEventListener('click', () => {
+            closeAllOverlays();
+            linksSection.classList.add('active');
+            if (isPasswordEnteredOncePC) { // モバイル版でもPC版のパスワード状態を流用
+                showLinksGroup(secretLinksMobile);
+            } else {
+                toggleOverlay(passwordOverlay, true);
+                passwordInput.value = '';
+                passwordError.classList.remove('show');
+                passwordInput.focus();
+            }
+        });
+    }
+
+    if (musicButtonMobile) {
+        musicButtonMobile.addEventListener('click', () => {
+            closeAllOverlays();
+            linksSection.classList.add('active'); // Music Playerは独立したオーバーレイなのでLinksSectionは展開しても良い
+            toggleOverlay(musicPlayerOverlay, true);
+            // YouTubeプレイヤー初期化ロジックはPC版と同じ（modal-cardが共通のため）
+        });
+    }
+
+
+    // === モバイル版の通常のリンク項目ボタンの機能 ===
     // 「Socials」ファイルボタン
     if (fileButton) {
         fileButton.addEventListener('click', (e) => {
             e.preventDefault();
             closeAllOverlays();
             showLinksGroup(fileGridLinks); // グリッドを表示
-        });
-    }
-
-    // モバイル版の「Secret」ボタン
-    if (mobileSecretButton) {
-        mobileSecretButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            closeAllOverlays();
-            toggleOverlay(passwordOverlay, true);
-            passwordInput.value = '';
-            passwordError.classList.remove('show');
-            passwordInput.focus();
         });
     }
 
@@ -380,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
         backToMobileMainLinksButton.addEventListener('click', () => {
             closeAllOverlays();
             showLinksGroup(mobileLinks); // メイン項目に戻る
-            isPasswordEnteredOncePC = false; // モバイル版ではSecretから戻ったらパスワード状態をリセット
+            isPasswordEnteredOncePC = false; // Secretから戻ったらパスワード状態をリセット
         });
     }
 
@@ -432,14 +460,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // プロフィールアバターの初期アニメーション
-    const profilePictureWrapper = document.querySelector('.profile-image-wrapper');
-    const avatarEmoji = profilePictureWrapper.querySelector('.avatar-emoji'); // 絵文字要素を取得
+    // プロフィールアバターの初期アニメーション (表示修正)
+    // 直接要素のopacityとtransformを設定することで、CSSアニメーションを上書き
+    profileAvatar.style.opacity = '1';
+    profileAvatar.style.transform = 'scale(1)';
 
-    // ロード時にアニメーションを開始
-    profilePictureWrapper.style.transform = 'scale(1)';
-    profilePictureWrapper.style.opacity = '1';
-    
     // 背景グラデーションのパララックス効果
     const backgroundGradient = document.querySelector('.background-gradient');
     document.body.addEventListener('mousemove', (e) => {
