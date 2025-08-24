@@ -49,9 +49,10 @@ main {
     text-align: center;
 }
 
-/* ヒーローセクションを復活 */
+/* ヒーローセクション */
 .hero {
-    padding: 60px 20px;
+    /* 上下の余白を増やして画像の代わりのスペースを確保 */
+    padding: 100px 20px; 
 }
 
 .hero h1 {
@@ -62,30 +63,30 @@ main {
 .hero h2 {
     font-size: 28px;
     font-weight: 400;
-    margin-bottom: 20px;
+    margin-bottom: 30px; /* ボタンとの距離を少し広げる */
 }
 
-.hero .cta-links a {
-    margin: 0 10px;
-    font-size: 17px;
-}
-
-.hero .button {
+/* ボタンの共通スタイル */
+.button {
     background-color: #0071e3;
     color: #fff;
     padding: 12px 22px;
     border-radius: 980px; /* 角丸 */
+    font-size: 17px;
+    display: inline-block; /* aタグをボタンらしく見せるため */
+    transition: filter 0.3s ease; /* アニメーションを追加 */
 }
 
-.hero img {
-    max-width: 100%;
-    margin-top: 40px;
+/* ボタンのホバーエフェクト */
+.button:hover {
+    filter: brightness(1.15); /* マウスを乗せると少し明るくする */
 }
+
 
 /* ゲームグリッドセクションのスタイル */
 .games-grid {
     padding: 60px 20px;
-    background-color: #f5f5f7; /* 少し背景色を変えてセクションを区切る */
+    background-color: #f5f5f7;
 }
 
 .games-grid .section-title {
@@ -95,11 +96,10 @@ main {
 
 .grid-container {
     display: grid;
-    /* PCでは2列に並べる */
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px; /* カード間の余白 */
+    gap: 20px;
     max-width: 1000px;
-    margin: 0 auto; /* 中央揃え */
+    margin: 0 auto;
 }
 
 .game-card {
@@ -110,7 +110,6 @@ main {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* カードにマウスを乗せたら少し浮き上がるエフェクト */
 .game-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
@@ -136,8 +135,8 @@ main {
 
 /* プロフィールセクションのスタイル */
 .profile-section {
-    background-color: #000; /* 背景を黒に */
-    color: #fff; /* 文字を白に */
+    background-color: #000;
+    color: #fff;
     padding: 80px 20px;
 }
 
@@ -147,13 +146,12 @@ main {
 }
 
 .profile-section p {
-    color: #a1a1a6; /* 少しグレーがかった白に */
-    max-width: 600px; /* 横幅を制限して読みやすくする */
-    margin: 0 auto; /* 中央揃え */
+    color: #a1a1a6;
+    max-width: 600px;
+    margin: 0 auto;
     font-size: 18px;
     line-height: 1.6;
 }
-
 
 /* アニメーションのためのスタイル */
 .fade-in-target {
