@@ -43,19 +43,19 @@ header nav ul li a {
     font-size: 16px;
 }
 
-/* --- Dropdown Menu Styles --- */
+/* Dropdown Menu Styles */
 .dropdown {
     position: relative;
 }
 
 .dropdown-toggle {
-    cursor: default; /* クリック不要なのでカーソルを標準に */
+    cursor: default;
 }
 
 .dropdown-content {
-    display: none; /* 初期状態は非表示 */
+    display: none;
     position: absolute;
-    top: 100%; /* 親要素の真下に配置 */
+    top: 100%;
     left: 50%;
     transform: translateX(-50%);
     background-color: rgba(255, 255, 255, 0.9);
@@ -67,28 +67,27 @@ header nav ul li a {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     min-width: 150px;
     opacity: 0;
-    pointer-events: none; /* 表示されていなくてもクリックできないように */
+    pointer-events: none;
     transition: opacity 0.3s ease, margin-top 0.3s ease;
 }
 
 .dropdown:hover .dropdown-content {
-    display: block; /* ホバー時に表示 */
+    display: block;
     opacity: 1;
     margin-top: 0;
-    pointer-events: auto; /* クリックできるように */
+    pointer-events: auto;
 }
 
 .dropdown-content li a {
     display: block;
     padding: 8px 20px;
-    white-space: nowrap; /* テキストが折り返さないように */
+    white-space: nowrap;
     transition: background-color 0.2s ease;
 }
 
 .dropdown-content li a:hover {
     background-color: rgba(0, 0, 0, 0.05);
 }
-
 
 /* メインコンテンツ */
 main {
@@ -130,10 +129,11 @@ main {
 .games-grid {
     padding: 60px 0;
     background-color: #f5f5f7;
+    transition: all 0.5s ease-in-out; /* 非表示になるときのトランジション */
 }
 
 .games-grid.hidden {
-    display: none; /* JSでの表示切替用 */
+    display: none;
 }
 
 .games-grid .section-title {
@@ -232,6 +232,7 @@ main {
 
 /* スマホ表示の調整 */
 @media (max-width: 768px) {
+
     .games-grid .section-title,
     .profile-section h2 {
         font-size: 32px;
