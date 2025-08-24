@@ -79,62 +79,67 @@ main {
     filter: brightness(1.15);
 }
 
-/* 【NEW】SNSグリッドセクション */
-.social-grid {
-    padding: 60px 20px;
-}
-.social-container {
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 800px;
-}
-.social-card {
-    padding: 20px;
-    cursor: pointer;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}
-.social-card:hover {
-    transform: scale(1.05);
-    opacity: 0.8;
-}
-.social-card img {
-    max-width: 100px;
-    height: auto;
-}
-
+/* --- ここからが今回の主な変更点 --- */
 
 /* ゲームグリッドセクション */
 .games-grid {
     padding: 60px 20px;
     background-color: #f5f5f7;
 }
+
 .games-grid .section-title {
     font-size: 40px;
     margin-bottom: 40px;
 }
+
+/* 【変更】グリッドレイアウト */
 .grid-container {
     display: grid;
+    /* 画面幅に応じて列数を自動調整 */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 20px;
-    max-width: 1000px;
+    max-width: 1200px; /* 最大幅を少し広げる */
     margin: 0 auto;
 }
+
+/* 【NEW】カード全体を囲むリンクのスタイル */
+.game-card-link {
+    text-decoration: none;
+    color: inherit; /* 親要素の色を継承（黒文字にする） */
+}
+
+/* 【変更】カードのデザイン */
 .game-card {
     background-color: #fff;
     border-radius: 18px;
-    padding: 30px;
+    padding: 15px; /* 内側の余白を小さく */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%; /* 高さを揃える */
+    box-sizing: border-box; /* paddingを含めて高さを計算 */
 }
+
 .game-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
+
 .game-card img {
     max-width: 100%;
     border-radius: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px; /* 余白を調整 */
 }
-.game-card h3 { font-size: 24px; margin-bottom: 10px; }
-.game-card p { color: #6e6e73; font-size: 16px; line-height: 1.5; margin-bottom: 20px; }
+
+.game-card h3 {
+    font-size: 16px; /* フォントサイズを小さく */
+    margin: 0; /* 余白をリセット */
+    text-align: left; /* 左揃えにする */
+}
+
+/* 【変更】説明文とボタンは非表示に */
+.game-card p {
+    display: none;
+}
 
 
 /* 自己紹介セクション */
@@ -146,109 +151,20 @@ main {
 .profile-section h2 { font-size: 40px; color: #f5f5f7; }
 .profile-section p { color: #a1a1a6; max-width: 600px; margin: 0 auto; font-size: 18px; line-height: 1.6; }
 
-
 /* アニメーションとユーティリティ */
-.fade-in-target {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-.fade-in-target.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-.hidden {
-    display: none;
-}
-
-
-/* 【NEW】モーダルウィンドウのスタイル */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(10px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-    z-index: 200;
-}
-.modal-overlay.visible {
-    opacity: 1;
-    pointer-events: auto;
-}
-.modal-content {
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 18px;
-    max-width: 400px;
-    width: 90%;
-    position: relative;
-    transform: scale(0.95);
-    transition: transform 0.4s ease;
-}
-.modal-overlay.visible .modal-content {
-    transform: scale(1);
-}
-.modal-content h3 {
-    margin-top: 0;
-    font-size: 24px;
-}
-.modal-content .channel-name {
-    font-size: 18px;
-    color: #6e6e73;
-}
-.modal-content a {
-    font-size: 14px;
-    word-break: break-all;
-}
-.close-button {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: #e8e8e8;
-    border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    font-size: 20px;
-    color: #6e6e73;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background-color 0.3s ease;
-}
-.close-button:hover {
-    background-color: #dcdcdc;
-}
-
+.fade-in-target { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+.fade-in-target.visible { opacity: 1; transform: translateY(0); }
+.hidden { display: none; }
 
 /* スマホ表示の調整 */
 @media (max-width: 768px) {
+    .games-grid .section-title, .profile-section h2 { font-size: 32px; }
+    
+    /* スマホでは最小幅を少し調整して2列に収まりやすくする */
     .grid-container {
-        grid-template-columns: 1fr;
-    }
-    .social-container {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    .games-grid .section-title, .profile-section h2 {
-        font-size: 32px;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
     }
 }
-
 
 /* フッター */
-footer {
-    background-color: #f5f5f7;
-    padding: 40px 20px;
-    text-align: center;
-    font-size: 12px;
-    color: #6e6e73;
-}
+footer { background-color: #f5f5f7; padding: 40px 20px; text-align: center; font-size: 12px; color: #6e6e73; }
