@@ -5,11 +5,7 @@ const translations = {
     // 英語
     en: {
         "nav-logo": "IROHA. Genzakura",
-        "hero-title": "Toward a new global society.",
-        "hero-subtitle": "Aiming to bring joy to the world.",
-        "hero-button": "Learn More",
-        "hero-link": "Buy",
-        "games-title": "My Favorite Games",
+        "games-title": "Content title to be published", // 変更
         "game1-title": "Genshin Impact",
         "game1-desc": "Explore an open world freely and enjoy exhilarating battles using the elements.",
         "game2-title": "Honkai: Star Rail",
@@ -25,11 +21,7 @@ const translations = {
     // 日本語
     ja: {
         "nav-logo": "幻櫻いろは",
-        "hero-title": "新たなグローバル社会へ。",
-        "hero-subtitle": "世界中に喜びを届けることを目指して。",
-        "hero-button": "更に詳しく",
-        "hero-link": "購入",
-        "games-title": "お気に入りのゲーム",
+        "games-title": "公開予定のコンテンツ", // 変更
         "game1-title": "原神",
         "game1-desc": "オープンワールドを自由に探索し、元素を操る爽快なバトルを楽しもう。",
         "game2-title": "崩壊：スターレイル",
@@ -45,11 +37,7 @@ const translations = {
     // 韓国語
     ko: {
         "nav-logo": "겐자쿠라 이로하",
-        "hero-title": "새로운 글로벌 사회를 향하여.",
-        "hero-subtitle": "세상에 즐거움을 선사하는 것을 목표로.",
-        "hero-button": "더 알아보기",
-        "hero-link": "구매",
-        "games-title": "제가 좋아하는 게임들",
+        "games-title": "공개 예정 콘텐츠", // 変更
         "game1-title": "원신",
         "game1-desc": "오픈 월드를 자유롭게 탐험하고 원소를 이용한 상쾌한 전투를 즐겨보세요.",
         "game2-title": "붕괴: 스타레일",
@@ -66,16 +54,9 @@ const translations = {
 
 // 2. ページが読み込まれたときに言語を設定する処理
 document.addEventListener('DOMContentLoaded', () => {
-    // ブラウザの言語設定を取得 (例: 'ja', 'en-US', 'ko-KR')
     const userLang = navigator.language.slice(0, 2);
-
-    // 対応する言語の翻訳データを取得。なければ英語をデフォルトにする
     const langData = translations[userLang] || translations.en;
-
-    // data-key属性を持つすべての要素を取得
     const elements = document.querySelectorAll('[data-key]');
-
-    // 各要素のテキストを翻訳データで置き換え
     elements.forEach(element => {
         const key = element.getAttribute('data-key');
         if (langData[key]) {
