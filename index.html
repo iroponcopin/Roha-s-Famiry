@@ -7,21 +7,27 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- 【NEW】メニュー表示時の背景オーバーレイ -->
+    <div class="header-overlay"></div>
 
     <!-- ヘッダー（ナビゲーションバー） -->
-    <header>
+    <header id="main-header">
         <nav>
             <ul>
                 <li><a href="#" class="nav-logo" data-key="nav-logo">幻櫻いろは</a></li>
-                <!-- ドロップダウンメニューの親要素 -->
+                <!-- 【変更】メガメニューの親要素 -->
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-key="nav-social">Social Media</a>
-                    <!-- ドロップダウンの中身 -->
-                    <ul class="dropdown-content">
-                        <li><a href="https://www.instagram.com/aruiroha0718" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-                        <li><a href="https://x.com/aruiroha0718" target="_blank" rel="noopener noreferrer">X (Twitter)</a></li>
-                        <li><a href="https://www.youtube.com/@aruiroha0718" target="_blank" rel="noopener noreferrer">YouTube</a></li>
-                    </ul>
+                    <!-- 【変更】メガメニューのコンテンツ部分 -->
+                    <div class="mega-menu">
+                        <div class="mega-menu-content">
+                            <ul class="mega-menu-links">
+                                <li><a href="https://www.instagram.com/aruiroha0718" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                                <li><a href="https://x.com/aruiroha0718" target="_blank" rel="noopener noreferrer">X (Twitter)</a></li>
+                                <li><a href="https://www.youtube.com/@aruiroha0718" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </li>
             </ul>
         </nav>
@@ -38,63 +44,27 @@
             </div>
         </section>
 
-        <!-- コンテンツ紹介セクション（初期は非表示） -->
-        <section id="games-section" class="games-grid fade-in-target hidden">
+        <!-- コンテンツ紹介セクション（変更なし） -->
+        <section id="games-section" class="games-grid hidden">
             <h2 class="section-title" data-key="games-title">Content title to be published</h2>
             <div class="grid-container">
-                <!-- Card 1 -->
-                <a href="https://genshin.hoyoverse.com/" target="_blank" rel="noopener noreferrer" class="game-card-link">
-                    <div class="game-card">
-                        <img src="image/genshin_image.jpg" alt="Genshin Impact">
-                        <h3 data-key="game1-title">Genshin Impact</h3>
-                    </div>
-                </a>
-                <!-- Card 2 -->
-                <a href="https://hsr.hoyoverse.com/" target="_blank" rel="noopener noreferrer" class="game-card-link">
-                    <div class="game-card">
-                        <img src="image/starrail_image.jpg" alt="Honkai: Star Rail">
-                        <h3 data-key="game2-title">Honkai: Star Rail</h3>
-                    </div>
-                </a>
-                <!-- Card 3 -->
-                <a href="https://zenless.hoyoverse.com/" target="_blank" rel="noopener noreferrer" class="game-card-link">
-                    <div class="game-card">
-                        <img src="image/zzz_image.jpg" alt="Zenless Zone Zero">
-                        <h3 data-key="game3-title">Zenless Zone Zero</h3>
-                    </div>
-                </a>
-                <!-- Card 4 -->
-                <a href="https://www.minecraft.net/" target="_blank" rel="noopener noreferrer" class="game-card-link">
-                    <div class="game-card">
-                        <img src="image/minecraft_image.jpg" alt="Minecraft">
-                        <h3 data-key="game4-title">Minecraft</h3>
-                    </div>
-                </a>
-                <!-- Card 5 (NEW) -->
-                <a href="https://wutheringwaves.kurogames.com/" target="_blank" rel="noopener noreferrer" class="game-card-link">
-                    <div class="game-card">
-                        <img src="image/wuthering_waves_image.jpg" alt="Wuthering Waves">
-                        <h3 data-key="game5-title">Wuthering Waves</h3>
-                    </div>
-                </a>
-                <!-- Card 6 (NEW) -->
-                <a href="#" target="_blank" rel="noopener noreferrer" class="game-card-link">
-                    <div class="game-card">
-                        <img src="image/nte_image.jpg" alt="Neverness To Everness">
-                        <h3 data-key="game6-title">Neverness To Everness</h3>
-                    </div>
-                </a>
+                 <a href="https://genshin.hoyoverse.com/" target="_blank" rel="noopener noreferrer" class="game-card-link"><div class="game-card"><img src="image/genshin_image.jpg" alt="Genshin Impact"><h3 data-key="game1-title">Genshin Impact</h3></div></a>
+                 <a href="https://hsr.hoyoverse.com/" target="_blank" rel="noopener noreferrer" class="game-card-link"><div class="game-card"><img src="image/starrail_image.jpg" alt="Honkai: Star Rail"><h3 data-key="game2-title">Honkai: Star Rail</h3></div></a>
+                 <a href="https://zenless.hoyoverse.com/" target="_blank" rel="noopener noreferrer" class="game-card-link"><div class="game-card"><img src="image/zzz_image.jpg" alt="Zenless Zone Zero"><h3 data-key="game3-title">Zenless Zone Zero</h3></div></a>
+                 <a href="https://www.minecraft.net/" target="_blank" rel="noopener noreferrer" class="game-card-link"><div class="game-card"><img src="image/minecraft_image.jpg" alt="Minecraft"><h3 data-key="game4-title">Minecraft</h3></div></a>
+                 <a href="https://wutheringwaves.kurogames.com/" target="_blank" rel="noopener noreferrer" class="game-card-link"><div class="game-card"><img src="image/wuthering_waves_image.jpg" alt="Wuthering Waves"><h3 data-key="game5-title">Wuthering Waves</h3></div></a>
+                 <a href="#" target="_blank" rel="noopener noreferrer" class="game-card-link"><div class="game-card"><img src="image/nte_image.jpg" alt="Neverness To Everness"><h3 data-key="game6-title">Neverness To Everness</h3></div></a>
             </div>
         </section>
 
-        <!-- 自己紹介セクション -->
+        <!-- 自己紹介セクション（変更なし） -->
         <section class="profile-section fade-in-target">
             <h2 data-key="profile-title">All social IDs are @aruiroha0718.</h2>
             <p data-key="profile-desc">My goal is to build global relationships with more people around the world through a variety of content, and I will continue to publish a lot of content.</p>
         </section>
     </main>
 
-    <!-- フッター -->
+    <!-- フッター（変更なし） -->
     <footer>
         <p>&copy; 2025 IROHA. All rights reserved.</p>
     </footer>
