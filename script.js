@@ -1,187 +1,101 @@
-/* 基本的なスタイルリセットとフォント設定 */
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #fff;
-    color: #1d1d1f;
-    -webkit-font-smoothing: antialiased;
-}
-
-a {
-    text-decoration: none;
-    color: #06c;
-}
-
-/* ヘッダー */
-header {
-    background-color: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(20px);
-    padding: 0 20px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-header nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    padding: 0;
-    height: 44px;
-    gap: 16px;
-}
-
-header nav ul li a {
-    color: #1d1d1f;
-    font-size: 12px;
-}
-
-.nav-logo {
-    font-weight: bold;
-    font-size: 16px;
-}
-
-/* メインコンテンツ */
-main {
-    text-align: center;
-}
-
-/* ヒーローセクション */
-.hero {
-    padding: 100px 20px;
-}
-
-.hero h1 {
-    font-size: 56px;
-    margin-bottom: 10px;
-}
-
-.hero h2 {
-    font-size: 28px;
-    font-weight: 400;
-    margin-bottom: 30px;
-}
-
-/* ボタンの共通スタイル */
-.button {
-    background-color: #0071e3;
-    color: #fff;
-    padding: 12px 22px;
-    border-radius: 980px;
-    font-size: 17px;
-    display: inline-block;
-    transition: filter 0.3s ease;
-}
-
-.button:hover {
-    filter: brightness(1.15);
-}
-
-/* ゲームグリッドセクション */
-.games-grid {
-    padding: 60px 20px;
-    background-color: #f5f5f7;
-}
-
-.games-grid .section-title {
-    font-size: 40px;
-    margin-bottom: 40px;
-}
-
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.game-card {
-    background-color: #fff;
-    border-radius: 18px;
-    padding: 30px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.game-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-}
-
-.game-card img {
-    max-width: 100%;
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
-
-.game-card h3 {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-
-.game-card p {
-    color: #6e6e73;
-    font-size: 16px;
-    line-height: 1.5;
-    margin-bottom: 20px;
-}
-
-/* 自己紹介セクション */
-.profile-section {
-    background-color: #000;
-    color: #fff;
-    padding: 80px 20px;
-}
-
-.profile-section h2 {
-    font-size: 40px;
-    color: #f5f5f7;
-}
-
-.profile-section p {
-    color: #a1a1a6;
-    max-width: 600px;
-    margin: 0 auto;
-    font-size: 18px;
-    line-height: 1.6;
-}
-
-/* アニメーションとユーティリティ */
-.fade-in-target {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.fade-in-target.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.hidden {
-    display: none;
-}
-
-/* スマホ表示の調整 */
-@media (max-width: 768px) {
-    .grid-container {
-        grid-template-columns: 1fr;
+// --- 多言語対応機能 ---
+const translations = {
+    en: {
+        "nav-logo": "IROHA. Genou",
+        "hero-title": "Toward a new global society.",
+        "hero-subtitle": "Aiming to bring joy to the world.",
+        "hero-button": "Learn More",
+        "games-title": "Content title to be published",
+        "game1-title": "Genshin Impact",
+        "game1-desc": "Explore an open world freely and enjoy exhilarating battles using the elements.",
+        "game2-title": "Honkai: Star Rail",
+        "game2-desc": "Embark on a grand adventure across the galaxy. Journey through the stars with unique companions.",
+        "game3-title": "Zenless Zone Zero",
+        "game3-desc": "Live a double life in a disaster-stricken city. Its high-speed action is captivating.",
+        "game4-title": "Minecraft",
+        "game4-desc": "Explore the infinite possibilities of creativity and survival in a world made of blocks.",
+        "game-link": "Official Site",
+        "profile-title": "All social IDs are @aruiroha0718.",
+        "profile-desc": "My goal is to build global relationships with more people around the world through a variety of content, and I will continue to publish a lot of content."
+    },
+    ja: {
+        "nav-logo": "幻櫻いろは",
+        "hero-title": "新たなグローバル社会へ。",
+        "hero-subtitle": "世界中に喜びを届けることを目指して。",
+        "hero-button": "更に詳しく",
+        "games-title": "公開予定のコンテンツ",
+        "game1-title": "原神",
+        "game1-desc": "オープンワールドを自由に探索し、元素を操る爽快なバトルを楽しもう。",
+        "game2-title": "崩壊：スターレイル",
+        "game2-desc": "銀河を巡る壮大な冒険へ。個性的な仲間たちと共に星々を駆け抜けよう。",
+        "game3-title": "ゼンレスゾーンゼロ",
+        "game3-desc": "災害に見舞われた都市で二重生活を。ハイスピードなアクションが魅力。",
+        "game4-title": "マインクラフト",
+        "game4-desc": "ブロックで構成された世界で、創造とサバイバルの無限の可能性を探求しよう。",
+        "game-link": "公式サイトへ",
+        "profile-title": "全てのSNS IDは @aruiroha0718 です。",
+        "profile-desc": "様々なコンテンツを通じて、より多くの世界中の人々とグローバルな関係を築くことを目標とし、これからもたくさんのコンテンツを公開していきます。"
+    },
+    ko: {
+        "nav-logo": "겐오 이로하",
+        "hero-title": "새로운 글로벌 사회를 향하여.",
+        "hero-subtitle": "세상에 즐거움을 선사하는 것을 목표로.",
+        "hero-button": "더 알아보기",
+        "games-title": "공개 예정 콘텐츠",
+        "game1-title": "원신",
+        "game1-desc": "오픈 월드를 자유롭게 탐험하고 원소를 이용한 상쾌한 전투를 즐겨보세요.",
+        "game2-title": "붕괴: 스타레일",
+        "game2-desc": "은하계를 가로지르는 장대한 모험을 떠나보세요. 개성 넘치는 동료들과 함께 별들을 누비세요.",
+        "game3-title": "젠레스 존 제로",
+        "game3-desc": "재해로 무너진 도시에서 이중생활을. 하이스피드 액션이 매력적입니다.",
+        "game4-title": "마인크래프트",
+        "game4-desc": "블록으로 이루어진 세계에서 창의와 생존의 무한한 가능성을 탐험하세요.",
+        "game-link": "공식 사이트",
+        "profile-title": "모든 소셜 ID는 @aruiroha0718 입니다.",
+        "profile-desc": "다양한 콘텐츠를 통해 더 많은 세계인들과 글로벌한 관계를 구축하는 것을 목표로, 앞으로도 많은 콘텐츠를 공개할 예정입니다."
     }
+};
 
-    .games-grid .section-title,
-    .profile-section h2 {
-        font-size: 32px;
-    }
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const userLang = navigator.language.slice(0, 2);
+    const langData = translations[userLang] || translations.en;
+    const elements = document.querySelectorAll('[data-key]');
+    elements.forEach(element => {
+        const key = element.getAttribute('data-key');
+        if (langData[key]) {
+            element.textContent = langData[key];
+        }
+    });
+});
 
-/* フッター */
-footer {
-    background-color: #f5f5f7;
-    padding: 40px 20px;
-    text-align: center;
-    font-size: 12px;
-    color: #6e6e73;
-}
+// --- スクロールアニメーション ---
+const targets = document.querySelectorAll('.fade-in-target');
+const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+        }
+    });
+});
+targets.forEach(target => {
+    observer.observe(target);
+});
+
+
+// --- スムーズスクロール & コンテンツ表示 ---
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+
+        if (targetElement) {
+            targetElement.classList.remove('hidden');
+            targetElement.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    });
+});
