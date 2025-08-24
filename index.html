@@ -12,40 +12,39 @@
     <header>
         <nav>
             <ul>
-                <li><a href="#">Store</a></li>
-                <!-- "Mac" を "Instagram" へ変更 -->
-                <li><a href="https://www.instagram.com/あなたのユーザー名" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-                <!-- "iPad" を "X (Twitter)" へ変更 -->
-                <li><a href="https://x.com/あなたのユーザー名" target="_blank" rel="noopener noreferrer">X (Twitter)</a></li>
-                <!-- "iPhone" を "YouTube" へ変更 -->
+                <!-- ロゴを追加（クリックでトップに戻る） -->
+                <li><a href="#" class="nav-logo">幻櫻いろは</a></li>
+                
+                <!-- SNSリンク -->
+                <li><a href="https://www.instagram.com/aruiroha0718" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                <li><a href="https://x.com/aruiroha0718" target="_blank" rel="noopener noreferrer">X (Twitter)</a></li>
                 <li><a href="https://www.youtube.com/あなたのチャンネルURL" target="_blank" rel="noopener noreferrer">YouTube</a></li>
-                <li><a href="#">Watch</a></li>
-                <li><a href="#">Support</a></li>
             </ul>
         </nav>
     </header>
 
-   <!-- メインコンテンツ -->
+    <!-- メインコンテンツ -->
     <main>
-        <!-- ヒーローセクションのボタンを変更 -->
+        <!-- ヒーローセクション -->
         <section class="hero fade-in-target">
             <h1>Toward a new global society.</h1>
             <h2>Aiming to bring joy to the world.</h2>
             <div class="cta-links">
-                <!-- hrefで新セクションのidを指定し、テキストを英語に -->
                 <a href="#games-section" class="button">Learn More</a>
-                <a href="#" class="link">購入</a>
+                <!-- 「購入」リンクは不要であればこの行を削除してもOKです -->
+                <a href="#" class="link">購入</a> 
             </div>
-            <img src="product_image.jpg" alt="製品画像">
+            <!-- あなたのサイトのメイン画像を指定してください -->
+            <img src="images/hero-image.jpg" alt="メインビジュアル">
         </section>
 
-        <!-- ここから新しいゲーム紹介セクションを追加 -->
+        <!-- ゲーム紹介セクション -->
         <section id="games-section" class="games-grid fade-in-target">
             <h2 class="section-title">My Favorite Games</h2>
             <div class="grid-container">
                 <!-- Game 1: Genshin Impact -->
                 <div class="game-card">
-                    <img src="genshin_image.jpg" alt="Genshin Impact">
+                    <img src="images/genshin_image.jpg" alt="Genshin Impact">
                     <h3>Genshin Impact</h3>
                     <p>オープンワールドを自由に探索し、元素を操る爽快なバトルを楽しもう。</p>
                     <a href="https://genshin.hoyoverse.com/" target="_blank" rel="noopener noreferrer" class="link">公式サイトへ</a>
@@ -53,7 +52,7 @@
 
                 <!-- Game 2: Honkai : Star Rail -->
                 <div class="game-card">
-                    <img src="starrail_image.jpg" alt="Honkai: Star Rail">
+                    <img src="images/starrail_image.jpg" alt="Honkai: Star Rail">
                     <h3>Honkai: Star Rail</h3>
                     <p>銀河を巡る壮大な冒険へ。個性的な仲間たちと共に星々を駆け抜けよう。</p>
                     <a href="https://hsr.hoyoverse.com/" target="_blank" rel="noopener noreferrer" class="link">公式サイトへ</a>
@@ -61,7 +60,7 @@
 
                 <!-- Game 3: Zenless Zone Zero -->
                 <div class="game-card">
-                    <img src="zzz_image.jpg" alt="Zenless Zone Zero">
+                    <img src="images/zzz_image.jpg" alt="Zenless Zone Zero">
                     <h3>Zenless Zone Zero</h3>
                     <p>災害に見舞われた都市で二重生活を。ハイスピードなアクションが魅力。</p>
                     <a href="https://zenless.hoyoverse.com/" target="_blank" rel="noopener noreferrer" class="link">公式サイトへ</a>
@@ -69,7 +68,7 @@
 
                 <!-- Game 4: Minecraft -->
                 <div class="game-card">
-                    <img src="minecraft_image.jpg" alt="Minecraft">
+                    <img src="images/minecraft_image.jpg" alt="Minecraft">
                     <h3>Minecraft</h3>
                     <p>ブロックで構成された世界で、創造とサバイバルの無限の可能性を探求しよう。</p>
                     <a href="https://www.minecraft.net/" target="_blank" rel="noopener noreferrer" class="link">公式サイトへ</a>
@@ -77,11 +76,8 @@
             </div>
         </section>
 
-        <!-- 以前のコンテンツセクションは、必要なければ削除してもOKです -->
-
-    </main>
-        <!-- その他のコンテンツセクション -->
-        <section class="content-section">
+        <!-- 自己紹介セクション（ダークデザインを適用） -->
+        <section class="profile-section fade-in-target">
             <h2>All social IDs are @aruiroha0718.</h2>
             <p>My goal is to build global relationships with more people around the world through a variety of content, and I will continue to publish a lot of content.</p>
         </section>
@@ -89,8 +85,10 @@
 
     <!-- フッター -->
     <footer>
-        <p>&copy; 2025 Your Company. All rights reserved.</p>
+        <p>&copy; 2025 IROHA. All rights reserved.</p>
     </footer>
 
+    <!-- JavaScriptファイルの読み込み -->
+    <script src="script.js"></script>
 </body>
 </html>
