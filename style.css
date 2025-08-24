@@ -30,15 +30,18 @@ header nav ul {
     margin: 0;
     padding: 0;
     height: 44px;
-}
-
-header nav ul li {
-    padding: 0 16px;
+    gap: 16px; /* 項目間のスペースを調整 */
 }
 
 header nav ul li a {
     color: #1d1d1f;
     font-size: 12px;
+}
+
+/* ナビゲーションロゴのスタイル */
+.nav-logo {
+    font-weight: bold; /* 少し太字に */
+    font-size: 16px;
 }
 
 /* メインコンテンツ */
@@ -77,6 +80,102 @@ main {
 .hero img {
     max-width: 100%;
     margin-top: 40px;
+}
+
+/* ゲームグリッドセクションのスタイル */
+.games-grid {
+    padding: 60px 20px;
+    background-color: #f5f5f7; /* 少し背景色を変えてセクションを区切る */
+}
+
+.games-grid .section-title {
+    font-size: 40px;
+    margin-bottom: 40px;
+}
+
+.grid-container {
+    display: grid;
+    /* PCでは2列に並べる */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px; /* カード間の余白 */
+    max-width: 1000px;
+    margin: 0 auto; /* 中央揃え */
+}
+
+.game-card {
+    background-color: #fff;
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* カードにマウスを乗せたら少し浮き上がるエフェクト */
+.game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.game-card img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.game-card h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.game-card p {
+    color: #6e6e73;
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+/* プロフィールセクションのスタイル */
+.profile-section {
+    background-color: #000; /* 背景を黒に */
+    color: #fff; /* 文字を白に */
+    padding: 80px 20px;
+}
+
+.profile-section h2 {
+    font-size: 40px;
+    color: #f5f5f7;
+}
+
+.profile-section p {
+    color: #a1a1a6; /* 少しグレーがかった白に */
+    max-width: 600px; /* 横幅を制限して読みやすくする */
+    margin: 0 auto; /* 中央揃え */
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+
+/* アニメーションのためのスタイル */
+.fade-in-target {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in-target.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* スマホなど画面が小さい場合は1列にする */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+
+    .games-grid .section-title {
+        font-size: 32px;
+    }
 }
 
 /* フッター */
