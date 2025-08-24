@@ -49,39 +49,6 @@ main {
     text-align: center;
 }
 
-/* ヒーローセクション */
-.hero {
-    padding: 60px 20px;
-}
-
-.hero h1 {
-    font-size: 56px;
-    margin-bottom: 10px;
-}
-
-.hero h2 {
-    font-size: 28px;
-    font-weight: 400;
-    margin-bottom: 20px;
-}
-
-.hero .cta-links a {
-    margin: 0 10px;
-    font-size: 17px;
-}
-
-.hero .button {
-    background-color: #0071e3;
-    color: #fff;
-    padding: 12px 22px;
-    border-radius: 980px; /* 角丸 */
-}
-
-.hero img {
-    max-width: 100%;
-    margin-top: 40px;
-}
-
 /* ゲームグリッドセクションのスタイル */
 .games-grid {
     padding: 60px 20px;
