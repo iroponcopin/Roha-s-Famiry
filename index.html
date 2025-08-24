@@ -3,229 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>櫻 彩羽 - Linktree</title>
+    <title>IROHA. 幻櫻いろは official</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="background-gradient"></div>
-    <div class="container">
-        <header class="profile-section">
-            <div class="profile-image-wrapper" id="profileAvatar">
-                <span class="avatar-emoji">🐢</span>
+
+    <!-- ヘッダー（ナビゲーションバー） -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Store</a></li>
+                <li><a href="#">Mac</a></li>
+                <li><a href="#">iPad</a></li>
+                <li><a href="#">iPhone</a></li>
+                <li><a href="#">Watch</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main>
+        <!-- ヒーローセクション（一番目立つ部分） -->
+        <section class="hero">
+            <h1>新しい製品</h1>
+            <h2>驚きのパワーを、驚きの価格で。</h2>
+            <div class="cta-links">
+                <a href="#" class="button">さらに詳しく</a>
+                <a href="#" class="link">購入</a>
             </div>
-            <h1 class="profile-name">櫻 彩羽</h1>
-        </header>
+            <img src="product_image.jpg" alt="製品画像">
+        </section>
 
-        <main class="links-section" id="linksSection">
-            <div id="defaultLinksPC" class="links-group pc-only">
-                <a href="#" class="link-button glass-effect"
-                   data-link-id="messenger"
-                   data-info-handle="@iroponcopin"
-                   data-info-url="https://example.com/messenger">
-                    <span class="button-text">Messenger</span>
-                </a>
-                <a href="#" class="link-button glass-effect"
-                   data-link-id="session"
-                   data-info-handle="0502c95513e6c515caf68f1c95b5c4eb58148056ae0a532d126de9503a226c5f13"
-                   data-info-url="https://example.com/session">
-                    <span class="button-text">Session</span>
-                </a>
-                <a href="#" class="link-button glass-effect"
-                   data-link-id="signal"
-                   data-info-handle="@iroponcopin.01"
-                   data-info-url="https://example.com/signal">
-                    <span class="button-text">Signal</span>
-                </a>
-                <a href="#" class="link-button glass-effect"
-                   data-link-id="telegram"
-                   data-info-handle="@iroponcopin"
-                   data-info-url="https://example.com/telegram">
-                    <span class="button-text">Telegram</span>
-                </a>
-                <a href="#" class="link-button glass-effect"
-                   data-link-id="wechat"
-                   data-info-handle="@wxid_9qdzsdfsmir812"
-                   data-info-url="https://example.com/wechat">
-                    <span class="button-text">微信</span>
-                </a>
-                <a href="#" class="link-button glass-effect"
-                   data-link-id="contact"
-                   data-info-email="m4a1scar@aespa.me"
-                   data-info-phone1="+1 (347) 703-1242"
-                   data-info-phone2="+1 (919) 337-2791"
-                   data-info-phone3="+852 1591-7284 🇭🇰"
-                   data-info-phone4="+82 1658-8095 🇰🇷">
-                    <span class="button-text">Contact</span>
-                </a>
-            </div>
+        <!-- その他のコンテンツセクション -->
+        <section class="content-section">
+            <h2>セクションタイトル</h2>
+            <p>ここに製品の説明や特徴などを記述します。</p>
+        </section>
+    </main>
 
-            <div id="secretLinksPC" class="links-group pc-only hidden">
-                <a href="https://www.instagram.com/your_instagram" target="_blank" class="link-button glass-effect">
-                    <span class="button-text">Instagram</span>
-                </a>
-                <a href="https://x.com/macaronwinter_" target="_blank" class="link-button glass-effect">
-                    <span class="button-text">X</span>
-                </a>
-                <a href="https://www.youtube.com/user/your_youtube_channel" target="_blank" class="link-button glass-effect">
-                    <span class="button-text">YouTube</span>
-                </a>
-                <a href="https://www.twitch.tv/tougairoha" target="_blank" class="link-button glass-effect">
-                    <span class="button-text">Twitch</span>
-                </a>
-                <a href="https://discord.gg/ax4Cvp9Xzk" target="_blank" class="link-button glass-effect">
-                    <span class="button-text">Discord</span>
-                </a>
-            </div>
+    <!-- フッター -->
+    <footer>
+        <p>&copy; 2025 Your Company. All rights reserved.</p>
+    </footer>
 
-            <div id="mobileLinks" class="links-group mobile-only">
-                <a href="#" class="link-button glass-effect" id="fileButton">
-                    <span class="button-text">Socials</span>
-                </a>
-                <a href="#" class="link-button glass-effect"
-                   data-link-id="contact"
-                   data-info-email="m4a1scar@aespa.me"
-                   data-info-phone1="+1 (347) 703-1242"
-                   data-info-phone2="+1 (919) 337-2791"
-                   data-info-phone3="+852 1591-7284 🇭🇰"
-                   data-info-phone4="+82 1658-8095 🇰🇷">
-                    <span class="button-text">Contact</span>
-                </a>
-            </div>
-
-            <div id="fileGridLinks" class="links-group mobile-only hidden grid-display">
-                <button class="back-button glass-effect" id="backToFileLinks">Back</button>
-                <a href="#" class="link-button grid-item glass-effect"
-                   data-link-id="messenger"
-                   data-info-handle="@iroponcopin"
-                   data-info-url="https://example.com/messenger">
-                    <span class="button-text">Messenger</span>
-                </a>
-                <a href="#" class="link-button grid-item glass-effect"
-                   data-link-id="session"
-                   data-info-handle="0502c95513e6c515caf68f1c95b5c4eb58148056ae0a532d126de9503a226c5f13"
-                   data-info-url="https://example.com/session">
-                    <span class="button-text">Session</span>
-                </a>
-                <a href="#" class="link-button grid-item glass-effect"
-                   data-link-id="signal"
-                   data-info-handle="@iroponcopin.01"
-                   data-info-url="https://example.com/signal">
-                    <span class="button-text">Signal</span>
-                </a>
-                <a href="#" class="link-button grid-item glass-effect"
-                   data-link-id="telegram"
-                   data-info-handle="@iroponcopin"
-                   data-info-url="https://example.com/telegram">
-                    <span class="button-text">Telegram</span>
-                </a>
-                <a href="#" class="link-button grid-item glass-effect"
-                   data-link-id="wechat"
-                   data-info-handle="@wxid_9qdzsdfsmir812"
-                   data-info-url="https://example.com/wechat">
-                    <span class="button-text">微信</span>
-                </a>
-                <div class="grid-item-placeholder"></div>
-            </div>
-
-            <div id="secretLinksMobile" class="links-group mobile-only hidden">
-                <button class="back-button glass-effect" id="backToMobileMainLinks">Back</button>
-                <a href="#" class="link-button glass-effect" id="mobileOptionButton">
-                    <span class="button-text">Option</span>
-                </a>
-            </div>
-
-            <div id="optionGridLinksMobile" class="links-group mobile-only hidden grid-display">
-                <button class="back-button glass-effect" id="backToMobileSecretLinks">Back</button>
-                <a href="https://www.instagram.com/your_instagram" target="_blank" class="link-button grid-item glass-effect">
-                    <span class="button-text">Instagram</span>
-                </a>
-                <a href="https://x.com/macaronwinter_" target="_blank" class="link-button grid-item glass-effect">
-                    <span class="button-text">X</span>
-                </a>
-                <a href="https://www.youtube.com/user/your_youtube_channel" target="_blank" class="link-button grid-item glass-effect">
-                    <span class="button-text">YouTube</span>
-                </a>
-                <a href="https://www.twitch.tv/tougairoha" target="_blank" class="link-button grid-item glass-effect">
-                    <span class="button-text">Twitch</span>
-                </a>
-                <a href="https://discord.gg/ax4Cvp9Xzk" target="_blank" class="link-button grid-item glass-effect">
-                    <span class="button-text">Discord</span>
-                </a>
-                <div class="grid-item-placeholder"></div>
-            </div>
-        </main>
-
-        <footer class="footer">
-            <p>© 2025 櫻 彩羽. All rights reserved.</p>
-        </footer>
-    </div>
-
-    <div class="overlay-modal" id="infoOverlay">
-        <div class="modal-card glass-effect">
-            <button class="close-button" id="closeInfoOverlay">X</button>
-            <h2 id="infoTitle"></h2>
-            <div id="infoDetails">
-                </div>
-        </div>
-    </div>
-
-    <div class="overlay-modal" id="passwordOverlay">
-        <div class="modal-card glass-effect">
-            <button class="close-button" id="closePasswordOverlay">X</button>
-            <h2>Enter Password</h2>
-            <input type="password" id="passwordInput" placeholder="Password" autofocus>
-            <p id="passwordError" class="error-message"></p>
-            <button id="passwordSubmit" class="glass-effect">Submit</button>
-        </div>
-    </div>
-
-    <div class="overlay-modal" id="addressOverlay">
-        <div class="modal-card glass-effect">
-            <button class="close-button" id="closeAddressOverlay">X</button>
-            <h2>Location</h2>
-            <p>Osaka Prefecture, Osaka City,</p>
-            <p>Abeno Ward, Abenosuji 1-1-43</p>
-        </div>
-    </div>
-
-    <div class="overlay-modal" id="addToHomeScreenOverlay">
-        <div class="modal-card glass-effect">
-            <button class="close-button" id="closeAddToHomeScreenOverlay">X</button>
-            <h2>Add to Home Screen</h2>
-            <p style="font-weight: 600;">For Apple Devices:</p>
-            <p><a href="https://support.apple.com/en-us/guide/iphone/iph42ab2f3a7/ios" target="_blank">Add to Home Screen (Apple Support)</a></p>
-            <p style="margin-top: 15px; font-weight: 600;">For Android Devices (Google Chrome):</p>
-            <p><a href="https://support.google.com/chrome/answer/9658361?hl=ja" target="_blank">Install progressive web apps (PWAs) (Google Support)</a></p>
-        </div>
-    </div>
-
-    <div class="overlay-modal" id="musicPlayerOverlay">
-        <div class="modal-card glass-effect">
-            <button class="close-button" id="closeMusicPlayerOverlay">X</button>
-            <h2>Music Player</h2>
-            <div id="audioResponse" style="margin-bottom: 20px; font-style: italic;">
-                </div>
-            <div id="youtubePlayer"></div>
-            <button id="togglePlaybackButton" class="glass-effect" style="margin-top: 20px;">Play/Pause</button>
-        </div>
-    </div>
-
-    <div class="bottom-buttons-container pc-only dock-style" id="bottomButtonsContainerPC">
-        <button class="bottom-button glass-effect" id="homeButtonPC">🏠</button>
-        <button class="bottom-button glass-effect" id="secretButtonPC">🔐</button>
-        <button class="bottom-button glass-effect" id="addressButtonPC">📍</button>
-        <button class="bottom-button glass-effect" id="musicButtonPC">🎵</button>
-        <button class="bottom-button glass-effect" id="settingsButtonPC">⚙️</button>
-    </div>
-
-    <div class="bottom-buttons-container mobile-only dock-style" id="bottomButtonsContainerMobile">
-        <button class="bottom-button glass-effect" id="homeButtonMobile">🏠</button>
-        <button class="bottom-button glass-effect" id="secretButtonMobile">🔐</button>
-        <button class="bottom-button glass-effect" id="musicButtonMobile">🎵</button>
-    </div>
-
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script src="script.js"></script>
 </body>
 </html>
