@@ -79,44 +79,61 @@ main {
     filter: brightness(1.15);
 }
 
+
 /* --- ここからが今回の主な変更点 --- */
 
 /* ゲームグリッドセクション */
 .games-grid {
-    padding: 60px 20px;
+    padding: 60px 0; /* 左右のpaddingを0に */
     background-color: #f5f5f7;
 }
 
 .games-grid .section-title {
     font-size: 40px;
     margin-bottom: 40px;
+    padding: 0 20px; /* タイトルには左右の余白を維持 */
 }
 
-/* 【変更】グリッドレイアウト */
+/* 【変更】Flexboxで横一列レイアウト */
 .grid-container {
-    display: grid;
-    /* 画面幅に応じて列数を自動調整 */
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    display: flex; /* gridからflexに変更 */
+    overflow-x: auto; /* 横スクロールを有効化 */
     gap: 20px;
-    max-width: 1200px; /* 最大幅を少し広げる */
+    max-width: 1200px;
     margin: 0 auto;
+    padding: 0 20px 20px 20px; /* 左右と、スクロールバーのための下に余白を追加 */
+    -webkit-overflow-scrolling: touch; /* iOSで滑らかなスクロール */
 }
 
-/* 【NEW】カード全体を囲むリンクのスタイル */
+/* 【NEW】スクロールバーのスタイル */
+.grid-container::-webkit-scrollbar {
+    height: 8px; /* スクロールバーの高さ */
+}
+.grid-container::-webkit-scrollbar-track {
+    background: transparent; /* トラックを透明に */
+}
+.grid-container::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2); /* サム（つまみ）の色 */
+    border-radius: 4px;
+}
+
+
+/* 【変更】カードを囲むリンクのスタイル */
 .game-card-link {
     text-decoration: none;
-    color: inherit; /* 親要素の色を継承（黒文字にする） */
+    color: inherit;
+    flex: 0 0 170px; /* カードが縮まないように幅を固定 (横幅170px) */
 }
 
-/* 【変更】カードのデザイン */
+/* カードのデザイン */
 .game-card {
     background-color: #fff;
     border-radius: 18px;
-    padding: 15px; /* 内側の余白を小さく */
+    padding: 15px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    height: 100%; /* 高さを揃える */
-    box-sizing: border-box; /* paddingを含めて高さを計算 */
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .game-card:hover {
@@ -127,27 +144,22 @@ main {
 .game-card img {
     max-width: 100%;
     border-radius: 10px;
-    margin-bottom: 10px; /* 余白を調整 */
+    margin-bottom: 10px;
 }
 
 .game-card h3 {
-    font-size: 16px; /* フォントサイズを小さく */
-    margin: 0; /* 余白をリセット */
-    text-align: left; /* 左揃えにする */
+    font-size: 16px;
+    margin: 0;
+    text-align: left;
 }
 
-/* 【変更】説明文とボタンは非表示に */
 .game-card p {
     display: none;
 }
 
 
 /* 自己紹介セクション */
-.profile-section {
-    background-color: #000;
-    color: #fff;
-    padding: 80px 20px;
-}
+.profile-section { background-color: #000; color: #fff; padding: 80px 20px; }
 .profile-section h2 { font-size: 40px; color: #f5f5f7; }
 .profile-section p { color: #a1a1a6; max-width: 600px; margin: 0 auto; font-size: 18px; line-height: 1.6; }
 
@@ -159,11 +171,6 @@ main {
 /* スマホ表示の調整 */
 @media (max-width: 768px) {
     .games-grid .section-title, .profile-section h2 { font-size: 32px; }
-    
-    /* スマホでは最小幅を少し調整して2列に収まりやすくする */
-    .grid-container {
-        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    }
 }
 
 /* フッター */
