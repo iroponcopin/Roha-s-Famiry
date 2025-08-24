@@ -1,638 +1,89 @@
-:root {
-    /* 提供画像を参考に調整した新しい背景色 */
-    --color-bg-start: #1a0f3d; /* 深い紫 */
-    --color-bg-mid: #2b1a5e;   /* 中間の濃い紫 */
-    --color-bg-end: #4f348c;   /* より明るい紫 */
-
-    /* よりリアルなガラス効果の新しい変数 */
-    --glass-fill: rgba(255, 255, 255, 0.05); /* 内部の透明度を非常に低く */
-    --glass-border-light: rgba(255, 255, 255, 0.4); /* 光源側の明るいボーダーを強く */
-    --glass-border-dark: rgba(255, 255, 255, 0.1);  /* 影側の暗いボーダーを維持 */
-    --glass-shadow-inner: rgba(0, 0, 0, 0.1);       /* 内側の影を弱く */
-    --glass-shadow-outer: rgba(0, 0, 0, 0.5);       /* 外側の影を強く */
-    --glass-highlight: rgba(255, 255, 255, 0.8);   /* 反射ハイライトを非常に強く */
-
-    --text-color: #e0e0e0; /* 明るいテキスト色 */
-    --text-color-dark: #333;
-    --button-hover-glow: rgba(200, 220, 255, 0.6); /* ホバー時の光の色を青っぽく */
-
-    /* アニメーションのタイミング関数をより滑らかに (Quintic Ease) */
-    --ease-smooth-out: cubic-bezier(0.23, 1, 0.32, 1);
-    --ease-smooth-in-out: cubic-bezier(0.86, 0, 0.07, 1);
-
-    /* ドックの高さの調整用変数 */
-    --dock-height: 80px; /* ドックの標準的な高さ */
-    --dock-bottom-margin: 20px; /* 画面下部からの距離 */
-}
-
+/* 基本的なスタイルリセットとフォント設定 */
 body {
     margin: 0;
-    font-family: 'Outfit', 'Inter', sans-serif; /* Outfitをメインに、Interをフォールバック */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #fff; /* ライトモードの背景色 */
+    color: #1d1d1f; /* 基本的な文字色 */
+    -webkit-font-smoothing: antialiased; /* 文字を滑らかに表示 */
+}
+
+a {
+    text-decoration: none;
+    color: #06c;
+}
+
+/* ヘッダー */
+header {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px); /* すりガラス効果 */
+    padding: 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+header nav ul {
+    list-style: none;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background: var(--color-bg-start); /* Fallback */
-    overflow: hidden; /* 全体的なスクロールを隠す */
-    color: var(--text-color);
-    text-rendering: optimizeLegibility; /* テキストをよりきれいに表示 */
-    -webkit-font-smoothing: antialiased; /* フォントのアンチエイリアシング */
+    margin: 0;
+    padding: 0;
+    height: 44px;
 }
 
-.background-gradient {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        135deg,
-        #1a0f3d, /* 提供画像の上部の深い紫 */
-        #2b1a5e, /* 中央の濃い紫 */
-        #4f348c  /* 下部の明るい紫 */
-    );
-    background-size: 400% 400%;
-    animation: gradientAnimation 25s var(--ease-smooth-in-out) infinite alternate; /* アニメーション時間を長く、往復アニメーションに */
-    z-index: -1;
+header nav ul li {
+    padding: 0 16px;
 }
 
-@keyframes gradientAnimation {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
+header nav ul li a {
+    color: #1d1d1f;
+    font-size: 12px;
 }
 
-.container {
-    background: var(--glass-fill);
-    border-radius: 20px;
-    border: 1px solid var(--glass-border-light);
-    backdrop-filter: blur(35px) saturate(180%); /* ブラーをさらに強く */
-    -webkit-backdrop-filter: blur(35px) saturate(180%);
-    padding: 30px;
-    box-shadow: 
-        inset 0 0 10px var(--glass-shadow-inner), /* 内側の柔らかい影 */
-        0 10px 40px var(--glass-shadow-outer), /* 外側の影をさらに強く */
-        0 0 0 1px rgba(255,255,255,0.05); /* 非常に薄い追加ボーダーで光沢感を */
+/* メインコンテンツ */
+main {
     text-align: center;
-    max-width: 450px;
-    width: 90%;
-    animation: fadeInScale 1s var(--ease-smooth-out) forwards;
-    position: relative;
-    z-index: 1;
-    overflow: hidden; /* 内部の要素がはみ出さないように */
 }
 
-@keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-        filter: blur(10px);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-        filter: blur(0);
-    }
+/* ヒーローセクション */
+.hero {
+    padding: 60px 20px;
 }
 
-.profile-section {
-    margin-bottom: 30px;
-}
-
-.profile-image-wrapper {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin: 0 auto 15px auto;
-    border: 3px solid var(--glass-border-light);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3), /* 強い光沢 */
-                inset 0 0 15px rgba(255, 255, 255, 0.1); /* 内側の光沢 */
-    transition: transform 0.4s var(--ease-smooth-out);
-    cursor: pointer;
-    background: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    z-index: 10;
-}
-
-.avatar-emoji { /* 絵文字アバターのスタイル */
-    font-size: 5em; /* 絵文字のサイズを大きく */
-    line-height: 1;
-    text-shadow: 0 4px 10px rgba(0,0,0,0.5); /* 影を強く */
-    position: relative;
-    z-index: 1; /* エフェクトの上に */
-    transition: transform 0.3s var(--ease-smooth-out);
-}
-
-.profile-image-wrapper:hover .avatar-emoji {
-    transform: scale(1.1); /* ホバーで絵文字も少し拡大 */
-}
-
-
-/* 水エフェクトのレイヤーは削除 */
-
-
-.profile-name {
-    font-family: 'Outfit', sans-serif;
-    font-size: 2.2em;
-    margin-bottom: 0;
-    font-weight: 700;
-    color: var(--text-color);
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.4); /* 強い影 */
-}
-
-
-.links-section {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.6s var(--ease-smooth-out), opacity 0.6s var(--ease-smooth-out); /* よりスムーズに */
-    opacity: 0;
-}
-
-.links-section.active {
-    max-height: 500px; /* 必要に応じて調整 */
-    opacity: 1;
-}
-
-/* モバイル版のLinktreeオーバーレイをドックの分だけ上に配置 */
-@media (max-width: 768px) {
-    .links-section.active {
-        /* ドックの高さ + ドックのマージン */
-        max-height: calc(100vh - var(--dock-height) - var(--dock-bottom-margin) - 100px); /* 画面下部からドックの高さと余白を引く */
-        margin-bottom: calc(var(--dock-height) + var(--dock-bottom-margin) + 20px); /* ドックの上にLinktree項目が重ならないように */
-        overflow-y: auto; /* コンテンツが多い場合にスクロール可能に */
-        -webkit-overflow-scrolling: touch; /* iOSでのスムーズなスクロール */
-    }
-}
-
-
-/* リンクグループの共通スタイル */
-.links-group {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-}
-
-/* 隠れている/表示されるセクションのスタイル */
-.hidden {
-    display: none !important;
-    opacity: 0;
-    max-height: 0;
-    overflow: hidden;
-    transition: opacity 0.6s var(--ease-smooth-out), max-height 0.6s var(--ease-smooth-out);
-}
-
-.visible {
-    display: flex !important;
-    opacity: 1;
-    max-height: 500px; /* 親のmax-heightに合わせる */
-    transition: opacity 0.6s var(--ease-smooth-out), max-height 0.6s var(--ease-smooth-out);
-}
-
-/* ガラスボタン共通スタイル (glass-effect クラスを適用) */
-.link-button, .back-button, .bottom-button, .toggle-button, .modal-card button:not(.close-button) {
-    /* ベーススタイル */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    box-sizing: border-box;
-
-    /* ガラス効果 */
-    background: var(--glass-fill);
-    border: 1px solid var(--glass-border-light);
-    backdrop-filter: blur(20px) saturate(180%); /* ブラーを強める */
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    box-shadow: 
-        inset 0 1px 0 var(--glass-highlight), /* 上部の強いハイライト */
-        inset 0 -1px 0 rgba(0,0,0,0.1), /* 下部の微妙な影 */
-        0 8px 25px var(--glass-shadow-outer), /* 外側の影 */
-        0 0 0 1px rgba(255,255,255,0.05); /* 非常に薄い追加ボーダーで光沢感を */
-    
-    color: var(--text-color);
-    transition: all 0.4s var(--ease-smooth-out); /* 全体的にスムーズに */
-}
-
-/* 各要素固有の形状・パディングなど */
-.link-button {
-    padding: 18px 25px;
-    border-radius: 15px;
-    font-size: 1.2em;
-    font-weight: 600;
-    width: 100%;
-}
-
-.link-button:hover, .back-button:hover, .bottom-button:hover, .toggle-button:hover, .modal-card button:not(.close-button):hover {
-    transform: translateY(-3px) scale(1.02); /* 少しだけ浮き上がり、拡大 */
-    box-shadow: 
-        inset 0 1px 0 var(--glass-highlight),
-        inset 0 -1px 0 rgba(0,0,0,0.1),
-        0 15px 40px var(--glass-shadow-outer), /* 影をより強く、広げる */
-        0 0 40px var(--button-hover-glow); /* ホバー時の光を強く */
-    background: rgba(255, 255, 255, 0.15); /* ホバーで少し不透明に */
-    border-color: rgba(255, 255, 255, 0.5); /* ホバーでボーダーを強調 */
-}
-
-/* ボタン内のテキストの影を調整 */
-.link-button .button-text {
-    text-shadow: 0 2px 5px rgba(0,0,0,0.5); /* 影を強く */
-}
-
-.link-button::before { /* 光の通過エフェクトを維持 */
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.3), /* 光をより強く */
-        transparent
-    );
-    transition: left 0.6s var(--ease-smooth-out); /* アニメーションを長くスムーズに */
-    z-index: 1;
-}
-
-.link-button:hover::before {
-    left: 100%;
-}
-
-.footer {
-    margin-top: 40px;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9em;
-    opacity: 0.7;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-}
-
-/* ---------------------------------- */
-/* Common Overlay/Modal Styles   */
-/* ---------------------------------- */
-.overlay-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center; /* PC版は中央配置 */
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.4s var(--ease-smooth-out), visibility 0.4s var(--ease-smooth-out);
-}
-
-.overlay-modal.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.modal-card { /* glass-effectクラスで定義 */
-    padding: 30px;
-    max-width: 450px;
-    width: 90%;
-    position: relative;
-    transform: translateY(-20px); /* PC版の初期アニメーション */
-    opacity: 0; /* PC版の表示/非表示アニメーション用 */
-    transition: transform 0.4s var(--ease-smooth-out), opacity 0.4s var(--ease-smooth-out);
-    flex-direction: column;
-}
-
-.overlay-modal.active .modal-card {
-    transform: translateY(0); /* PC版の表示アニメーション */
-    opacity: 1;
-    /* 光っている効果を強調 */
-    box-shadow:
-        inset 0 0 20px rgba(0, 0, 0, 0.3), /* 内側の影を強調 */
-        0 0 30px rgba(0, 0, 0, 0.4), /* 基本のぼかし影を強調 */
-        0 0 15px 5px rgba(135, 206, 235, 0.8), /* 水色の外側への強い光彩 */
-        inset 0 0 10px 3px rgba(135, 206, 235, 0.6); /* 水色の内側への強い反射風ハイライト */
-    border-radius: 20px; /* 角丸を保持 */
-}
-
-.modal-card h2 {
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.8em;
-    margin-bottom: 15px;
-    color: var(--text-color);
-    text-shadow: 0 2px 5px rgba(0,0,0,0.3);
-}
-
-.modal-card p {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.1em;
+.hero h1 {
+    font-size: 56px;
     margin-bottom: 10px;
-    word-break: break-all;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
-.modal-card a {
-    color: #87ceeb;
-    text-decoration: none;
-    font-weight: 600;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+.hero h2 {
+    font-size: 28px;
+    font-weight: 400;
+    margin-bottom: 20px;
 }
 
-.modal-card a:hover {
-    text-decoration: underline;
+.hero .cta-links a {
+    margin: 0 10px;
+    font-size: 17px;
 }
 
-.info-qr-code-image {
-    max-width: 180px;
-    height: auto;
-    margin: 20px auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.close-button {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.8em; /* サイズを大きく */
-    color: var(--text-color);
-    cursor: pointer;
-    padding: 5px 10px;
-    border-radius: 8px; /* 角丸を少し大きく */
-    transition: background-color 0.2s var(--ease-smooth-out), color 0.2s var(--ease-smooth-out), transform 0.3s var(--ease-smooth-out);
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-}
-
-.close-button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+.hero .button {
+    background-color: #0071e3;
     color: #fff;
-    transform: rotate(5deg); /* ホバーで少し回転 */
+    padding: 12px 22px;
+    border-radius: 980px; /* 角丸 */
 }
 
-/* Input & Button Styles within Modals */
-.modal-card input[type="password"] {
-    font-family: 'Inter', sans-serif;
-    width: calc(100% - 20px);
-    padding: 12px 10px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border: 1px solid var(--glass-border-light);
-    background-color: rgba(255, 255, 255, 0.05); /* より透明に */
-    color: var(--text-color);
-    font-size: 1em;
-    outline: none;
-    transition: border-color 0.2s var(--ease-smooth-out);
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+.hero img {
+    max-width: 100%;
+    margin-top: 40px;
 }
 
-.modal-card input[type="password"]:focus {
-    border-color: #87ceeb;
-}
-
-.modal-card button:not(.close-button) { /* glass-effectクラスでスタイルを定義 */
-    font-family: 'Outfit', sans-serif;
-    padding: 12px 25px;
-    border-radius: 8px;
-    font-size: 1.1em;
-    margin-top: 10px;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.5); /* 影を強く */
-}
-
-.error-message {
-    color: #ff6347;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9em;
-    margin-top: -10px;
-    margin-bottom: 10px;
-    opacity: 0;
-    transition: opacity 0.3s var(--ease-smooth-out);
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-}
-
-.error-message.show {
-    opacity: 1;
-}
-
-/* ---------------------------------- */
-/* Bottom Fixed Buttons (Dock Style) */
-/* ---------------------------------- */
-.bottom-buttons-container { /* glass-effectクラスでスタイルを定義 */
-    position: fixed;
-    bottom: var(--dock-bottom-margin); /* 画面下部からの距離 */
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 15px; /* ボタン間の隙間 */
-    z-index: 500;
-    transition: opacity 0.4s var(--ease-smooth-out), visibility 0.4s var(--ease-smooth-out);
-    
-    border-radius: 20px;
-    padding: 10px 15px;
-    box-shadow: 
-        inset 0 0 10px var(--glass-shadow-inner), 
-        0 8px 32px var(--glass-shadow-outer),
-        0 0 0 1px var(--glass-border-light);
-}
-
-/* ドックは展開しても隠れないため、hiddenクラスは削除 */
-/* .bottom-buttons-container.hidden {
-    opacity: 0;
-    visibility: hidden;
-} */
-
-.bottom-button { /* glass-effectクラスでスタイルを定義 */
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: transparent; /* ドック内なので透明にする */
-    border: none;
-    font-size: 1.8em;
-    color: var(--text-color);
-    box-shadow: none; /* ドック内のボタンは独自の影 */
-    text-shadow: 0 2px 5px rgba(0,0,0,0.3);
-}
-
-.bottom-button:hover {
-    transform: translateY(-10px) scale(1.2);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* ホバー時の影を強める */
-    z-index: 501;
-}
-
-
-/* ---------------------------------- */
-/* Responsive Adjustments    */
-/* ---------------------------------- */
-
-/* PC-specific styles (default) */
-.mobile-only {
-    display: none !important;
-}
-.back-button { /* PCでは戻るボタンを非表示 */
-    display: none !important;
-}
-
-@media (min-width: 769px) { /* PCブレークポイント */
-    .mobile-only {
-        display: none !important;
-    }
-    .pc-only {
-        display: flex !important; /* PCではPC用リンクを表示 */
-    }
-    /* PC版のドックは通常表示 */
-    #bottomButtonsContainerPC {
-        display: flex !important; /* 強制表示 */
-    }
-    #bottomButtonsContainerMobile {
-        display: none !important; /* モバイル版ドックをPCで非表示 */
-    }
-}
-
-@media (max-width: 768px) { /* モバイルブレークポイント */
-    /* PC-only要素をモバイルで非表示 */
-    .pc-only {
-        display: none !important;
-    }
-
-    /* モバイル-only要素をモバイルで表示 */
-    .mobile-only {
-        display: flex !important;
-    }
-
-    .container {
-        padding: 20px;
-    }
-
-    .profile-name {
-        font-size: 1.8em;
-    }
-
-    .link-button {
-        font-size: 1.1em;
-        padding: 15px 20px;
-    }
-
-    /* モバイル時のオーバーレイ表示を改善 (下からスライドアップ) */
-    .overlay-modal {
-        align-items: flex-end; /* 下に配置 */
-    }
-
-    .modal-card {
-        border-radius: 20px 20px 0 0; /* 下側は角丸にしない */
-        max-width: 100%; /* 幅を画面いっぱいに */
-        width: 100%;
-        max-height: 70vh; /* 画面高さの70%まで広がる */
-        transform: translateY(100%); /* 下からスライドアップの初期位置 */
-        opacity: 1; /* モバイルでは常時opacityを1にし、transformで表示/非表示を制御 */
-        transition: transform 0.4s var(--ease-smooth-out);
-    }
-
-    .overlay-modal.active .modal-card {
-        transform: translateY(0); /* 表示時 */
-        /* モバイル版の光るエフェクト */
-        box-shadow:
-            inset 0 0 20px rgba(0, 0, 0, 0.3), /* 内側の影を強調 */
-            0 0 30px rgba(0, 0, 0, 0.4), /* 基本のぼかし影を強調 */
-            0 -5px 25px 8px rgba(135, 206, 235, 0.8), /* 上部への水色の強い光彩 */
-            inset 0 10px 15px 3px rgba(135, 206, 235, 0.6); /* 上部内側への強い反射風ハイライト */
-    }
-
-    /* PC版の中央アニメーションをモバイルで無効化（transform制御のためopacityは1のまま） */
-    .overlay-modal:not(.active) .modal-card {
-        opacity: 1;
-    }
-
-
-    .info-qr-code-image {
-        max-width: 120px;
-    }
-
-    /* モバイルではPC版のドックを非表示に */
-    #bottomButtonsContainerPC {
-        display: none !important;
-    }
-    /* モバイル版のドックを表示 */
-    #bottomButtonsContainerMobile {
-        display: flex !important;
-        height: var(--dock-height);
-        padding: 10px 15px; /* ドックの内側のパディングを調整 */
-    }
-
-
-    /* パスワード入力フィールドとボタンの幅をモバイル向けに調整 */
-    .modal-card input[type="password"] {
-        width: calc(100% - 40px);
-    }
-    .modal-card button:not(.close-button) {
-        width: calc(100% - 40px);
-    }
-
-    /* === モバイル版のファイル内グリッド表示 === */
-    .links-group.grid-display {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr); /* 2列 */
-        gap: 15px; /* グリッドアイテム間の隙間 */
-        padding: 0;
-        margin-top: 15px; /* 戻るボタンとの隙間 */
-    }
-
-    .link-button.grid-item {
-        width: auto;
-        height: 100px;
-        padding: 10px;
-        font-size: 1em;
-        flex-direction: column; /* アイコンとテキストを縦に並べる */
-    }
-
-    .link-button.grid-item .button-text {
-        text-align: center;
-        margin-top: 5px;
-    }
-
-    .link-button.grid-item .button-icon {
-        font-size: 1.8em;
-        margin-right: 0;
-    }
-
-    .grid-item-placeholder {
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 15px;
-        border: 1px dashed rgba(255, 255, 255, 0.1);
-        height: 100px;
-    }
-
-    /* === 戻るボタンのスタイル (モバイルのみ表示) === */
-    .back-button {
-        display: block !important;
-        width: 100%;
-        padding: 15px 20px;
-        margin-bottom: 20px;
-        border-radius: 15px;
-        background: rgba(255, 255, 255, 0.15);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        color: var(--text-color);
-        font-size: 1.1em;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s var(--ease-smooth-out);
-        text-align: center;
-    }
-
-    .back-button:hover {
-        background-color: rgba(255, 255, 255, 0.3);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
+/* フッター */
+footer {
+    background-color: #f5f5f7;
+    padding: 40px 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #6e6e73;
 }
