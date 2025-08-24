@@ -1,16 +1,57 @@
 /* 基本的なスタイルリセットとフォント設定 */
-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #fff; color: #1d1d1f; -webkit-font-smoothing: antialiased; }
-a { text-decoration: none; color: #06c; }
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #fff;
+    color: #1d1d1f;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    text-decoration: none;
+    color: #06c;
+}
 
 /* ヘッダー */
-header { background-color: rgba(255, 255, 255, 0.8); backdrop-filter: blur(20px); padding: 0 20px; position: sticky; top: 0; z-index: 100; }
-header nav ul { list-style: none; display: flex; justify-content: center; align-items: center; margin: 0; padding: 0; height: 44px; gap: 16px; }
-header nav ul li a { color: #1d1d1f; font-size: 12px; }
-.nav-logo { font-weight: bold; font-size: 16px; }
+header {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    padding: 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
 
-/* --- 【NEW】Dropdown Menu Styles --- */
-.dropdown { position: relative; }
-.dropdown-toggle { cursor: default; } /* クリック不要なのでカーソルを標準に */
+header nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    height: 44px;
+    gap: 16px;
+}
+
+header nav ul li a {
+    color: #1d1d1f;
+    font-size: 12px;
+}
+
+.nav-logo {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* --- Dropdown Menu Styles --- */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    cursor: default; /* クリック不要なのでカーソルを標準に */
+}
+
 .dropdown-content {
     display: none; /* 初期状態は非表示 */
     position: absolute;
@@ -26,64 +67,182 @@ header nav ul li a { color: #1d1d1f; font-size: 12px; }
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     min-width: 150px;
     opacity: 0;
+    pointer-events: none; /* 表示されていなくてもクリックできないように */
     transition: opacity 0.3s ease, margin-top 0.3s ease;
 }
+
 .dropdown:hover .dropdown-content {
     display: block; /* ホバー時に表示 */
     opacity: 1;
     margin-top: 0;
+    pointer-events: auto; /* クリックできるように */
 }
+
 .dropdown-content li a {
     display: block;
     padding: 8px 20px;
     white-space: nowrap; /* テキストが折り返さないように */
     transition: background-color 0.2s ease;
 }
+
 .dropdown-content li a:hover {
     background-color: rgba(0, 0, 0, 0.05);
 }
 
 
 /* メインコンテンツ */
-main { text-align: center; }
+main {
+    text-align: center;
+}
 
 /* ヒーローセクション */
-.hero { padding: 100px 20px; }
-.hero h1 { font-size: 56px; margin-bottom: 10px; }
-.hero h2 { font-size: 28px; font-weight: 400; margin-bottom: 30px; }
+.hero {
+    padding: 100px 20px;
+}
+
+.hero h1 {
+    font-size: 56px;
+    margin-bottom: 10px;
+}
+
+.hero h2 {
+    font-size: 28px;
+    font-weight: 400;
+    margin-bottom: 30px;
+}
 
 /* ボタン */
-.button { background-color: #0071e3; color: #fff; padding: 12px 22px; border-radius: 980px; font-size: 17px; display: inline-block; transition: filter 0.3s ease; }
-.button:hover { filter: brightness(1.15); }
+.button {
+    background-color: #0071e3;
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 980px;
+    font-size: 17px;
+    display: inline-block;
+    transition: filter 0.3s ease;
+}
+
+.button:hover {
+    filter: brightness(1.15);
+}
 
 /* ゲームグリッドセクション */
-.games-grid { padding: 60px 0; background-color: #f5f5f7; }
-.games-grid.hidden { display: none; } /* JSでの表示切替用 */
-.games-grid .section-title { font-size: 40px; margin-bottom: 40px; padding: 0 20px; }
-.grid-container { display: flex; overflow-x: auto; gap: 20px; max-width: 1200px; margin: 0 auto; padding: 0 20px 20px 20px; -webkit-overflow-scrolling: touch; }
-.grid-container::-webkit-scrollbar { height: 8px; }
-.grid-container::-webkit-scrollbar-track { background: transparent; }
-.grid-container::-webkit-scrollbar-thumb { background-color: rgba(0, 0, 0, 0.2); border-radius: 4px; }
+.games-grid {
+    padding: 60px 0;
+    background-color: #f5f5f7;
+}
 
-.game-card-link { text-decoration: none; color: inherit; flex: 0 0 170px; }
-.game-card { background-color: #fff; border-radius: 18px; padding: 15px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); transition: transform 0.3s ease, box-shadow 0.3s ease; height: 100%; box-sizing: border-box; }
-.game-card:hover { transform: translateY(-5px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); }
-.game-card img { max-width: 100%; border-radius: 10px; margin-bottom: 10px; }
-.game-card h3 { font-size: 16px; margin: 0; text-align: left; }
+.games-grid.hidden {
+    display: none; /* JSでの表示切替用 */
+}
+
+.games-grid .section-title {
+    font-size: 40px;
+    margin-bottom: 40px;
+    padding: 0 20px;
+}
+
+.grid-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 20px 20px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.grid-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.grid-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.grid-container::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.game-card-link {
+    text-decoration: none;
+    color: inherit;
+    flex: 0 0 170px;
+}
+
+.game-card {
+    background-color: #fff;
+    border-radius: 18px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.game-card img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.game-card h3 {
+    font-size: 16px;
+    margin: 0;
+    text-align: left;
+}
 
 /* 自己紹介セクション */
-.profile-section { background-color: #000; color: #fff; padding: 80px 20px; }
-.profile-section h2 { font-size: 40px; color: #f5f5f7; }
-.profile-section p { color: #a1a1a6; max-width: 600px; margin: 0 auto; font-size: 18px; line-height: 1.6; }
+.profile-section {
+    background-color: #000;
+    color: #fff;
+    padding: 80px 20px;
+}
+
+.profile-section h2 {
+    font-size: 40px;
+    color: #f5f5f7;
+}
+
+.profile-section p {
+    color: #a1a1a6;
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 18px;
+    line-height: 1.6;
+}
 
 /* アニメーション */
-.fade-in-target { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
-.fade-in-target.visible { opacity: 1; transform: translateY(0); }
+.fade-in-target {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in-target.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 
 /* スマホ表示の調整 */
 @media (max-width: 768px) {
-    .games-grid .section-title, .profile-section h2 { font-size: 32px; }
+    .games-grid .section-title,
+    .profile-section h2 {
+        font-size: 32px;
+    }
 }
 
 /* フッター */
-footer { background-color: #f5f5f7; padding: 40px 20px; text-align: center; font-size: 12px; color: #6e6e73; }
+footer {
+    background-color: #f5f5f7;
+    padding: 40px 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #6e6e73;
+}
