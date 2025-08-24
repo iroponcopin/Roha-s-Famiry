@@ -2,9 +2,9 @@
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #fff; /* ライトモードの背景色 */
-    color: #1d1d1f; /* 基本的な文字色 */
-    -webkit-font-smoothing: antialiased; /* 文字を滑らかに表示 */
+    background-color: #fff;
+    color: #1d1d1f;
+    -webkit-font-smoothing: antialiased;
 }
 
 a {
@@ -15,7 +15,7 @@ a {
 /* ヘッダー */
 header {
     background-color: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(20px); /* すりガラス効果 */
+    backdrop-filter: blur(20px);
     padding: 0 20px;
     position: sticky;
     top: 0;
@@ -30,7 +30,7 @@ header nav ul {
     margin: 0;
     padding: 0;
     height: 44px;
-    gap: 16px; /* 項目間のスペースを調整 */
+    gap: 16px;
 }
 
 header nav ul li a {
@@ -38,9 +38,8 @@ header nav ul li a {
     font-size: 12px;
 }
 
-/* ナビゲーションロゴのスタイル */
 .nav-logo {
-    font-weight: bold; /* 少し太字に */
+    font-weight: bold;
     font-size: 16px;
 }
 
@@ -51,8 +50,7 @@ main {
 
 /* ヒーローセクション */
 .hero {
-    /* 上下の余白を増やして画像の代わりのスペースを確保 */
-    padding: 100px 20px; 
+    padding: 100px 20px;
 }
 
 .hero h1 {
@@ -63,7 +61,7 @@ main {
 .hero h2 {
     font-size: 28px;
     font-weight: 400;
-    margin-bottom: 30px; /* ボタンとの距離を少し広げる */
+    margin-bottom: 30px;
 }
 
 /* ボタンの共通スタイル */
@@ -71,37 +69,54 @@ main {
     background-color: #0071e3;
     color: #fff;
     padding: 12px 22px;
-    border-radius: 980px; /* 角丸 */
+    border-radius: 980px;
     font-size: 17px;
-    display: inline-block; /* aタグをボタンらしく見せるため */
-    transition: filter 0.3s ease; /* アニメーションを追加 */
+    display: inline-block;
+    transition: filter 0.3s ease;
 }
 
-/* ボタンのホバーエフェクト */
 .button:hover {
-    filter: brightness(1.15); /* マウスを乗せると少し明るくする */
+    filter: brightness(1.15);
+}
+
+/* 【NEW】SNSグリッドセクション */
+.social-grid {
+    padding: 60px 20px;
+}
+.social-container {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 800px;
+}
+.social-card {
+    padding: 20px;
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.social-card:hover {
+    transform: scale(1.05);
+    opacity: 0.8;
+}
+.social-card img {
+    max-width: 100px;
+    height: auto;
 }
 
 
-/* ゲームグリッドセクションのスタイル */
+/* ゲームグリッドセクション */
 .games-grid {
     padding: 60px 20px;
     background-color: #f5f5f7;
 }
-
 .games-grid .section-title {
     font-size: 40px;
     margin-bottom: 40px;
 }
-
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     max-width: 1000px;
     margin: 0 auto;
 }
-
 .game-card {
     background-color: #fff;
     border-radius: 18px;
@@ -109,72 +124,125 @@ main {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .game-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
-
 .game-card img {
     max-width: 100%;
     border-radius: 10px;
     margin-bottom: 20px;
 }
+.game-card h3 { font-size: 24px; margin-bottom: 10px; }
+.game-card p { color: #6e6e73; font-size: 16px; line-height: 1.5; margin-bottom: 20px; }
 
-.game-card h3 {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
 
-.game-card p {
-    color: #6e6e73;
-    font-size: 16px;
-    line-height: 1.5;
-    margin-bottom: 20px;
-}
-
-/* プロフィールセクションのスタイル */
+/* 自己紹介セクション */
 .profile-section {
     background-color: #000;
     color: #fff;
     padding: 80px 20px;
 }
+.profile-section h2 { font-size: 40px; color: #f5f5f7; }
+.profile-section p { color: #a1a1a6; max-width: 600px; margin: 0 auto; font-size: 18px; line-height: 1.6; }
 
-.profile-section h2 {
-    font-size: 40px;
-    color: #f5f5f7;
-}
 
-.profile-section p {
-    color: #a1a1a6;
-    max-width: 600px;
-    margin: 0 auto;
-    font-size: 18px;
-    line-height: 1.6;
-}
-
-/* アニメーションのためのスタイル */
+/* アニメーションとユーティリティ */
 .fade-in-target {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
-
 .fade-in-target.visible {
-  opacity: 1;
-  transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
+}
+.hidden {
+    display: none;
 }
 
-/* スマホなど画面が小さい場合は1列にする */
+
+/* 【NEW】モーダルウィンドウのスタイル */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    z-index: 200;
+}
+.modal-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+.modal-content {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 18px;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+    transform: scale(0.95);
+    transition: transform 0.4s ease;
+}
+.modal-overlay.visible .modal-content {
+    transform: scale(1);
+}
+.modal-content h3 {
+    margin-top: 0;
+    font-size: 24px;
+}
+.modal-content .channel-name {
+    font-size: 18px;
+    color: #6e6e73;
+}
+.modal-content a {
+    font-size: 14px;
+    word-break: break-all;
+}
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #e8e8e8;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    color: #6e6e73;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+.close-button:hover {
+    background-color: #dcdcdc;
+}
+
+
+/* スマホ表示の調整 */
 @media (max-width: 768px) {
     .grid-container {
         grid-template-columns: 1fr;
     }
-
-    .games-grid .section-title {
+    .social-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .games-grid .section-title, .profile-section h2 {
         font-size: 32px;
     }
 }
+
 
 /* フッター */
 footer {
